@@ -1287,6 +1287,23 @@ body, html {
     box-sizing: border-box;
 }
 
+/* Additional overflow prevention */
+* {
+    box-sizing: border-box;
+}
+
+/* Ensure no element can cause horizontal overflow */
+img, video, iframe, object, embed {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix for any potential text overflow */
+p, h1, h2, h3, h4, h5, h6, span, div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 /* Loading animation */
 @keyframes fadeInUp {
     from {
