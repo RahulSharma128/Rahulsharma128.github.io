@@ -264,15 +264,136 @@ window.addEventListener('load', () => {
     }
 });
 
-// Parallax effect for hero section
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const rate = scrolled * -0.5;
-        hero.style.transform = `translateY(${rate}px)`;
+// Enhanced Parallax System
+class ParallaxController {
+    constructor() {
+        this.elements = [];
+        this.isScrolling = false;
+        this.ticking = false;
+        this.mobileThreshold = 768;
+        this.init();
     }
-});
+
+    init() {
+        this.bindElements();
+        this.bindEvents();
+        this.updateParallax();
+    }
+
+    bindElements() {
+        // Hero parallax elements
+        const heroElements = [
+            { selector: '.parallax-bg-1', speed: 0.5 },
+            { selector: '.parallax-bg-2', speed: 0.8 },
+            { selector: '.parallax-bg-3', speed: 0.3 },
+            { selector: '.hero::before', speed: 0.6 }
+        ];
+
+        // Section background parallax
+        const sectionElements = [
+            { selector: '.about::before', speed: 0.4 },
+            { selector: '.experience::before', speed: 0.3 },
+            { selector: '.contact::before', speed: 0.5 }
+        ];
+
+        // Floating elements
+        const floatingElements = [
+            { selector: '.hero-avatar', speed: 0.2, type: 'translateY' },
+            { selector: '.project-card', speed: 0.1, type: 'translateY' },
+            { selector: '.skill-category', speed: 0.15, type: 'translateY' },
+            { selector: '.timeline-item', speed: 0.08, type: 'translateX' }
+        ];
+
+        // Combine all elements
+        const allElements = [...heroElements, ...sectionElements, ...floatingElements];
+        
+        allElements.forEach(config => {
+            const elements = document.querySelectorAll(config.selector);
+            elements.forEach(element => {
+                this.elements.push({
+                    element: element,
+                    speed: config.speed,
+                    type: config.type || 'translateY',
+                    offset: element.getBoundingClientRect().top + window.pageYOffset
+                });
+            });
+        });
+    }
+
+    bindEvents() {
+        // Use passive event listener for better performance
+        window.addEventListener('scroll', this.handleScroll.bind(this), { passive: true });
+        window.addEventListener('resize', this.handleResize.bind(this), { passive: true });
+    }
+
+    handleScroll() {
+        if (!this.ticking) {
+            requestAnimationFrame(() => {
+                this.updateParallax();
+                this.ticking = false;
+            });
+            this.ticking = true;
+        }
+    }
+
+    handleResize() {
+        // Update offsets on resize
+        this.elements.forEach(config => {
+            config.offset = config.element.getBoundingClientRect().top + window.pageYOffset;
+        });
+    }
+
+    updateParallax() {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const isMobile = window.innerWidth <= this.mobileThreshold;
+
+        // Disable parallax on mobile for performance
+        if (isMobile) {
+            this.elements.forEach(config => {
+                config.element.style.transform = 'translate3d(0, 0, 0)';
+            });
+            return;
+        }
+
+        this.elements.forEach(config => {
+            const element = config.element;
+            const speed = config.speed;
+            const type = config.type;
+            const elementTop = config.offset;
+            const elementHeight = element.offsetHeight;
+            
+            // Calculate if element is in viewport
+            const elementBottom = elementTop + elementHeight;
+            const viewportTop = scrollTop;
+            const viewportBottom = scrollTop + windowHeight;
+
+            // Only animate if element is in or near viewport
+            if (elementBottom > viewportTop && elementTop < viewportBottom) {
+                let transform = '';
+                
+                switch (type) {
+                    case 'translateX':
+                        const xOffset = (scrollTop - elementTop) * speed;
+                        transform = `translate3d(${xOffset}px, 0, 0)`;
+                        break;
+                    case 'translateY':
+                    default:
+                        const yOffset = (scrollTop - elementTop) * speed;
+                        transform = `translate3d(0, ${yOffset}px, 0)`;
+                        break;
+                }
+
+                // Apply transform with hardware acceleration
+                element.style.transform = transform;
+                element.style.willChange = 'transform';
+            }
+        });
+    }
+}
+
+// Initialize parallax system
+const parallaxController = new ParallaxController();
 
 // Skill tags animation on hover
 document.querySelectorAll('.skill-tag').forEach(tag => {
@@ -286,7 +407,7 @@ document.querySelectorAll('.skill-tag').forEach(tag => {
     });
 });
 
-// Project cards tilt effect
+// Enhanced 3D tilt effect for project cards
 document.querySelectorAll('.project-card').forEach(card => {
     card.addEventListener('mousemove', function(e) {
         const rect = this.getBoundingClientRect();
@@ -296,14 +417,66 @@ document.querySelectorAll('.project-card').forEach(card => {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
+        const rotateX = (y - centerY) / 15;
+        const rotateY = (centerX - x) / 15;
         
-        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+        // Add parallax movement
+        const parallaxX = (x - centerX) / 20;
+        const parallaxY = (y - centerY) / 20;
+        
+        this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(${parallaxX}px, ${parallaxY}px, 10px)`;
+        this.style.transition = 'none';
     });
     
     card.addEventListener('mouseleave', function() {
-        this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translate3d(0, 0, 0)';
+        this.style.transition = 'transform 0.5s ease';
+    });
+});
+
+// Mouse parallax for hero section
+document.addEventListener('mousemove', function(e) {
+    const mouseX = e.clientX / window.innerWidth;
+    const mouseY = e.clientY / window.innerHeight;
+    
+    // Apply subtle parallax to hero elements
+    const heroAvatar = document.querySelector('.hero-avatar');
+    if (heroAvatar) {
+        const moveX = (mouseX - 0.5) * 20;
+        const moveY = (mouseY - 0.5) * 20;
+        heroAvatar.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    }
+    
+    // Apply parallax to background elements
+    const parallaxBgs = document.querySelectorAll('.parallax-bg-1, .parallax-bg-2, .parallax-bg-3');
+    parallaxBgs.forEach((bg, index) => {
+        const speed = (index + 1) * 0.5;
+        const moveX = (mouseX - 0.5) * speed * 10;
+        const moveY = (mouseY - 0.5) * speed * 10;
+        bg.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+    });
+});
+
+// Enhanced skill category hover with parallax
+document.querySelectorAll('.skill-category').forEach(category => {
+    category.addEventListener('mousemove', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 20;
+        const rotateY = (centerX - x) / 20;
+        
+        this.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(5px)`;
+        this.style.transition = 'none';
+    });
+    
+    category.addEventListener('mouseleave', function() {
+        this.style.transform = 'perspective(500px) rotateX(0) rotateY(0) translateZ(0)';
+        this.style.transition = 'transform 0.3s ease';
     });
 });
 
