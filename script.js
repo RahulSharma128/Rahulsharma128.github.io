@@ -6,7 +6,7 @@ if (hamburger && navMenu) {
     hamburger.addEventListener('click', () => {
         hamburger.classList.toggle('active');
         navMenu.classList.toggle('active');
-        
+
         // Prevent body scroll when menu is open
         if (navMenu.classList.contains('active')) {
             document.body.style.overflow = 'hidden';
@@ -57,15 +57,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Navbar background change on scroll
+// Navbar background change on scroll (dark theme)
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
     if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        navbar.style.background = 'rgba(6, 6, 17, 0.95)';
+        navbar.style.boxShadow = '0 2px 30px rgba(0, 0, 0, 0.4)';
     } else {
-        navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-        navbar.style.boxShadow = 'none';
+        navbar.style.background = 'rgba(6, 6, 17, 0.85)';
+        navbar.style.boxShadow = '0 1px 30px rgba(0, 0, 0, 0.2)';
     }
 });
 
@@ -111,9 +111,9 @@ document.querySelectorAll('section, .project-card, .skill-category, .timeline-it
 });
 
 // Initialize EmailJS and reCAPTCHA
-(function() {
+(function () {
     emailjs.init(CONFIG.EMAILJS.PUBLIC_KEY);
-    
+
     // Set reCAPTCHA site key dynamically
     const recaptchaElement = document.getElementById('recaptcha');
     if (recaptchaElement) {
@@ -124,42 +124,42 @@ document.querySelectorAll('section, .project-card, .skill-category, .timeline-it
 // Contact form handling
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', function(e) {
+contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    
+
     // Get form data
     const formData = new FormData(contactForm);
     const name = formData.get('name');
     const email = formData.get('email');
     const subject = formData.get('subject');
     const message = formData.get('message');
-    
+
     // Basic validation
     if (!name || !email || !subject || !message) {
         showNotification('Please fill in all fields', 'error');
         return;
     }
-    
+
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         showNotification('Please enter a valid email address', 'error');
         return;
     }
-    
+
     // reCAPTCHA validation
     const recaptchaResponse = grecaptcha.getResponse();
     if (!recaptchaResponse) {
         showNotification('Please complete the reCAPTCHA verification', 'error');
         return;
     }
-    
+
     // Show loading state
     const submitBtn = contactForm.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
-    
+
     // Prepare email parameters
     const templateParams = {
         from_name: name,
@@ -168,19 +168,19 @@ contactForm.addEventListener('submit', function(e) {
         message: message,
         to_name: 'Rahul Sharma'
     };
-    
+
     // Send email using EmailJS
     emailjs.send(CONFIG.EMAILJS.SERVICE_ID, CONFIG.EMAILJS.TEMPLATE_ID, templateParams)
-        .then(function(response) {
+        .then(function (response) {
             console.log('SUCCESS!', response.status, response.text);
             showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
             contactForm.reset();
             grecaptcha.reset(); // Reset reCAPTCHA
-        }, function(error) {
+        }, function (error) {
             console.log('FAILED...', error);
             showNotification('Sorry, there was an error sending your message. Please try again.', 'error');
         })
-        .finally(function() {
+        .finally(function () {
             // Reset button state
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
@@ -194,7 +194,7 @@ function showNotification(message, type) {
     if (existingNotification) {
         existingNotification.remove();
     }
-    
+
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
@@ -204,7 +204,7 @@ function showNotification(message, type) {
             <span>${message}</span>
         </div>
     `;
-    
+
     // Add styles
     notification.style.cssText = `
         position: fixed;
@@ -219,15 +219,15 @@ function showNotification(message, type) {
         transform: translateX(100%);
         transition: transform 0.3s ease;
     `;
-    
+
     // Add to page
     document.body.appendChild(notification);
-    
+
     // Animate in
     setTimeout(() => {
         notification.style.transform = 'translateX(0)';
     }, 100);
-    
+
     // Remove after 5 seconds
     setTimeout(() => {
         notification.style.transform = 'translateX(100%)';
@@ -239,30 +239,47 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-// Typing animation for hero title
-function typeWriter(element, text, speed = 100) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
+// Particles.js Initialization
+if (typeof particlesJS !== 'undefined') {
+    particlesJS('particles-js', {
+        particles: {
+            number: { value: 80, density: { enable: true, value_area: 900 } },
+            color: { value: ['#00f2fe', '#7f5af0', '#4facfe'] },
+            shape: { type: 'circle' },
+            opacity: { value: 0.4, random: true, anim: { enable: true, speed: 0.8, opacity_min: 0.1, sync: false } },
+            size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.5, sync: false } },
+            line_linked: {
+                enable: true,
+                distance: 150,
+                color: '#00f2fe',
+                opacity: 0.15,
+                width: 1
+            },
+            move: {
+                enable: true,
+                speed: 1.5,
+                direction: 'none',
+                random: true,
+                straight: false,
+                out_mode: 'out',
+                bounce: false
+            }
+        },
+        interactivity: {
+            detect_on: 'canvas',
+            events: {
+                onhover: { enable: true, mode: 'grab' },
+                onclick: { enable: true, mode: 'push' },
+                resize: true
+            },
+            modes: {
+                grab: { distance: 180, line_linked: { opacity: 0.35 } },
+                push: { particles_nb: 3 }
+            }
+        },
+        retina_detect: true
+    });
 }
-
-// Initialize typing animation when page loads
-window.addEventListener('load', () => {
-    const heroTitle = document.querySelector('.hero-title');
-    if (heroTitle) {
-        const originalText = heroTitle.innerHTML;
-        typeWriter(heroTitle, originalText, 50);
-    }
-});
 
 // Enhanced Parallax System
 class ParallaxController {
@@ -306,7 +323,7 @@ class ParallaxController {
 
         // Combine all elements
         const allElements = [...heroElements, ...sectionElements, ...floatingElements];
-        
+
         allElements.forEach(config => {
             const elements = document.querySelectorAll(config.selector);
             elements.forEach(element => {
@@ -362,7 +379,7 @@ class ParallaxController {
             const type = config.type;
             const elementTop = config.offset;
             const elementHeight = element.offsetHeight;
-            
+
             // Calculate if element is in viewport
             const elementBottom = elementTop + elementHeight;
             const viewportTop = scrollTop;
@@ -371,7 +388,7 @@ class ParallaxController {
             // Only animate if element is in or near viewport
             if (elementBottom > viewportTop && elementTop < viewportBottom) {
                 let transform = '';
-                
+
                 switch (type) {
                     case 'translateX':
                         const xOffset = (scrollTop - elementTop) * speed;
@@ -397,48 +414,48 @@ const parallaxController = new ParallaxController();
 
 // Skill tags animation on hover
 document.querySelectorAll('.skill-tag').forEach(tag => {
-    tag.addEventListener('mouseenter', function() {
+    tag.addEventListener('mouseenter', function () {
         this.style.transform = 'scale(1.1)';
         this.style.transition = 'transform 0.2s ease';
     });
-    
-    tag.addEventListener('mouseleave', function() {
+
+    tag.addEventListener('mouseleave', function () {
         this.style.transform = 'scale(1)';
     });
 });
 
 // Enhanced 3D tilt effect for project cards
 document.querySelectorAll('.project-card').forEach(card => {
-    card.addEventListener('mousemove', function(e) {
+    card.addEventListener('mousemove', function (e) {
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
+
         const rotateX = (y - centerY) / 15;
         const rotateY = (centerX - x) / 15;
-        
+
         // Add parallax movement
         const parallaxX = (x - centerX) / 20;
         const parallaxY = (y - centerY) / 20;
-        
+
         this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(${parallaxX}px, ${parallaxY}px, 10px)`;
         this.style.transition = 'none';
     });
-    
-    card.addEventListener('mouseleave', function() {
+
+    card.addEventListener('mouseleave', function () {
         this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translate3d(0, 0, 0)';
         this.style.transition = 'transform 0.5s ease';
     });
 });
 
 // Mouse parallax for hero section
-document.addEventListener('mousemove', function(e) {
+document.addEventListener('mousemove', function (e) {
     const mouseX = e.clientX / window.innerWidth;
     const mouseY = e.clientY / window.innerHeight;
-    
+
     // Apply subtle parallax to hero elements
     const heroAvatar = document.querySelector('.hero-avatar');
     if (heroAvatar) {
@@ -446,7 +463,7 @@ document.addEventListener('mousemove', function(e) {
         const moveY = (mouseY - 0.5) * 20;
         heroAvatar.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
     }
-    
+
     // Apply parallax to background elements
     const parallaxBgs = document.querySelectorAll('.parallax-bg-1, .parallax-bg-2, .parallax-bg-3');
     parallaxBgs.forEach((bg, index) => {
@@ -459,22 +476,22 @@ document.addEventListener('mousemove', function(e) {
 
 // Enhanced skill category hover with parallax
 document.querySelectorAll('.skill-category').forEach(category => {
-    category.addEventListener('mousemove', function(e) {
+    category.addEventListener('mousemove', function (e) {
         const rect = this.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
-        
+
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
-        
+
         const rotateX = (y - centerY) / 20;
         const rotateY = (centerX - x) / 20;
-        
+
         this.style.transform = `perspective(500px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(5px)`;
         this.style.transition = 'none';
     });
-    
-    category.addEventListener('mouseleave', function() {
+
+    category.addEventListener('mouseleave', function () {
         this.style.transform = 'perspective(500px) rotateX(0) rotateY(0) translateZ(0)';
         this.style.transition = 'transform 0.3s ease';
     });
@@ -484,7 +501,7 @@ document.querySelectorAll('.skill-category').forEach(category => {
 function animateCounter(element, target, duration = 2000) {
     let start = 0;
     const increment = target / (duration / 16);
-    
+
     function updateCounter() {
         start += increment;
         if (start < target) {
@@ -494,7 +511,7 @@ function animateCounter(element, target, duration = 2000) {
             element.textContent = target + '+';
         }
     }
-    
+
     updateCounter();
 }
 
@@ -528,7 +545,7 @@ preloader.innerHTML = `
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #060611;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -538,8 +555,8 @@ preloader.innerHTML = `
         <div style="
             width: 50px;
             height: 50px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top: 3px solid white;
+            border: 3px solid rgba(0, 242, 254, 0.2);
+            border-top: 3px solid #00f2fe;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         "></div>
@@ -567,7 +584,7 @@ window.addEventListener('load', () => {
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     let current = '';
     sections.forEach(section => {
         const sectionTop = section.offsetTop;
@@ -576,7 +593,7 @@ function updateActiveNavLink() {
             current = section.getAttribute('id');
         }
     });
-    
+
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href') === `#${current}`) {
