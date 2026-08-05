@@ -1081,7 +1081,7 @@ section {
     min-height: 110px;
 }
 
-.turnstile-wrapper {
+.recaptcha-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -1089,11 +1089,9 @@ section {
     margin: 0.8rem 0;
 }
 
-.cf-turnstile {
-    display: flex;
-    justify-content: center;
-    margin: 0 auto;
-    max-width: 100%;
+.g-recaptcha {
+    transform: scale(0.92);
+    transform-origin: center;
 }
 
 /* ==========================================================================
@@ -1265,8 +1263,8 @@ section {
         margin: 0 auto;
     }
 
-    .cf-turnstile {
-        transform: scale(0.9);
+    .g-recaptcha {
+        transform: scale(0.85);
         transform-origin: center;
     }
 }
@@ -1316,8 +1314,8 @@ section {
         padding: 0.8rem;
     }
 
-    .cf-turnstile {
-        transform: scale(0.82);
+    .g-recaptcha {
+        transform: scale(0.76);
         transform-origin: center;
     }
 }
