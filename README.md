@@ -106,7 +106,6 @@ Modify `styles.css` to:
 ## 📧 Contact Information
 
 - **Email**: shrahul520@gmail.com
-- **Phone**: +91-8955102520
 - **GitHub**: [RahulSharma128](https://github.com/RahulSharma128)
 - **LinkedIn**: [Rahul Sharma](https://www.linkedin.com/in/rahul-sharma-b02486224/)
 
