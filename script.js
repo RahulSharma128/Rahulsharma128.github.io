@@ -239,25 +239,27 @@ function showNotification(message, type) {
     }, 5000);
 }
 
-// Particles.js Initialization
+// Particles.js Initialization (High Visibility Full Page)
 if (typeof particlesJS !== 'undefined') {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+    const isDark = currentTheme === 'dark';
     particlesJS('particles-js', {
         particles: {
-            number: { value: 80, density: { enable: true, value_area: 900 } },
-            color: { value: ['#00f2fe', '#7f5af0', '#4facfe'] },
+            number: { value: 95, density: { enable: true, value_area: 850 } },
+            color: { value: isDark ? ['#00f2fe', '#7f5af0', '#4facfe'] : ['#1d4ed8', '#3b82f6', '#0284c7'] },
             shape: { type: 'circle' },
-            opacity: { value: 0.4, random: true, anim: { enable: true, speed: 0.8, opacity_min: 0.1, sync: false } },
-            size: { value: 3, random: true, anim: { enable: true, speed: 2, size_min: 0.5, sync: false } },
+            opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.2, sync: false } },
+            size: { value: 3.5, random: true, anim: { enable: true, speed: 2, size_min: 1, sync: false } },
             line_linked: {
                 enable: true,
-                distance: 150,
-                color: '#00f2fe',
-                opacity: 0.15,
-                width: 1
+                distance: 140,
+                color: isDark ? '#00f2fe' : '#2563eb',
+                opacity: isDark ? 0.3 : 0.35,
+                width: 1.2
             },
             move: {
                 enable: true,
-                speed: 1.5,
+                speed: 1.8,
                 direction: 'none',
                 random: true,
                 straight: false,
@@ -266,15 +268,15 @@ if (typeof particlesJS !== 'undefined') {
             }
         },
         interactivity: {
-            detect_on: 'canvas',
+            detect_on: 'window',
             events: {
                 onhover: { enable: true, mode: 'grab' },
                 onclick: { enable: true, mode: 'push' },
                 resize: true
             },
             modes: {
-                grab: { distance: 180, line_linked: { opacity: 0.35 } },
-                push: { particles_nb: 3 }
+                grab: { distance: 180, line_linked: { opacity: 0.5 } },
+                push: { particles_nb: 4 }
             }
         },
         retina_detect: true
