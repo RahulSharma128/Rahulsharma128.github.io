@@ -47,6 +47,9 @@
 </head>
 
 <body>
+    <!-- Global Full-Page Particles Canvas -->
+    <div id="particles-js"></div>
+
     <!-- Floating Pill Navigation Bar -->
     <header class="navbar-wrapper">
         <nav class="navbar">
@@ -90,9 +93,6 @@
 
     <!-- Main Hero Section (Stitch Light Mode Layout) -->
     <section id="home" class="hero">
-        <!-- Particles.js background -->
-        <div id="particles-js"></div>
-
         <!-- Ambient Floating Blur Lights -->
         <div class="ambient-blur blur-1"></div>
         <div class="ambient-blur blur-2"></div>
@@ -171,8 +171,8 @@
                     <div class="about-card">
                         <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
                         <h4>Education</h4>
-                        <p><strong>B.Tech. Computer Science Engineering</strong></p>
-                        <p>JECRC College, Jaipur</p>
+                        <p class="education-degree"><strong>B.Tech. Computer Science Engineering</strong></p>
+                        <p class="education-college">JECRC College, Jaipur</p>
                         <p class="stat-highlight">CGPA: 7.94 (2019 – 2023)</p>
                     </div>
                 </div>
@@ -510,9 +510,9 @@
                             <input type="text" id="subject" name="subject" placeholder="Subject" required>
                         </div>
                         <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+                            <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group recaptcha-wrapper">
                             <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY" id="recaptcha"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
