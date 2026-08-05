@@ -16,8 +16,8 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <!-- Google reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <!-- Particles.js -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <!-- Theme Detection (Prevents FOUC) -->
@@ -39,8 +39,8 @@
                 SERVICE_ID: 'service_izg0gqu',
                 TEMPLATE_ID: 'template_jbdjzqn'
             },
-            RECAPTCHA: {
-                SITE_KEY: '6LedxM0rAAAAAHjXqpRHbA_3KNzJrW3t8C7EKVow'
+            TURNSTILE: {
+                SITE_KEY: '1x00000000000000000000AA'
             }
         };
     </script>
@@ -508,8 +508,8 @@
                         <div class="form-group">
                             <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
                         </div>
-                        <div class="form-group recaptcha-wrapper">
-                            <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY" id="recaptcha"></div>
+                        <div class="form-group turnstile-wrapper">
+                            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" id="turnstile-widget"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
                     </form>

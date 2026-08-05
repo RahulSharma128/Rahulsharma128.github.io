@@ -110,14 +110,16 @@ document.querySelectorAll('section, .project-card, .skill-category, .timeline-it
     observer.observe(el);
 });
 
-// Initialize EmailJS and reCAPTCHA
+// Initialize EmailJS and Cloudflare Turnstile
 (function () {
-    emailjs.init(CONFIG.EMAILJS.PUBLIC_KEY);
+    if (typeof emailjs !== 'undefined' && window.CONFIG && CONFIG.EMAILJS) {
+        emailjs.init(CONFIG.EMAILJS.PUBLIC_KEY);
+    }
 
-    // Set reCAPTCHA site key dynamically
-    const recaptchaElement = document.getElementById('recaptcha');
-    if (recaptchaElement) {
-        recaptchaElement.setAttribute('data-sitekey', CONFIG.RECAPTCHA.SITE_KEY);
+    // Set Cloudflare Turnstile site key dynamically
+    const turnstileElement = document.getElementById('turnstile-widget');
+    if (turnstileElement && window.CONFIG && CONFIG.TURNSTILE && CONFIG.TURNSTILE.SITE_KEY) {
+        turnstileElement.setAttribute('data-sitekey', CONFIG.TURNSTILE.SITE_KEY);
     }
 })();
 
@@ -147,10 +149,17 @@ contactForm.addEventListener('submit', function (e) {
         return;
     }
 
-    // reCAPTCHA validation
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-        showNotification('Please complete the reCAPTCHA verification', 'error');
+    // Cloudflare Turnstile validation
+    let turnstileResponse = '';
+    if (typeof turnstile !== 'undefined') {
+        turnstileResponse = turnstile.getResponse('#turnstile-widget') || turnstile.getResponse();
+    } else {
+        const turnstileInput = document.querySelector('[name="cf-turnstile-response"]');
+        if (turnstileInput) turnstileResponse = turnstileInput.value;
+    }
+
+    if (!turnstileResponse) {
+        showNotification('Please complete the Cloudflare Turnstile verification', 'error');
         return;
     }
 
@@ -175,7 +184,9 @@ contactForm.addEventListener('submit', function (e) {
             console.log('SUCCESS!', response.status, response.text);
             showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
             contactForm.reset();
-            grecaptcha.reset(); // Reset reCAPTCHA
+            if (typeof turnstile !== 'undefined') {
+                turnstile.reset('#turnstile-widget');
+            }
         }, function (error) {
             console.log('FAILED...', error);
             showNotification('Sorry, there was an error sending your message. Please try again.', 'error');

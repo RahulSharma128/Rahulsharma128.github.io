@@ -1081,7 +1081,7 @@ section {
     min-height: 110px;
 }
 
-.recaptcha-wrapper {
+.turnstile-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -1089,9 +1089,11 @@ section {
     margin: 0.8rem 0;
 }
 
-.g-recaptcha {
-    transform: scale(0.92);
-    transform-origin: center;
+.cf-turnstile {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 100%;
 }
 
 /* ==========================================================================
@@ -1263,8 +1265,8 @@ section {
         margin: 0 auto;
     }
 
-    .g-recaptcha {
-        transform: scale(0.85);
+    .cf-turnstile {
+        transform: scale(0.9);
         transform-origin: center;
     }
 }
@@ -1314,8 +1316,8 @@ section {
         padding: 0.8rem;
     }
 
-    .g-recaptcha {
-        transform: scale(0.76);
+    .cf-turnstile {
+        transform: scale(0.82);
         transform-origin: center;
     }
 }
