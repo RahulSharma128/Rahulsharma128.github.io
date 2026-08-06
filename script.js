@@ -110,18 +110,15 @@ document.querySelectorAll('section, .project-card, .skill-category, .timeline-it
     observer.observe(el);
 });
 
-// Initialize EmailJS and reCAPTCHA
+// Initialize reCAPTCHA
 (function () {
-    emailjs.init(CONFIG.EMAILJS.PUBLIC_KEY);
-
-    // Set reCAPTCHA site key dynamically
     const recaptchaElement = document.getElementById('recaptcha');
-    if (recaptchaElement) {
+    if (recaptchaElement && window.CONFIG && CONFIG.RECAPTCHA) {
         recaptchaElement.setAttribute('data-sitekey', CONFIG.RECAPTCHA.SITE_KEY);
     }
 })();
 
-// Contact form handling
+// Contact form handling (Cloudflare Worker backend)
 const contactForm = document.getElementById('contactForm');
 
 contactForm.addEventListener('submit', function (e) {
@@ -148,7 +145,7 @@ contactForm.addEventListener('submit', function (e) {
     }
 
     // reCAPTCHA validation
-    const recaptchaResponse = grecaptcha.getResponse();
+    const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
     if (!recaptchaResponse) {
         showNotification('Please complete the reCAPTCHA verification', 'error');
         return;
@@ -160,28 +157,46 @@ contactForm.addEventListener('submit', function (e) {
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
 
-    // Prepare email parameters
-    const templateParams = {
-        from_name: name,
-        from_email: email,
+    // Prepare payload
+    const payload = {
+        name: name,
+        email: email,
         subject: subject,
         message: message,
-        to_name: 'Rahul Sharma'
+        recaptcha: recaptchaResponse
     };
 
-    // Send email using EmailJS
-    emailjs.send(CONFIG.EMAILJS.SERVICE_ID, CONFIG.EMAILJS.TEMPLATE_ID, templateParams)
-        .then(function (response) {
-            console.log('SUCCESS!', response.status, response.text);
-            showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
-            contactForm.reset();
-            grecaptcha.reset(); // Reset reCAPTCHA
-        }, function (error) {
-            console.log('FAILED...', error);
-            showNotification('Sorry, there was an error sending your message. Please try again.', 'error');
+    // Send request to Cloudflare Worker
+    fetch(CONFIG.CLOUDFLARE_WORKER_URL, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    })
+        .then(async function (response) {
+            let resData;
+            try {
+                resData = await response.json();
+            } catch (err) {
+                resData = {};
+            }
+
+            if (response.ok && (resData.success || !resData.error)) {
+                showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
+                contactForm.reset();
+                if (typeof grecaptcha !== 'undefined') {
+                    grecaptcha.reset();
+                }
+            } else {
+                throw new Error(resData.error || 'Failed to send message via Cloudflare Worker');
+            }
+        })
+        .catch(function (error) {
+            console.error('Cloudflare Worker Submission Error:', error);
+            showNotification('Sorry, there was an error sending your message via Cloudflare Worker. Please check your worker URL or try again.', 'error');
         })
         .finally(function () {
-            // Reset button state
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         });

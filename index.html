@@ -14,8 +14,6 @@
         rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
-    <!-- EmailJS -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Particles.js -->
@@ -32,13 +30,9 @@
             }
         })();
 
-        // Configuration
+        // Configuration - Cloudflare Worker Endpoint
         window.CONFIG = {
-            EMAILJS: {
-                PUBLIC_KEY: 'kaTslR5d5_k9bokHy',
-                SERVICE_ID: 'service_izg0gqu',
-                TEMPLATE_ID: 'template_jbdjzqn'
-            },
+            CLOUDFLARE_WORKER_URL: 'https://portfolio-contact.shrahul520.workers.dev', // Replace with your Cloudflare Worker URL
             RECAPTCHA: {
                 SITE_KEY: '6LedxM0rAAAAAHjXqpRHbA_3KNzJrW3t8C7EKVow'
             }
