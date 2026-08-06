@@ -110,97 +110,118 @@ document.querySelectorAll('section, .project-card, .skill-category, .timeline-it
     observer.observe(el);
 });
 
-// Initialize reCAPTCHA
+// Initialize EmailJS and reCAPTCHA
 (function () {
+    if (typeof emailjs !== 'undefined' && window.CONFIG && window.CONFIG.EMAILJS && window.CONFIG.EMAILJS.PUBLIC_KEY) {
+        emailjs.init(window.CONFIG.EMAILJS.PUBLIC_KEY);
+    }
+
+    // Ensure reCAPTCHA site key is set
     const recaptchaElement = document.getElementById('recaptcha');
-    if (recaptchaElement && window.CONFIG && CONFIG.RECAPTCHA) {
-        recaptchaElement.setAttribute('data-sitekey', CONFIG.RECAPTCHA.SITE_KEY);
+    if (recaptchaElement && window.CONFIG && window.CONFIG.RECAPTCHA && window.CONFIG.RECAPTCHA.SITE_KEY) {
+        recaptchaElement.setAttribute('data-sitekey', window.CONFIG.RECAPTCHA.SITE_KEY);
     }
 })();
 
-// Contact form handling (Cloudflare Worker backend)
+// Contact form handling
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', function (e) {
-    e.preventDefault();
+if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    // Get form data
-    const formData = new FormData(contactForm);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
+        // Get form data
+        const formData = new FormData(contactForm);
+        const name = (formData.get('name') || '').trim();
+        const email = (formData.get('email') || '').trim();
+        const subject = (formData.get('subject') || '').trim();
+        const message = (formData.get('message') || '').trim();
 
-    // Basic validation
-    if (!name || !email || !subject || !message) {
-        showNotification('Please fill in all fields', 'error');
-        return;
-    }
+        // Basic validation
+        if (!name || !email || !subject || !message) {
+            showNotification('Please fill in all fields', 'error');
+            return;
+        }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        showNotification('Please enter a valid email address', 'error');
-        return;
-    }
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showNotification('Please enter a valid email address', 'error');
+            return;
+        }
 
-    // reCAPTCHA validation
-    const recaptchaResponse = typeof grecaptcha !== 'undefined' ? grecaptcha.getResponse() : '';
-    if (!recaptchaResponse) {
-        showNotification('Please complete the reCAPTCHA verification', 'error');
-        return;
-    }
-
-    // Show loading state
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending...';
-    submitBtn.disabled = true;
-
-    // Prepare payload
-    const payload = {
-        name: name,
-        email: email,
-        subject: subject,
-        message: message,
-        recaptcha: recaptchaResponse
-    };
-
-    // Send request to Cloudflare Worker
-    fetch(CONFIG.CLOUDFLARE_WORKER_URL, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-    })
-        .then(async function (response) {
-            let resData;
+        // reCAPTCHA validation
+        let recaptchaResponse = null;
+        if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.getResponse === 'function') {
             try {
-                resData = await response.json();
+                recaptchaResponse = grecaptcha.getResponse();
             } catch (err) {
-                resData = {};
+                console.warn('reCAPTCHA check warning:', err);
             }
+        }
 
-            if (response.ok && (resData.success || !resData.error)) {
+        if (!recaptchaResponse) {
+            showNotification('Please complete the reCAPTCHA verification', 'error');
+            return;
+        }
+
+        // Show loading state
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn ? submitBtn.innerHTML : 'Send Message';
+        if (submitBtn) {
+            submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+            submitBtn.disabled = true;
+        }
+
+        // Prepare email parameters matching standard EmailJS templates
+        const templateParams = {
+            from_name: name,
+            from_email: email,
+            reply_to: email,
+            user_email: email,
+            subject: subject,
+            message: message,
+            to_name: 'Rahul Sharma'
+        };
+
+        if (typeof emailjs === 'undefined') {
+            showNotification('EmailJS service is not loaded properly. Please refresh the page.', 'error');
+            if (submitBtn) {
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.disabled = false;
+            }
+            return;
+        }
+
+        // Send email using EmailJS
+        emailjs.send(CONFIG.EMAILJS.SERVICE_ID, CONFIG.EMAILJS.TEMPLATE_ID, templateParams)
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
                 showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
                 contactForm.reset();
-                if (typeof grecaptcha !== 'undefined') {
-                    grecaptcha.reset();
+                if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
+                    try {
+                        grecaptcha.reset();
+                    } catch (err) {
+                        console.warn('reCAPTCHA reset warning:', err);
+                    }
                 }
-            } else {
-                throw new Error(resData.error || 'Failed to send message via Cloudflare Worker');
-            }
-        })
-        .catch(function (error) {
-            console.error('Cloudflare Worker Submission Error:', error);
-            showNotification('Sorry, there was an error sending your message via Cloudflare Worker. Please check your worker URL or try again.', 'error');
-        })
-        .finally(function () {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        });
-});
+            }, function (error) {
+                console.error('EmailJS FAILED:', error);
+                let errorMsg = 'Sorry, there was an error sending your message.';
+                if (error && error.text) {
+                    errorMsg += ' (' + error.text + ')';
+                }
+                showNotification(errorMsg, 'error');
+            })
+            .finally(function () {
+                if (submitBtn) {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                }
+            });
+    });
+}
 
 // Notification system
 function showNotification(message, type) {

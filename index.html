@@ -14,6 +14,8 @@
         rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <!-- Google reCAPTCHA -->
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Particles.js -->
@@ -30,9 +32,13 @@
             }
         })();
 
-        // Configuration - Cloudflare Worker Endpoint
+        // Configuration
         window.CONFIG = {
-            CLOUDFLARE_WORKER_URL: 'https://go-worker.shrahul9056.workers.dev/',
+            EMAILJS: {
+                PUBLIC_KEY: 'kaTslR5d5_k9bokHy',
+                SERVICE_ID: 'service_izg0gqu',
+                TEMPLATE_ID: 'template_jbdjzqn'
+            },
             RECAPTCHA: {
                 SITE_KEY: '6LedxM0rAAAAAHjXqpRHbA_3KNzJrW3t8C7EKVow'
             }
@@ -472,6 +478,10 @@
                             <span>shrahul520@gmail.com</span>
                         </div>
                         <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+91-8955102520</span>
+                        </div>
+                        <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>Jaipur, Rajasthan, India</span>
                         </div>
@@ -503,7 +513,7 @@
                             <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
                         </div>
                         <div class="form-group recaptcha-wrapper">
-                            <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY" id="recaptcha"></div>
+                            <div class="g-recaptcha" data-sitekey="6LedxM0rAAAAAHjXqpRHbA_3KNzJrW3t8C7EKVow" id="recaptcha"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
                     </form>
