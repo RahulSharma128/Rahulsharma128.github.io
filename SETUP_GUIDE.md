@@ -1,4 +1,4 @@
-# EmailJS and reCAPTCHA Setup Guide
+# EmailJS and reCAPTCHA Setup Guide...
 
 ## 🚀 Quick Setup Steps
 
