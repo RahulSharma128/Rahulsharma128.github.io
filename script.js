@@ -210,7 +210,11 @@ if (contactForm) {
                 console.error('EmailJS FAILED:', error);
                 let errorMsg = 'Sorry, there was an error sending your message.';
                 if (error && error.text) {
-                    errorMsg += ' (' + error.text + ')';
+                    if (error.text.includes('Invalid grant') || error.text.includes('Gmail_API')) {
+                        errorMsg = 'Gmail account disconnected in EmailJS. Please log into dashboard.emailjs.com and reconnect your Gmail service.';
+                    } else {
+                        errorMsg += ' (' + error.text + ')';
+                    }
                 }
                 showNotification(errorMsg, 'error');
             })
