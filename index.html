@@ -147,14 +147,14 @@
             <div class="about-content">
                 <div class="about-text">
                     <p>
-                        I'm a passionate Full Stack Developer with 2+ years of experience in building scalable web applications and microservices. With experience across multiple tech companies including JPloft, Emvirt Solutions, and Smartgenx/Volyo Solutions, I've developed a strong foundation in modern web technologies.
+                        I'm a passionate Full Stack Developer with <span id="years-of-experience-text">2+</span> years of experience in building scalable web applications and microservices. With experience across multiple tech companies including JPloft, Emvirt Solutions, and Smartgenx/Volyo Solutions, I've developed a strong foundation in modern web technologies.
                     </p>
                     <p>
                         I specialize in the MERN stack (MongoDB, Express.js, React.js, Node.js) and have extensive experience with cloud platforms like AWS and Azure. I'm passionate about creating efficient, user-friendly applications that solve real-world problems.
                     </p>
                     <div class="about-stats">
                         <div class="stat">
-                            <h3>2+</h3>
+                            <h3 id="years-of-experience-stat">2+</h3>
                             <p>Years Experience</p>
                         </div>
                         <div class="stat">
@@ -512,15 +512,37 @@
                         <div class="form-group">
                             <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
                         </div>
-                        <div class="form-group recaptcha-wrapper">
-                            <div class="g-recaptcha" data-sitekey="6LedxM0rAAAAAHjXqpRHbA_3KNzJrW3t8C7EKVow" id="recaptcha"></div>
-                        </div>
                         <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
                     </form>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Security Verification (reCAPTCHA) Modal -->
+    <div id="captchaModal" class="captcha-modal" aria-hidden="true" role="dialog" aria-labelledby="captchaModalTitle">
+        <div class="captcha-modal-overlay" id="captchaModalOverlay"></div>
+        <div class="captcha-modal-content">
+            <button type="button" class="captcha-modal-close" id="closeCaptchaModal" aria-label="Close modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="captcha-modal-header">
+                <div class="captcha-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 id="captchaModalTitle">Security Verification</h3>
+                <p>Please check the box below to verify you are human before sending your message.</p>
+            </div>
+            <div class="captcha-modal-body">
+                <div class="recaptcha-wrapper">
+                    <div class="g-recaptcha" data-sitekey="6LedxM0rAAAAAHjXqpRHbA_3KNzJrW3t8C7EKVow" id="recaptcha" data-callback="onCaptchaVerified" data-expired-callback="onCaptchaExpired"></div>
+                </div>
+            </div>
+            <div class="captcha-modal-footer">
+                <p><i class="fas fa-lock"></i> Protected by Google reCAPTCHA</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

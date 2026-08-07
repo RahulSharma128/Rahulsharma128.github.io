@@ -123,8 +123,155 @@ document.querySelectorAll('section, .project-card, .skill-category, .timeline-it
     }
 })();
 
+// Global reCAPTCHA Modal Callbacks
+window.onCaptchaVerified = function (responseToken) {
+    if (responseToken) {
+        setTimeout(() => {
+            closeCaptchaModal();
+            sendContactFormEmail();
+        }, 400);
+    }
+};
+
+window.onCaptchaExpired = function () {
+    showNotification('reCAPTCHA verification expired. Please verify again.', 'error');
+};
+
+function openCaptchaModal() {
+    const modal = document.getElementById('captchaModal');
+    if (modal) {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+    }
+}
+
+function closeCaptchaModal() {
+    const modal = document.getElementById('captchaModal');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+    }
+}
+
+// Dynamic Years of Experience Calculation (Starting May 2024)
+function updateDynamicExperience() {
+    const startDate = new Date(2024, 4, 1); // May 2024
+    const currentDate = new Date();
+    
+    // Total months difference
+    const totalMonths = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth());
+    
+    // Convert to years (minimum 1)
+    let years = Math.floor(totalMonths / 12);
+    if (years < 1) years = 1;
+    
+    const formattedYears = `${years}+`;
+    
+    const expText = document.getElementById('years-of-experience-text');
+    if (expText) {
+        expText.textContent = formattedYears;
+    }
+    
+    const expStat = document.getElementById('years-of-experience-stat');
+    if (expStat) {
+        expStat.setAttribute('data-target', years);
+        expStat.textContent = formattedYears;
+    }
+}
+
+// Setup event listeners for captcha modal and experience calculation
+document.addEventListener('DOMContentLoaded', () => {
+    updateDynamicExperience();
+
+    const closeBtn = document.getElementById('closeCaptchaModal');
+    const overlay = document.getElementById('captchaModalOverlay');
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeCaptchaModal);
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeCaptchaModal);
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeCaptchaModal();
+        }
+    });
+});
+
 // Contact form handling
 const contactForm = document.getElementById('contactForm');
+
+function sendContactFormEmail() {
+    if (!contactForm) return;
+
+    const formData = new FormData(contactForm);
+    const name = (formData.get('name') || '').trim();
+    const email = (formData.get('email') || '').trim();
+    const subject = (formData.get('subject') || '').trim();
+    const message = (formData.get('message') || '').trim();
+
+    // Show loading state
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn ? submitBtn.innerHTML : 'Send Message <i class="fas fa-paper-plane"></i>';
+    if (submitBtn) {
+        submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+        submitBtn.disabled = true;
+    }
+
+    const templateParams = {
+        from_name: name,
+        from_email: email,
+        reply_to: email,
+        user_email: email,
+        subject: subject,
+        message: message,
+        to_name: 'Rahul Sharma'
+    };
+
+    if (typeof emailjs === 'undefined') {
+        showNotification('EmailJS service is not loaded properly. Please refresh the page.', 'error');
+        if (submitBtn) {
+            submitBtn.innerHTML = originalHTML;
+            submitBtn.disabled = false;
+        }
+        return;
+    }
+
+    // Send email using EmailJS
+    emailjs.send(CONFIG.EMAILJS.SERVICE_ID, CONFIG.EMAILJS.TEMPLATE_ID, templateParams)
+        .then(function (response) {
+            console.log('SUCCESS!', response.status, response.text);
+            showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
+            contactForm.reset();
+            if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
+                try {
+                    grecaptcha.reset();
+                } catch (err) {
+                    console.warn('reCAPTCHA reset warning:', err);
+                }
+            }
+        }, function (error) {
+            console.error('EmailJS FAILED:', error);
+            let errorMsg = 'Sorry, there was an error sending your message.';
+            if (error && error.text) {
+                if (error.text.includes('Invalid grant') || error.text.includes('Gmail_API')) {
+                    errorMsg = 'Gmail account disconnected in EmailJS. Please log into dashboard.emailjs.com and reconnect your Gmail service.';
+                } else {
+                    errorMsg += ' (' + error.text + ')';
+                }
+            }
+            showNotification(errorMsg, 'error');
+        })
+        .finally(function () {
+            if (submitBtn) {
+                submitBtn.innerHTML = originalHTML;
+                submitBtn.disabled = false;
+            }
+        });
+}
 
 if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
@@ -150,7 +297,7 @@ if (contactForm) {
             return;
         }
 
-        // reCAPTCHA validation
+        // Check if reCAPTCHA is already completed
         let recaptchaResponse = null;
         if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.getResponse === 'function') {
             try {
@@ -160,70 +307,13 @@ if (contactForm) {
             }
         }
 
-        if (!recaptchaResponse) {
-            showNotification('Please complete the reCAPTCHA verification', 'error');
-            return;
+        if (recaptchaResponse) {
+            // Already solved, send message directly
+            sendContactFormEmail();
+        } else {
+            // Open security check captcha modal
+            openCaptchaModal();
         }
-
-        // Show loading state
-        const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalHTML = submitBtn ? submitBtn.innerHTML : 'Send Message';
-        if (submitBtn) {
-            submitBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-            submitBtn.disabled = true;
-        }
-
-        // Prepare email parameters matching standard EmailJS templates
-        const templateParams = {
-            from_name: name,
-            from_email: email,
-            reply_to: email,
-            user_email: email,
-            subject: subject,
-            message: message,
-            to_name: 'Rahul Sharma'
-        };
-
-        if (typeof emailjs === 'undefined') {
-            showNotification('EmailJS service is not loaded properly. Please refresh the page.', 'error');
-            if (submitBtn) {
-                submitBtn.innerHTML = originalHTML;
-                submitBtn.disabled = false;
-            }
-            return;
-        }
-
-        // Send email using EmailJS
-        emailjs.send(CONFIG.EMAILJS.SERVICE_ID, CONFIG.EMAILJS.TEMPLATE_ID, templateParams)
-            .then(function (response) {
-                console.log('SUCCESS!', response.status, response.text);
-                showNotification('Thank you for your message! I\'ll get back to you soon.', 'success');
-                contactForm.reset();
-                if (typeof grecaptcha !== 'undefined' && typeof grecaptcha.reset === 'function') {
-                    try {
-                        grecaptcha.reset();
-                    } catch (err) {
-                        console.warn('reCAPTCHA reset warning:', err);
-                    }
-                }
-            }, function (error) {
-                console.error('EmailJS FAILED:', error);
-                let errorMsg = 'Sorry, there was an error sending your message.';
-                if (error && error.text) {
-                    if (error.text.includes('Invalid grant') || error.text.includes('Gmail_API')) {
-                        errorMsg = 'Gmail account disconnected in EmailJS. Please log into dashboard.emailjs.com and reconnect your Gmail service.';
-                    } else {
-                        errorMsg += ' (' + error.text + ')';
-                    }
-                }
-                showNotification(errorMsg, 'error');
-            })
-            .finally(function () {
-                if (submitBtn) {
-                    submitBtn.innerHTML = originalHTML;
-                    submitBtn.disabled = false;
-                }
-            });
     });
 }
 
@@ -562,7 +652,7 @@ const counterObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             const counter = entry.target.querySelector('h3');
-            const target = parseInt(counter.textContent);
+            const target = parseInt(counter.getAttribute('data-target') || counter.textContent);
             animateCounter(counter, target);
             counterObserver.unobserve(entry.target);
         }
