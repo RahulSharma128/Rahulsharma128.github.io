@@ -1,0 +1,6 @@
+# Sensitive Keys & Binaries Directory
+bin/
+bin/*
+*.env
+.env
+.env.local
