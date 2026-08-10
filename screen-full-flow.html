@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Full Page Minimalist Flow generated from Stitch project.">
+    <title>Stitch Screen 3 — Full Page Minimalist Flow</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: #ffffff;
+            color: #0f172a;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .screen-view-badge {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(12px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #0f172a;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .screen-view-badge a {
+            color: #0f172a;
+            text-decoration: none;
+        }
+
+        /* Top Bar */
+        .top-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 40px;
+            max-width: 1200px;
+            margin: 40px auto 0 auto;
+            width: 90%;
+        }
+
+        .pill-cta-link {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 8px 18px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .pill-cta-link:hover {
+            background: #e2e8f0;
+        }
+
+        .top-logo-icon {
+            width: 38px;
+            height: 38px;
+            background: #0f172a;
+            color: #ffffff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        .header-search-mini {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 50px;
+            padding: 6px 6px 6px 18px;
+            display: flex;
+            align-items: center;
+            width: 240px;
+        }
+
+        .header-search-mini input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 0.85rem;
+            color: #0f172a;
+        }
+
+        .header-search-mini button {
+            width: 30px;
+            height: 30px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
+        /* Hero Center */
+        .hero-flow-center {
+            text-align: center;
+            padding: 40px 20px 20px 20px;
+            position: relative;
+        }
+
+        .flow-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 15vw;
+            font-weight: 900;
+            color: rgba(15, 23, 42, 0.03);
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .flow-greeting {
+            font-size: 1.1rem;
+            color: #475569;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .flow-headline {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0 0 25px 0;
+            letter-spacing: -1.5px;
+        }
+
+        .flow-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 50px auto;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 4px solid #ffffff;
+            background: #f1f5f9;
+        }
+
+        .flow-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Projects Flow Container */
+        .flow-projects-section {
+            max-width: 1100px;
+            margin: 0 auto 80px auto;
+            width: 90%;
+        }
+
+        .flow-projects-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 25px;
+        }
+
+        .flow-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .flow-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: transform 0.25s, box-shadow 0.25s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .flow-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.07);
+            border-color: #cbd5e1;
+        }
+
+        .card-icon-box {
+            width: 44px;
+            height: 44px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3b82f6;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .flow-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0 0 10px 0;
+        }
+
+        .flow-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 0 0 20px 0;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: #0f172a;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .card-link:hover {
+            color: #3b82f6;
+        }
+
+        @media (max-width: 768px) {
+            .top-header-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .flow-headline {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Return Link -->
+    <div class="screen-view-badge">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Main Portfolio</a>
+        <span>| Stitch Screen 3</span>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-header-bar">
+        <a href="index.html" class="pill-cta-link">
+            Build your AI portfolio <i class="fas fa-chevron-right" style="font-size:0.75rem;"></i>
+        </a>
+        <div class="top-logo-icon">T</div>
+        <div class="header-search-mini">
+            <input type="text" placeholder="Ask me anything...">
+            <button><i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Hero Flow Center -->
+    <div class="hero-flow-center">
+        <div class="flow-watermark">Rahul</div>
+        <div class="flow-greeting">Hey, I'm Rahul 👋</div>
+        <h1 class="flow-headline">Full-Stack Developer</h1>
+        <div class="flow-avatar">
+            <img src="assets/memoji_avatar.jpg" alt="Rahul Avatar">
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="flow-projects-section">
+        <h2 class="flow-projects-title">Projects</h2>
+        <div class="flow-cards-grid">
+            <!-- Card 1 -->
+            <div class="flow-card">
+                <div>
+                    <div class="card-icon-box">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <h3>E-commerce Platform</h3>
+                    <p>Create e-commerce platform to produce customized items commerce with seamless checkout & payments.</p>
+                </div>
+                <a href="index.html#projects" class="card-link">View Project <i class="fas fa-chevron-right" style="font-size:0.75rem;"></i></a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="flow-card">
+                <div>
+                    <div class="card-icon-box">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Analytics dashboard and real-time performance metrics with market data visualization.</p>
+                </div>
+                <a href="index.html#projects" class="card-link">View Project <i class="fas fa-chevron-right" style="font-size:0.75rem;"></i></a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="flow-card">
+                <div>
+                    <div class="card-icon-box">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>API Integration</h3>
+                    <p>High-throughput API server architecture, database integration, and microservices design.</p>
+                </div>
+                <a href="index.html#projects" class="card-link">View Project <i class="fas fa-chevron-right" style="font-size:0.75rem;"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding-bottom: 40px; color: #64748b; font-size: 0.85rem;">
+        Stitch Screen 3 — Full Page Minimalist Flow &copy; 2026 Rahul Sharma
+    </footer>
+</body>
+
+</html>

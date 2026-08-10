@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rahul Sharma - Premium Light Mode Portfolio Home generated from Stitch project.">
+    <title>Stitch Screen 1 — Premium Light Mode Portfolio Home</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', 'Inter', sans-serif;
+            background: var(--bg-hero-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .screen-view-badge {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(29, 78, 216, 0.2);
+            backdrop-filter: blur(12px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1d4ed8;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .screen-view-badge a {
+            color: #1d4ed8;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stitch-nav-pill {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+            border-radius: 50px;
+            padding: 8px 24px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            z-index: 100;
+        }
+
+        .stitch-nav-pill a {
+            text-decoration: none;
+            color: #334155;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
+        .stitch-nav-pill a.active,
+        .stitch-nav-pill a:hover {
+            color: #1d4ed8;
+            background: rgba(219, 234, 254, 0.6);
+        }
+
+        .stitch-nav-pill .search-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.2s;
+        }
+
+        .stitch-nav-pill .search-btn:hover {
+            color: #1d4ed8;
+        }
+
+        .hero-title-group {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .hero-headline {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: #0f172a;
+            margin: 0 0 10px 0;
+        }
+
+        .hero-subhead {
+            font-size: 1.25rem;
+            color: #475569;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .hero-glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.95);
+            border-radius: 28px;
+            box-shadow: 0 25px 60px rgba(160, 190, 240, 0.25), 0 10px 25px rgba(0, 0, 0, 0.03);
+            max-width: 850px;
+            width: 90%;
+            padding: 45px 50px;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .card-left h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            color: #0f172a;
+            margin: 0 0 16px 0;
+        }
+
+        .card-left p {
+            color: #334155;
+            line-height: 1.65;
+            font-size: 1rem;
+            margin-bottom: 28px;
+        }
+
+        .card-left .btn-stitch {
+            display: inline-block;
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+            color: #ffffff;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .card-left .btn-stitch:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .card-right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar-aura-frame {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            padding: 8px;
+            box-shadow: 0 15px 35px rgba(147, 197, 253, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .avatar-aura-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .ambient-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape-1 {
+            width: 350px;
+            height: 350px;
+            background: rgba(191, 219, 254, 0.6);
+            top: 10%;
+            left: 15%;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: rgba(224, 231, 255, 0.6);
+            bottom: 10%;
+            right: 15%;
+        }
+
+        @media (max-width: 768px) {
+            .hero-glass-card {
+                grid-template-columns: 1fr;
+                padding: 30px 25px;
+                text-align: center;
+            }
+            .card-right {
+                order: -1;
+            }
+            .hero-headline {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Return Link -->
+    <div class="screen-view-badge">
+        <a href="index.html"><i class="fas fa-arrow-left"></i> Back to Main Portfolio</a>
+        <span>| Stitch Screen 1</span>
+    </div>
+
+    <!-- Ambient Glow background shapes -->
+    <div class="ambient-shape shape-1"></div>
+    <div class="ambient-shape shape-2"></div>
+
+    <!-- Floating Pill Nav -->
+    <nav class="stitch-nav-pill">
+        <a href="#" class="active">Portfolio</a>
+        <a href="#">About</a>
+        <a href="#">Projects</a>
+        <a href="#">Skills</a>
+        <a href="#">Contact</a>
+        <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+    </nav>
+
+    <!-- Hero Title Group -->
+    <div class="hero-title-group">
+        <h1 class="hero-headline">Full-Stack Developer</h1>
+        <p class="hero-subhead">Crafting High-Performance Digital Experiences</p>
+    </div>
+
+    <!-- Main Glass Card -->
+    <div class="hero-glass-card">
+        <div class="card-left">
+            <h2>About Me</h2>
+            <p>
+                As a passionate Full-Stack Developer, I bridge the gap between elegant front-end design and robust back-end architecture. With expertise in React, Node.js, and modern cloud solutions, I build scalable, user-centric applications that solve complex challenges. My focus is on delivering premium digital products with a keen eye for detail and performance.
+            </p>
+            <a href="index.html#projects" class="btn-stitch">View My Work</a>
+        </div>
+        <div class="card-right">
+            <div class="avatar-aura-frame">
+                <img src="assets/developer_portrait.jpg" alt="Rahul Sharma - Full Stack Developer">
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-top: 60px; margin-bottom: 20px; color: #64748b; font-size: 0.85rem; z-index: 10;">
+        Stitch Screen 1 — Premium Light Mode Portfolio Home &copy; 2026 Rahul Sharma
+    </footer>
+</body>
+
+</html>
