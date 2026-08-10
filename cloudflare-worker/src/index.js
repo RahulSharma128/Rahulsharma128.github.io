@@ -152,7 +152,6 @@ ${contextText}`;
           }
         } catch (cfAiErr) {
           console.error("Workers AI LLM Error:", cfAiErr);
-          aiResponseText = `Workers AI Error: ${cfAiErr.message || cfAiErr.toString()}`;
         }
       }
 

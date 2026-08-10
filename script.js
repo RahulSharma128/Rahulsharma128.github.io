@@ -1135,19 +1135,32 @@ window.CONFIG.CF_WORKER_URL = 'https://rahul-virtual-self-api.shrahul9056.worker
 
 function toggleRagChatModal() {
     const modal = document.getElementById('ragChatModal');
+    const backdrop = document.getElementById('ragChatBackdrop');
     if (!modal) return;
     
     const isActive = modal.classList.contains('active');
     if (isActive) {
         modal.classList.remove('active');
+        if (backdrop) backdrop.classList.remove('active');
         modal.setAttribute('aria-hidden', 'true');
     } else {
         modal.classList.add('active');
+        if (backdrop) backdrop.classList.add('active');
         modal.setAttribute('aria-hidden', 'false');
         const input = document.getElementById('ragChatInput');
         if (input) setTimeout(() => input.focus(), 200);
     }
 }
+
+// Close ChatGPT modal on Escape key
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        const modal = document.getElementById('ragChatModal');
+        if (modal && modal.classList.contains('active')) {
+            toggleRagChatModal();
+        }
+    }
+});
 
 function clearRagChat() {
     const container = document.getElementById('ragChatMessages');
