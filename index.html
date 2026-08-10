@@ -50,15 +50,6 @@
     <!-- Global Full-Page Particles Canvas -->
     <div id="particles-js"></div>
 
-    <!-- Stitch Design Showcase Switcher Bar -->
-    <div class="stitch-layout-bar">
-        <span><i class="fas fa-palette"></i> Stitch Screens:</span>
-        <a href="index.html" class="stitch-layout-btn active"><i class="fas fa-home"></i> Home</a>
-        <a href="screen-hero-home.html" class="stitch-layout-btn"><i class="fas fa-layer-group"></i> Screen 1 (Hero)</a>
-        <a href="screen-interactive-hero.html" class="stitch-layout-btn"><i class="fas fa-robot"></i> Screen 2 (AI Hero)</a>
-        <a href="screen-full-flow.html" class="stitch-layout-btn"><i class="fas fa-stream"></i> Screen 3 (Full Flow)</a>
-    </div>
-
     <!-- Floating Pill Navigation Bar -->
     <header class="navbar-wrapper">
         <nav class="navbar">
@@ -100,52 +91,62 @@
         </nav>
     </header>
 
-    <!-- Main Hero Section (Stitch Light Mode Layout) -->
-    <section id="home" class="hero">
+    <!-- Main Hero Section (Stitch Screen 2: Minimalist Interactive Hero) -->
+    <section id="home" class="hero-stitch-screen2">
+        <!-- Giant Watermark Typography -->
+        <div class="bg-watermark">RAHUL</div>
+
         <!-- Ambient Floating Blur Lights -->
         <div class="ambient-blur blur-1"></div>
         <div class="ambient-blur blur-2"></div>
 
-        <div class="hero-container">
-            <!-- Hero Heading Title -->
-            <div class="hero-header-text">
-                <h1 class="hero-main-title">Full-Stack Developer</h1>
-                <p class="hero-main-subtitle">Crafting High-Performance Digital Experiences</p>
+        <div class="screen2-hero-container">
+            <!-- Brand Logo Badge -->
+            <div class="brand-logo-badge">R</div>
+
+            <!-- Greeting Tag & Title -->
+            <div class="greeting-tag">Hey, I'm Rahul 👋</div>
+            <h1 class="screen2-headline">Full-Stack Developer</h1>
+
+            <!-- Central 3D Avatar Memoji -->
+            <div class="avatar-memoji-container">
+                <img src="assets/memoji_avatar.jpg" alt="Rahul Sharma 3D Memoji Avatar">
             </div>
 
-            <!-- Stacked Frosted Glass Hero Card -->
-            <div class="hero-glass-card">
-                <div class="hero-card-left">
-                    <div class="eyebrow-badge">
-                        <i class="fas fa-code"></i> Full Stack & Microservices
-                    </div>
-                    <h2 class="hero-card-title">About Me</h2>
-                    <p class="hero-card-description">
-                        As a passionate Full-Stack Developer, I bridge the gap between elegant front-end design and robust back-end architecture. With expertise in React, Node.js, MERN stack, microservices, and cloud solutions, I build scalable, user-centric applications that solve complex challenges.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">View My Work <i class="fas fa-arrow-right"></i></a>
-                        <a href="#contact" class="btn btn-secondary">Get In Touch</a>
-                    </div>
-                    <div class="hero-social">
-                        <a href="https://github.com/RahulSharma128" target="_blank" class="social-link" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/rahul-sharma-b02486224/" target="_blank" class="social-link" title="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="mailto:shrahul520@gmail.com" class="social-link" title="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-                <div class="hero-card-right">
-                    <div class="avatar-glow-ring"></div>
-                    <div class="hero-avatar">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                </div>
-            </div>
+            <!-- AI Search Bar -->
+            <form class="ai-search-box" id="aiSearchForm" onsubmit="handleAISearch(event)">
+                <input type="text" id="aiInput" placeholder="Ask me anything..." autocomplete="off">
+                <button type="submit" class="ai-search-btn" title="Submit Question">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Bottom Floating Navigation Dock -->
+            <nav class="bottom-dock-nav">
+                <a href="#about" class="dock-item">
+                    <i class="fas fa-user-circle"></i>
+                    <span>About</span>
+                </a>
+                <a href="#projects" class="dock-item">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Projects</span>
+                </a>
+                <a href="#skills" class="dock-item">
+                    <i class="fas fa-code"></i>
+                    <span>Skills</span>
+                </a>
+                <a href="#experience" class="dock-item">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Experience</span>
+                </a>
+                <a href="#contact" class="dock-item">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>Contact</span>
+                </a>
+            </nav>
+
+            <!-- AI Toast Notification -->
+            <div class="ai-response-toast" id="aiToast"></div>
         </div>
     </section>
 

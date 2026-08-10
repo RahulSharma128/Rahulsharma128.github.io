@@ -836,3 +836,49 @@ window.addEventListener('scroll', updateActiveNavLink);
         updateParticlesForTheme(currentTheme);
     });
 })();
+
+// Global AI Search Bar Handler (Stitch Screen 2)
+function handleAISearch(e) {
+    if (e) e.preventDefault();
+    const input = document.getElementById('aiInput');
+    const toast = document.getElementById('aiToast');
+    if (!input || !toast) return;
+
+    const q = input.value.trim().toLowerCase();
+    if (!q) return;
+
+    let reply = "Rahul is a Full-Stack Engineer skilled in React, Node.js, MERN, microservices, and cloud solutions!";
+    let targetSection = null;
+
+    if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
+        reply = "Rahul's stack: MERN (MongoDB, Express, React, Node), TypeScript, Next.js, AWS, Docker, Microservices.";
+        targetSection = '#skills';
+    } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
+        reply = "Featured projects: Drone Fleet GCS, PathSynq PWA Pothole Detector, Admin & Partner Dashboards.";
+        targetSection = '#projects';
+    } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('hire') || q.includes('reach')) {
+        reply = "Get in touch with Rahul: shrahul520@gmail.com | +91-8955102520.";
+        targetSection = '#contact';
+    } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
+        reply = "Rahul has worked at JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions as a Full-Stack Engineer.";
+        targetSection = '#experience';
+    } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
+        reply = "Rahul Sharma — CS Engineering graduate (JECRC College, CGPA 7.94) with 2+ years full-stack experience.";
+        targetSection = '#about';
+    }
+
+    toast.innerText = reply;
+    toast.style.display = 'block';
+
+    if (targetSection) {
+        const sec = document.querySelector(targetSection);
+        if (sec) {
+            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 6000);
+}
+
