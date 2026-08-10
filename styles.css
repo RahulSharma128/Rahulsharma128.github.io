@@ -158,7 +158,7 @@ p, li, span {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 5;
+    z-index: 0;
     pointer-events: none;
 }
 
@@ -583,7 +583,7 @@ section {
    ========================================================================== */
 
 .about {
-    background-color: var(--bg-main);
+    background-color: transparent !important;
 }
 
 .about-content {
@@ -1457,6 +1457,16 @@ section {
 /* ==========================================================================
    STITCH SCREEN 2 (DEFAULT HERO HOME) LAYOUT STYLES
    ========================================================================== */
+/* Body Home View Lock Rule */
+body.home-view-active {
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100vh !important;
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+}
+
 .hero-stitch-screen2 {
     height: 100vh;
     height: 100dvh;
@@ -1466,7 +1476,7 @@ section {
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding: 40px 20px 24px 20px;
+    padding: 30px 20px 20px 20px;
     background: var(--bg-hero-gradient);
     overflow: hidden;
     text-align: center;
@@ -1505,8 +1515,8 @@ section {
 }
 
 .brand-logo-badge {
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
     background: var(--pill-bg);
     backdrop-filter: blur(16px);
     border-radius: 16px;
@@ -1516,9 +1526,9 @@ section {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
     border: 1px solid var(--pill-border);
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
     color: var(--text-primary);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     transition: transform 0.3s ease;
     cursor: pointer;
 }
@@ -1528,29 +1538,29 @@ section {
 }
 
 .greeting-tag {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--text-secondary);
     font-weight: 500;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .screen2-headline {
-    font-size: 3.4rem;
+    font-size: 3.2rem;
     font-weight: 800;
     color: var(--text-primary);
-    margin: 0 0 20px 0;
+    margin: 0 0 16px 0;
     letter-spacing: -1.5px;
     line-height: 1.1;
 }
 
 .avatar-memoji-container {
-    width: 180px;
-    height: 180px;
+    width: 170px;
+    height: 170px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
     border: 4px solid var(--pill-border);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
     background: linear-gradient(180deg, rgba(241, 245, 249, 0.8) 0%, rgba(226, 232, 240, 0.8) 100%);
     flex-shrink: 0;
@@ -1578,7 +1588,7 @@ section {
     display: flex;
     align-items: center;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
 }
 
@@ -1593,7 +1603,7 @@ section {
     background: transparent;
     outline: none;
     width: 100%;
-    font-size: 0.98rem;
+    font-size: 0.95rem;
     color: var(--text-primary);
     font-family: inherit;
 }
@@ -1603,8 +1613,8 @@ section {
 }
 
 .ai-search-btn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     background: var(--accent-gradient);
     color: #ffffff;
     border: none;
@@ -1613,7 +1623,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     transition: background 0.2s, transform 0.2s;
     flex-shrink: 0;
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
@@ -1623,37 +1633,43 @@ section {
     transform: scale(1.08);
 }
 
-/* AI Suggestion Chips */
-.ai-suggestion-chips {
+/* AI Suggestion Micro-Prompt Row */
+.ai-suggestions-prompt {
     display: flex;
-    gap: 8px;
-    margin-bottom: 24px;
+    align-items: center;
     justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
     flex-wrap: wrap;
 }
 
-.chip-btn {
-    background: var(--pill-bg);
-    border: 1px solid var(--tag-border);
-    color: var(--tag-text);
-    padding: 5px 14px;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+.prompt-label {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
 }
 
-.chip-btn:hover {
-    background: var(--accent-primary);
+.prompt-pill {
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    color: var(--text-secondary);
+    padding: 3px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    font-family: inherit;
+}
+
+.prompt-pill:hover {
+    background: var(--accent-gradient);
     color: #ffffff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+    border-color: transparent;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }
 
 .bottom-dock-nav {
@@ -1793,7 +1809,7 @@ section {
 
 @media (max-width: 768px) {
     .hero-stitch-screen2 {
-        padding: 16px 12px 14px 12px;
+        padding: 12px 10px 10px 10px;
         height: 100vh;
         height: 100dvh;
         max-height: 100vh;
@@ -1801,77 +1817,89 @@ section {
     }
 
     .hero-top-controls {
-        top: 10px;
-        right: 12px;
+        top: 8px;
+        right: 10px;
+    }
+
+    .hero-theme-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 0.78rem;
     }
 
     .brand-logo-badge {
-        width: 38px;
-        height: 38px;
-        font-size: 1.1rem;
-        margin-bottom: 4px;
+        width: 36px;
+        height: 36px;
+        font-size: 1.05rem;
+        margin-bottom: 2px;
         border-radius: 12px;
     }
 
     .greeting-tag {
-        font-size: 0.88rem;
+        font-size: 0.85rem;
         margin-bottom: 2px;
     }
 
     .screen2-headline {
-        font-size: 1.9rem;
-        margin: 0 0 8px 0;
-        letter-spacing: -1px;
+        font-size: 1.75rem;
+        margin: 0 0 6px 0;
+        letter-spacing: -0.8px;
     }
 
     .avatar-memoji-container {
-        width: 110px;
-        height: 110px;
-        margin-bottom: 8px;
+        width: 100px;
+        height: 100px;
+        margin-bottom: 6px;
         border-width: 3px;
     }
 
     .ai-search-box {
         margin-bottom: 6px;
-        padding: 4px 6px 4px 14px;
+        padding: 3px 6px 3px 12px;
     }
 
     .ai-search-box input {
-        font-size: 0.88rem;
+        font-size: 0.85rem;
     }
 
     .ai-search-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
     }
 
-    .ai-suggestion-chips {
-        margin-bottom: 8px;
+    .ai-suggestions-prompt {
+        margin-bottom: 6px;
         gap: 4px;
     }
 
-    .chip-btn {
-        padding: 3px 8px;
+    .prompt-label {
         font-size: 0.7rem;
     }
 
+    .prompt-pill {
+        padding: 2px 8px;
+        font-size: 0.68rem;
+    }
+
     .bottom-dock-nav {
-        gap: 4px;
-        padding: 6px 8px;
-        border-radius: 18px;
+        gap: 2px;
+        padding: 4px 6px;
+        border-radius: 16px;
+        width: 100%;
+        max-width: 100%;
     }
 
     .dock-item {
-        padding: 6px 8px;
+        padding: 4px 6px;
         min-width: auto;
-        font-size: 0.72rem;
+        font-size: 0.7rem;
         border-radius: 10px;
         gap: 2px;
     }
 
     .dock-item i {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
     }
 }
 

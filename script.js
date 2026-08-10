@@ -849,6 +849,7 @@ function navigateToView(viewId, event) {
 
     if (!viewId || viewId === 'home') {
         // Show Clean Hero Home
+        document.body.classList.add('home-view-active');
         if (appViewContainer) {
             appViewContainer.classList.remove('active-view');
             setTimeout(() => {
@@ -867,6 +868,7 @@ function navigateToView(viewId, event) {
     }
 
     // Hide Hero, Show Section View Container
+    document.body.classList.remove('home-view-active');
     if (heroSection) {
         heroSection.style.opacity = '0';
         setTimeout(() => {
@@ -1039,6 +1041,8 @@ window.addEventListener('load', () => {
     const hash = window.location.hash.replace('#', '');
     if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
         navigateToView(hash);
+    } else {
+        document.body.classList.add('home-view-active');
     }
 });
 

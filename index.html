@@ -87,11 +87,13 @@
                 </button>
             </form>
 
-            <!-- AI Suggestion Quick Chips -->
-            <div class="ai-suggestion-chips">
-                <button type="button" class="chip-btn" onclick="submitAIQuery('skills')"><i class="fas fa-bolt"></i> Skills</button>
-                <button type="button" class="chip-btn" onclick="submitAIQuery('projects')"><i class="fas fa-rocket"></i> Projects</button>
-                <button type="button" class="chip-btn" onclick="submitAIQuery('contact')"><i class="fas fa-envelope"></i> Contact</button>
+            <!-- AI Suggestion Micro-Prompt Row -->
+            <div class="ai-suggestions-prompt">
+                <span class="prompt-label">Try asking:</span>
+                <button type="button" class="prompt-pill" onclick="submitAIQuery('skills')">Skills</button>
+                <button type="button" class="prompt-pill" onclick="submitAIQuery('projects')">Projects</button>
+                <button type="button" class="prompt-pill" onclick="submitAIQuery('experience')">Experience</button>
+                <button type="button" class="prompt-pill" onclick="submitAIQuery('contact')">Contact</button>
             </div>
 
             <!-- Bottom Floating Navigation Dock -->
