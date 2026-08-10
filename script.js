@@ -1195,16 +1195,28 @@ function sendRagQuickPrompt(promptText) {
     }
 }
 
+let isRagSubmitting = false;
+
 async function handleRagSubmit(event) {
     if (event && event.preventDefault) event.preventDefault();
+    if (isRagSubmitting) return;
+
     const input = document.getElementById('ragChatInput');
+    const sendBtn = document.querySelector('.rag-chat-input-wrapper button[type="submit"]');
     if (!input) return;
     
-    const question = input.value.trim();
+    let question = input.value.trim();
     if (!question) return;
+
+    if (question.length > 500) {
+        question = question.substring(0, 500);
+    }
     
-    // Clear input
+    // Clear input & disable during request
     input.value = '';
+    isRagSubmitting = true;
+    if (sendBtn) sendBtn.disabled = true;
+    input.disabled = true;
 
     // 1. Render User Message
     appendRagMessage(question, 'user');
@@ -1235,6 +1247,11 @@ async function handleRagSubmit(event) {
         console.error("RAG Error:", err);
         hideRagTyping();
         appendRagMessage("I'm having a brief connection hiccup! You can reach out directly via email at [shrahul520@gmail.com](mailto:shrahul520@gmail.com).", 'ai');
+    } finally {
+        isRagSubmitting = false;
+        if (sendBtn) sendBtn.disabled = false;
+        input.disabled = false;
+        input.focus();
     }
 }
 

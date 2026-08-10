@@ -1,17 +1,59 @@
 /**
  * Cloudflare Worker API for Rahul's Virtual Self RAG Chatbot
- * Powered by Cloudflare Vectorize + Workers AI (Embeddings) + Google Gemini 2.0 Flash
+ * Secured with Rate Limiting, Origin Controls & Input Sanitization
+ * Powered by Cloudflare Vectorize + Workers AI + Google Gemini 2.0 Flash
  */
+
+// In-memory sliding window rate limiter (per Cloudflare Worker isolate)
+const ipRateMap = new Map();
+
+function checkRateLimit(ip, limit = 5, windowMs = 60000) {
+  const now = Date.now();
+  // Periodically cleanup expired IPs to keep memory footprint tiny
+  if (ipRateMap.size > 1000) {
+    for (const [k, timestamps] of ipRateMap.entries()) {
+      if (timestamps.every(t => now - t > windowMs)) {
+        ipRateMap.delete(k);
+      }
+    }
+  }
+
+  const userTimestamps = (ipRateMap.get(ip) || []).filter(t => now - t < windowMs);
+  if (userTimestamps.length >= limit) {
+    return true; // Exceeded limit
+  }
+
+  userTimestamps.push(now);
+  ipRateMap.set(ip, userTimestamps);
+  return false;
+}
+
+// Allowed CORS Origins
+const ALLOWED_ORIGINS = [
+  "https://rahulsharma128.github.io",
+  "http://rahulsharma128.github.io",
+  "http://pathsynq.rahulsh.me",
+  "http://localhost:5500",
+  "http://127.0.0.1:5500",
+  "http://localhost:3000"
+];
+
+function getCorsHeaders(request) {
+  const origin = request.headers.get("Origin") || "";
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, x-admin-key",
+    "Access-Control-Max-Age": "86400"
+  };
+}
 
 export default {
   async fetch(request, env, ctx) {
-    const corsHeaders = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type"
-    };
+    const corsHeaders = getCorsHeaders(request);
 
-    // Handle CORS Preflight
+    // 1. Handle CORS Preflight
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: corsHeaders });
     }
@@ -23,11 +65,35 @@ export default {
       });
     }
 
+    // 2. IP Rate Limiting (5 requests per minute per IP to protect Gemini & CF Free Tiers)
+    const clientIp = request.headers.get("CF-Connecting-IP") || request.headers.get("x-real-ip") || "unknown";
+    if (checkRateLimit(clientIp, 5, 60000)) {
+      return new Response(JSON.stringify({
+        error: "Rate limit exceeded",
+        message: "You've sent too many questions in a short time. Please wait a minute before asking again!"
+      }), {
+        status: 429,
+        headers: {
+          ...corsHeaders,
+          "Content-Type": "application/json",
+          "Retry-After": "60"
+        }
+      });
+    }
+
     try {
       const body = await request.json();
-      
-      // Handle Knowledge Ingestion Request into Cloudflare Vectorize DB
+
+      // 3. Secure Knowledge Ingestion Route (Requires Admin Header)
       if (body.chunks && Array.isArray(body.chunks)) {
+        const adminKey = request.headers.get("x-admin-key");
+        if (!env.ADMIN_SECRET || adminKey !== env.ADMIN_SECRET) {
+          return new Response(JSON.stringify({ error: "Unauthorized: Missing or invalid admin key for ingestion" }), {
+            status: 401,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+
         if (!env.AI || !env.VECTORIZE_INDEX) {
           return new Response(JSON.stringify({ error: "Vectorize DB binding missing" }), { status: 500, headers: corsHeaders });
         }
@@ -49,7 +115,8 @@ export default {
         });
       }
 
-      const question = body.question;
+      // 4. Validate & Sanitize Question Input
+      let question = body.question;
 
       if (!question || typeof question !== "string") {
         return new Response(JSON.stringify({ error: "Missing or invalid question parameter" }), {
@@ -58,9 +125,22 @@ export default {
         });
       }
 
+      question = question.trim();
+      if (question.length === 0) {
+        return new Response(JSON.stringify({ error: "Question cannot be empty" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+
+      // Max input length cap (500 chars) to prevent prompt bloat / token drain abuse
+      if (question.length > 500) {
+        question = question.substring(0, 500);
+      }
+
       let contextText = "";
 
-      // 1. Generate Question Embedding via Cloudflare Workers AI
+      // 5. Generate Question Embedding via Cloudflare Workers AI
       if (env.AI && env.VECTORIZE_INDEX) {
         try {
           const embeddings = await env.AI.run('@cf/baai/bge-small-en-v1.5', {
@@ -68,7 +148,7 @@ export default {
           });
           const queryVector = embeddings.data[0];
 
-          // 2. Query Cloudflare Vectorize Index
+          // Query Vectorize Index
           const vectorMatches = await env.VECTORIZE_INDEX.query(queryVector, { topK: 4 });
           if (vectorMatches && vectorMatches.matches) {
             contextText = vectorMatches.matches
@@ -81,7 +161,7 @@ export default {
         }
       }
 
-      // 3. Fallback Context if Vectorize index isn't populated yet
+      // Fallback Context if Vectorize index isn't populated yet
       if (!contextText) {
         contextText = `
 NAME: Rahul Sharma
@@ -102,7 +182,7 @@ FEATURED PROJECTS:
 `;
       }
 
-      // 4. Construct System Prompt & Call Gemini 2.0 Flash API
+      // 6. Construct System Prompt & Call Gemini 2.0 Flash API
       const systemPrompt = `You are Rahul Sharma's AI Virtual Self (Digital Twin) speaking directly on his portfolio website.
 - Answer in the first person ("I", "my experience", "projects I've built", "my email is shrahul520@gmail.com").
 - Be concise, enthusiastic, professional, and helpful.
@@ -115,7 +195,7 @@ ${contextText}`;
 
       let aiResponseText = "";
 
-      // 4A. Call Gemini API if GEMINI_API_KEY secret is set
+      // Call Gemini API if GEMINI_API_KEY secret is set
       if (env.GEMINI_API_KEY) {
         try {
           const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
@@ -129,16 +209,20 @@ ${contextText}`;
             })
           });
 
-          const geminiData = await geminiRes.json();
-          if (geminiData.candidates && geminiData.candidates[0].content) {
-            aiResponseText = geminiData.candidates[0].content.parts[0].text;
+          if (geminiRes.ok) {
+            const geminiData = await geminiRes.json();
+            if (geminiData.candidates && geminiData.candidates[0]?.content?.parts?.[0]?.text) {
+              aiResponseText = geminiData.candidates[0].content.parts[0].text;
+            }
+          } else if (geminiRes.status === 429) {
+            console.warn("Gemini API rate limit hit (429), falling back to Cloudflare Workers AI...");
           }
         } catch (gErr) {
-          console.warn("Gemini API error, falling back to Workers AI:", gErr);
+          console.warn("Gemini API call failed, falling back to Workers AI:", gErr);
         }
       }
 
-      // 4B. Use Cloudflare Workers AI as native free LLM engine
+      // Use Cloudflare Workers AI as native free LLM engine if Gemini unavailable/failed
       if (!aiResponseText && env.AI) {
         try {
           const aiRes = await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast', {
@@ -155,7 +239,7 @@ ${contextText}`;
         }
       }
 
-      // 5. Ultimate fallback if LLM models fail
+      // Fallback if LLM models fail
       if (!aiResponseText) {
         aiResponseText = `I'm Rahul's Virtual AI Twin! I specialize in full-stack web development (MERN, Next.js, PWAs, Microservices). Ask me about my projects like PathSynq, my B.Tech degree (7.94 CGPA), or reach me at shrahul520@gmail.com!`;
       }
@@ -173,3 +257,4 @@ ${contextText}`;
     }
   }
 };
+
