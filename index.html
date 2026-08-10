@@ -67,9 +67,8 @@
         </div>
 
         <div class="screen2-hero-layout">
-            <!-- TOP GROUP: Logo, Greeting & Headline -->
+            <!-- TOP GROUP: Greeting & Headline -->
             <div class="hero-top-group">
-                <div class="brand-logo-badge" title="Home" onclick="navigateToView('home')">R</div>
                 <div class="greeting-tag">Hey, I'm Rahul 👋</div>
                 <h1 class="screen2-headline">Full-Stack Developer</h1>
             </div>
@@ -479,6 +478,64 @@
                 <p><i class="fas fa-lock"></i> Protected by Google reCAPTCHA</p>
             </div>
         </div>
+    </div>
+
+    <!-- Virtual Self RAG Floating Chat Widget -->
+    <div id="ragChatFab" class="rag-chat-fab" title="Chat with Rahul's Virtual AI Twin" onclick="toggleRagChatModal()">
+        <div class="rag-fab-avatar">
+            <img src="assets/memoji_avatar.jpg" alt="Rahul's Virtual Self AI">
+            <span class="rag-online-badge"></span>
+        </div>
+        <span class="rag-fab-text">Chat with AI Twin</span>
+        <i class="fas fa-sparkles rag-fab-icon"></i>
+    </div>
+
+    <!-- Glassmorphic Virtual Self Chat Window -->
+    <div id="ragChatModal" class="rag-chat-modal" aria-hidden="true" role="dialog">
+        <div class="rag-chat-header">
+            <div class="rag-header-info">
+                <div class="rag-header-avatar">
+                    <img src="assets/memoji_avatar.jpg" alt="Rahul Sharma Virtual Self">
+                    <span class="rag-status-dot"></span>
+                </div>
+                <div class="rag-header-text">
+                    <h3>Rahul Sharma <span class="ai-badge">Virtual Self AI</span></h3>
+                    <p class="rag-status-text"><i class="fas fa-circle text-success"></i> Online • Powered by Cloudflare & Gemini</p>
+                </div>
+            </div>
+            <div class="rag-header-actions">
+                <button class="rag-action-btn" onclick="clearRagChat()" title="Clear Chat History">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="rag-action-btn" onclick="toggleRagChatModal()" title="Close Chat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="rag-chat-messages" id="ragChatMessages">
+            <div class="rag-msg rag-msg-ai">
+                <div class="rag-msg-avatar">
+                    <img src="assets/memoji_avatar.jpg" alt="AI">
+                </div>
+                <div class="rag-msg-bubble">
+                    Hey there! 👋 I'm **Rahul's Virtual Self AI**. Ask me anything about my work experience, B.Tech CSE degree, projects like *PathSynq*, technical skills, or how we can collaborate!
+                    <div class="rag-quick-prompts">
+                        <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('Tell me about your projects')">🚀 Featured Projects</button>
+                        <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('What tech stack do you specialize in?')">💻 Technical Stack</button>
+                        <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('Where did you study and what was your CGPA?')">🎓 Education & CGPA</button>
+                        <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('How can I contact Rahul?')">📬 Contact Info</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form class="rag-chat-input-wrapper" id="ragChatForm" onsubmit="handleRagSubmit(event)">
+            <input type="text" id="ragChatInput" placeholder="Ask Rahul's AI Twin..." autocomplete="off" required>
+            <button type="submit" id="ragSendBtn" class="rag-send-btn" title="Send Message">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </form>
     </div>
 
     <script src="script.js"></script>

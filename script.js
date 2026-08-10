@@ -1055,5 +1055,193 @@ window.addEventListener('popstate', () => {
     }
 });
 
+/* ==========================================================================
+   VIRTUAL SELF RAG CHAT WIDGET INTERACTION LOGIC
+   ========================================================================== */
+
+// Cloudflare Worker API URL (Set your deployed worker URL here when ready)
+window.CONFIG = window.CONFIG || {};
+window.CONFIG.CF_WORKER_URL = window.CONFIG.CF_WORKER_URL || '';
+
+function toggleRagChatModal() {
+    const modal = document.getElementById('ragChatModal');
+    if (!modal) return;
+    
+    const isActive = modal.classList.contains('active');
+    if (isActive) {
+        modal.classList.remove('active');
+        modal.setAttribute('aria-hidden', 'true');
+    } else {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+        const input = document.getElementById('ragChatInput');
+        if (input) setTimeout(() => input.focus(), 200);
+    }
+}
+
+function clearRagChat() {
+    const container = document.getElementById('ragChatMessages');
+    if (!container) return;
+    container.innerHTML = `
+        <div class="rag-msg rag-msg-ai">
+            <div class="rag-msg-avatar">
+                <img src="assets/memoji_avatar.jpg" alt="AI">
+            </div>
+            <div class="rag-msg-bubble">
+                Chat cleared! 👋 I'm **Rahul's Virtual Self AI**. Ask me anything about my experience, projects, skills, education, or contact details!
+                <div class="rag-quick-prompts">
+                    <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('Tell me about your projects')">🚀 Featured Projects</button>
+                    <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('What tech stack do you specialize in?')">💻 Technical Stack</button>
+                    <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('Where did you study and what was your CGPA?')">🎓 Education & CGPA</button>
+                    <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('How can I contact Rahul?')">📬 Contact Info</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function sendRagQuickPrompt(promptText) {
+    const input = document.getElementById('ragChatInput');
+    if (input) {
+        input.value = promptText;
+        handleRagSubmit(new Event('submit'));
+    }
+}
+
+async function handleRagSubmit(event) {
+    if (event && event.preventDefault) event.preventDefault();
+    const input = document.getElementById('ragChatInput');
+    if (!input) return;
+    
+    const question = input.value.trim();
+    if (!question) return;
+    
+    // Clear input
+    input.value = '';
+
+    // 1. Render User Message
+    appendRagMessage(question, 'user');
+
+    // 2. Show Typing Indicator
+    showRagTyping();
+
+    // 3. Query Cloudflare Worker API (or Fallback Local RAG Engine)
+    try {
+        let answer = '';
+        if (window.CONFIG.CF_WORKER_URL) {
+            const res = await fetch(window.CONFIG.CF_WORKER_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ question })
+            });
+            const data = await res.json();
+            answer = data.answer || data.message || "I'm sorry, I couldn't process that. Feel free to send Rahul an email at shrahul520@gmail.com!";
+        } else {
+            // Local Knowledge Base Fallback Response Engine
+            await new Promise(resolve => setTimeout(resolve, 800)); // Simulate edge latency
+            answer = generateLocalRagResponse(question);
+        }
+
+        hideRagTyping();
+        appendRagMessage(answer, 'ai');
+    } catch (err) {
+        console.error("RAG Error:", err);
+        hideRagTyping();
+        appendRagMessage("I'm having a brief connection hiccup! You can reach out directly via email at [shrahul520@gmail.com](mailto:shrahul520@gmail.com).", 'ai');
+    }
+}
+
+function appendRagMessage(text, sender) {
+    const container = document.getElementById('ragChatMessages');
+    if (!container) return;
+
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `rag-msg rag-msg-${sender}`;
+
+    const avatarHtml = sender === 'ai' 
+        ? `<div class="rag-msg-avatar"><img src="assets/memoji_avatar.jpg" alt="AI"></div>` 
+        : '';
+
+    // Simple markdown formatting for bold and links
+    let formattedText = text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" style="color:var(--accent-primary);text-decoration:underline;">$1</a>');
+
+    msgDiv.innerHTML = `
+        ${avatarHtml}
+        <div class="rag-msg-bubble">${formattedText}</div>
+    `;
+
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+}
+
+function showRagTyping() {
+    const container = document.getElementById('ragChatMessages');
+    if (!container || document.getElementById('ragTypingIndicator')) return;
+
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'rag-msg rag-msg-ai';
+    typingDiv.id = 'ragTypingIndicator';
+    typingDiv.innerHTML = `
+        <div class="rag-msg-avatar"><img src="assets/memoji_avatar.jpg" alt="AI"></div>
+        <div class="rag-msg-bubble">
+            <div class="rag-typing"><span></span><span></span><span></span></div>
+        </div>
+    `;
+    container.appendChild(typingDiv);
+    container.scrollTop = container.scrollHeight;
+}
+
+function hideRagTyping() {
+    const el = document.getElementById('ragTypingIndicator');
+    if (el) el.remove();
+}
+
+// Local Knowledge Base RAG Search Engine (Pre-Cloudflare deployment fallback)
+function generateLocalRagResponse(query) {
+    const q = query.toLowerCase();
+
+    if (q.includes('project') || q.includes('pathsynq') || q.includes('drone') || q.includes('dashboard') || q.includes('pwa')) {
+        return "I've worked on some exciting projects! Key ones include:\n\n" +
+            "• **PathSynq**: A mobile PWA that detects potholes and road jerks using smartphone accelerometer/gyroscope sensors and Mapbox GL ([Live Demo](http://pathsynq.rahulsh.me/)).\n" +
+            "• **Drone Fleet Monitoring (GCS)**: Real-time telemetry dashboard using WebSockets, Azure 3D Maps, and Google Maps at Emvirt Solutions.\n" +
+            "• **Partner & Admin Dashboards**: Scalable analytics dashboards using Next.js, Chart.js, and ApexCharts at Smartgenx / Volyo Solutions.\n" +
+            "• **PWA Platform**: Push notifications platform using Firebase Service Workers.";
+    }
+
+    if (q.includes('skill') || q.includes('stack') || q.includes('tech') || q.includes('language') || q.includes('react') || q.includes('node')) {
+        return "My core specialization is in **Full Stack Web Development**:\n\n" +
+            "• **Languages**: JavaScript (ES6+), Node.js, Python\n" +
+            "• **Frontend**: React.js, Next.js, Vue.js, Material-UI, Chart.js, ApexCharts\n" +
+            "• **Backend**: Express.js, REST APIs, Microservices, JWT Auth, Sequelize\n" +
+            "• **Databases**: MongoDB, MySQL\n" +
+            "• **Cloud & DevOps**: AWS, Azure, Docker, Docker Compose, CI/CD";
+    }
+
+    if (q.includes('education') || q.includes('college') || q.includes('cgpa') || q.includes('degree') || q.includes('university') || q.includes('study') || q.includes('studied')) {
+        return "I graduated with a **B.Tech. in Computer Science Engineering** from **JECRC College, Jaipur** (2019 – 2023) with a **7.94 CGPA**.";
+    }
+
+    if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach') || q.includes('phone') || q.includes('linkedin')) {
+        return "You can get in touch with me directly via:\n\n" +
+            "• **Email**: [shrahul520@gmail.com](mailto:shrahul520@gmail.com)\n" +
+            "• **LinkedIn**: [linkedin.com/in/rahul-sharma-b02486224](https://www.linkedin.com/in/rahul-sharma-b02486224/)\n" +
+            "• **GitHub**: [github.com/RahulSharma128](https://github.com/RahulSharma128)\n" +
+            "Or fill out the contact form right here on the website!";
+    }
+
+    if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('work') || q.includes('volyo') || q.includes('smartgenx') || q.includes('emvirt') || q.includes('jploft')) {
+        return "I have **2+ years** of professional experience across top engineering teams:\n\n" +
+            "• **Smartgenx / Volyo Solutions** (Sept 2024 – Present): Full Stack Engineer building Next.js dashboards & PWAs.\n" +
+            "• **Emvirt Solutions** (May 2024 – Aug 2024): Software Engineer developing Drone Fleet Monitoring with WebSockets & Azure 3D Maps.\n" +
+            "• **JPloft** (Jan 2024 – Apr 2024): Node.js Developer Intern building RESTful microservices with Express & Sequelize.";
+    }
+
+    return "I am Rahul's Virtual Self AI! I specialize in full-stack development (MERN, Next.js, Cloud, microservices). Feel free to ask about my **projects**, **skills**, **work experience**, **education (7.94 CGPA)**, or how to **contact me**!";
+}
+
+
 
 
