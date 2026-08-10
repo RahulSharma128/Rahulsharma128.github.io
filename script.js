@@ -960,6 +960,80 @@ function handleAISearch(e) {
     }, 6000);
 }
 
+// Quick AI Query Chip Submitter
+function submitAIQuery(queryKeyword) {
+    const input = document.getElementById('aiInput');
+    if (input) {
+        input.value = queryKeyword;
+        handleAISearch();
+    }
+}
+
+// Copy Email to Clipboard with Toast Notification
+function copyEmailToClipboard() {
+    const email = 'shrahul520@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+        const toast = document.getElementById('aiToast');
+        if (toast) {
+            toast.innerText = '📋 Email copied to clipboard!';
+            toast.style.display = 'block';
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3500);
+        }
+    }).catch(() => {
+        alert('Email: shrahul520@gmail.com');
+    });
+}
+
+// Filter Projects by Category
+function filterProjects(category, btnElement) {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+
+    cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (category === 'all' || cardCat === category) {
+            card.style.display = 'flex';
+            card.style.opacity = '1';
+        } else {
+            card.style.display = 'none';
+            card.style.opacity = '0';
+        }
+    });
+}
+
+// Mobile Touch Interactivity for Particles.js
+window.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0] && window.pJSDom && window.pJSDom[0]) {
+        const pJS = window.pJSDom[0].pJS;
+        pJS.interactivity.mouse.pos_x = e.touches[0].clientX;
+        pJS.interactivity.mouse.pos_y = e.touches[0].clientY;
+        pJS.interactivity.status = 'mousemove';
+    }
+}, { passive: true });
+
+window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0] && window.pJSDom && window.pJSDom[0]) {
+        const pJS = window.pJSDom[0].pJS;
+        pJS.interactivity.mouse.pos_x = e.touches[0].clientX;
+        pJS.interactivity.mouse.pos_y = e.touches[0].clientY;
+        pJS.interactivity.status = 'mousemove';
+    }
+}, { passive: true });
+
+window.addEventListener('touchend', () => {
+    if (window.pJSDom && window.pJSDom[0]) {
+        const pJS = window.pJSDom[0].pJS;
+        pJS.interactivity.mouse.pos_x = null;
+        pJS.interactivity.mouse.pos_y = null;
+        pJS.interactivity.status = 'mouseleave';
+    }
+}, { passive: true });
+
 // Initial Hash and Popstate Routing Listeners
 window.addEventListener('load', () => {
     const hash = window.location.hash.replace('#', '');
@@ -976,5 +1050,6 @@ window.addEventListener('popstate', () => {
         navigateToView('home');
     }
 });
+
 
 

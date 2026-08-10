@@ -87,6 +87,13 @@
                 </button>
             </form>
 
+            <!-- AI Suggestion Quick Chips -->
+            <div class="ai-suggestion-chips">
+                <button type="button" class="chip-btn" onclick="submitAIQuery('skills')"><i class="fas fa-bolt"></i> Skills</button>
+                <button type="button" class="chip-btn" onclick="submitAIQuery('projects')"><i class="fas fa-rocket"></i> Projects</button>
+                <button type="button" class="chip-btn" onclick="submitAIQuery('contact')"><i class="fas fa-envelope"></i> Contact</button>
+            </div>
+
             <!-- Bottom Floating Navigation Dock -->
             <nav class="bottom-dock-nav">
                 <a href="#about" class="dock-item" onclick="navigateToView('about', event)">
@@ -301,8 +308,14 @@
             <section id="projects" class="projects view-section-page">
                 <div class="container">
                     <h2 class="section-title">Featured Projects</h2>
+                    <div class="project-filters">
+                        <button class="filter-btn active" onclick="filterProjects('all', this)">All Projects</button>
+                        <button class="filter-btn" onclick="filterProjects('pwa', this)">PWA</button>
+                        <button class="filter-btn" onclick="filterProjects('realtime', this)">Real-Time</button>
+                        <button class="filter-btn" onclick="filterProjects('dashboards', this)">Dashboards</button>
+                    </div>
                     <div class="projects-grid">
-                        <div class="project-card">
+                        <div class="project-card" data-category="pwa">
                             <div class="project-image">
                                 <i class="fas fa-road"></i>
                             </div>
@@ -323,7 +336,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="project-card">
+                        <div class="project-card" data-category="realtime">
                             <div class="project-image">
                                 <i class="fas fa-fighter-jet"></i>
                             </div>
@@ -339,7 +352,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="project-card">
+                        <div class="project-card" data-category="dashboards">
                             <div class="project-image">
                                 <i class="fas fa-chart-line"></i>
                             </div>
@@ -355,7 +368,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="project-card">
+                        <div class="project-card" data-category="pwa">
                             <div class="project-image">
                                 <i class="fas fa-mobile-alt"></i>
                             </div>
@@ -384,9 +397,14 @@
                             <h3>Let's work together!</h3>
                             <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
                             <div class="contact-details">
-                                <div class="contact-item">
-                                    <i class="fas fa-envelope"></i>
-                                    <span>shrahul520@gmail.com</span>
+                                <div class="contact-item contact-item-copy">
+                                    <div style="display:flex; align-items:center; gap:10px;">
+                                        <i class="fas fa-envelope"></i>
+                                        <span id="contactEmailText">shrahul520@gmail.com</span>
+                                    </div>
+                                    <button type="button" class="copy-email-btn" onclick="copyEmailToClipboard()" title="Copy Email to Clipboard">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
                                 </div>
                                 <div class="contact-item">
                                     <i class="fas fa-map-marker-alt"></i>

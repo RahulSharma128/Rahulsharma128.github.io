@@ -1458,16 +1458,19 @@ section {
    STITCH SCREEN 2 (DEFAULT HERO HOME) LAYOUT STYLES
    ========================================================================== */
 .hero-stitch-screen2 {
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     position: relative;
-    padding: 100px 20px 60px 20px;
+    padding: 40px 20px 24px 20px;
     background: var(--bg-hero-gradient);
     overflow: hidden;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .bg-watermark {
@@ -1495,26 +1498,29 @@ section {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     max-width: 800px;
     width: 100%;
+    height: 100%;
 }
 
 .brand-logo-badge {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     background: var(--pill-bg);
     backdrop-filter: blur(16px);
-    border-radius: 18px;
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
     border: 1px solid var(--pill-border);
     font-weight: 800;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     color: var(--text-primary);
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .brand-logo-badge:hover {
@@ -1522,31 +1528,32 @@ section {
 }
 
 .greeting-tag {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: var(--text-secondary);
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
 }
 
 .screen2-headline {
-    font-size: 3.8rem;
+    font-size: 3.4rem;
     font-weight: 800;
     color: var(--text-primary);
-    margin: 0 0 35px 0;
-    letter-spacing: -1.8px;
+    margin: 0 0 20px 0;
+    letter-spacing: -1.5px;
     line-height: 1.1;
 }
 
 .avatar-memoji-container {
-    width: 210px;
-    height: 210px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
     border: 4px solid var(--pill-border);
-    margin-bottom: 35px;
+    margin-bottom: 20px;
     transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
     background: linear-gradient(180deg, rgba(241, 245, 249, 0.8) 0%, rgba(226, 232, 240, 0.8) 100%);
+    flex-shrink: 0;
 }
 
 .avatar-memoji-container:hover {
@@ -1562,16 +1569,16 @@ section {
 
 .ai-search-box {
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
     background: var(--pill-bg);
     backdrop-filter: blur(20px);
     border: 1px solid var(--pill-border);
     border-radius: 50px;
-    padding: 8px 12px 8px 24px;
+    padding: 6px 8px 6px 20px;
     display: flex;
     align-items: center;
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.06);
-    margin-bottom: 45px;
+    margin-bottom: 12px;
     transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
 }
 
@@ -1586,7 +1593,7 @@ section {
     background: transparent;
     outline: none;
     width: 100%;
-    font-size: 1.05rem;
+    font-size: 0.98rem;
     color: var(--text-primary);
     font-family: inherit;
 }
@@ -1596,8 +1603,8 @@ section {
 }
 
 .ai-search-btn {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
     background: var(--accent-gradient);
     color: #ffffff;
     border: none;
@@ -1606,7 +1613,7 @@ section {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
     transition: background 0.2s, transform 0.2s;
     flex-shrink: 0;
     box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
@@ -1616,6 +1623,39 @@ section {
     transform: scale(1.08);
 }
 
+/* AI Suggestion Chips */
+.ai-suggestion-chips {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.chip-btn {
+    background: var(--pill-bg);
+    border: 1px solid var(--tag-border);
+    color: var(--tag-text);
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.chip-btn:hover {
+    background: var(--accent-primary);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+}
+
 .bottom-dock-nav {
     background: var(--pill-bg);
     backdrop-filter: blur(24px);
@@ -1623,9 +1663,9 @@ section {
     border: 1px solid var(--pill-border);
     box-shadow: var(--pill-shadow);
     border-radius: 24px;
-    padding: 10px 18px;
+    padding: 8px 16px;
     display: flex;
-    gap: 14px;
+    gap: 10px;
     justify-content: center;
 }
 
@@ -1636,17 +1676,17 @@ section {
     justify-content: center;
     text-decoration: none;
     color: var(--text-secondary);
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 16px;
     transition: all 0.25s ease;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 600;
-    gap: 6px;
-    min-width: 70px;
+    gap: 4px;
+    min-width: 64px;
 }
 
 .dock-item i {
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     color: var(--text-muted);
     transition: color 0.25s, transform 0.25s;
 }
@@ -1670,14 +1710,14 @@ section {
 .ai-response-toast {
     display: none;
     position: fixed;
-    bottom: 40px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     background: var(--text-primary);
     color: var(--bg-main);
-    padding: 14px 28px;
+    padding: 12px 24px;
     border-radius: 50px;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     font-weight: 500;
     max-width: 450px;
     width: 90%;
@@ -1687,28 +1727,151 @@ section {
     animation: toastFadeIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* Copy Email Button & Contact Enhancements */
+.contact-item-copy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.copy-email-btn {
+    background: var(--eyebrow-bg);
+    color: var(--accent-primary);
+    border: 1px solid var(--tag-border);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.82rem;
+    margin-left: 10px;
+    transition: all 0.2s ease;
+}
+
+.copy-email-btn:hover {
+    background: var(--accent-primary);
+    color: #ffffff;
+    transform: scale(1.08);
+}
+
+/* Project Category Filter Pills */
+.project-filters {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    color: var(--text-secondary);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+.filter-btn:hover, .filter-btn.active {
+    background: var(--accent-gradient);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.25);
+}
+
 @keyframes toastFadeIn {
     from { opacity: 0; transform: translate(-50%, 20px); }
     to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 @media (max-width: 768px) {
+    .hero-stitch-screen2 {
+        padding: 16px 12px 14px 12px;
+        height: 100vh;
+        height: 100dvh;
+        max-height: 100vh;
+        overflow: hidden;
+    }
+
+    .hero-top-controls {
+        top: 10px;
+        right: 12px;
+    }
+
+    .brand-logo-badge {
+        width: 38px;
+        height: 38px;
+        font-size: 1.1rem;
+        margin-bottom: 4px;
+        border-radius: 12px;
+    }
+
+    .greeting-tag {
+        font-size: 0.88rem;
+        margin-bottom: 2px;
+    }
+
     .screen2-headline {
-        font-size: 2.7rem;
+        font-size: 1.9rem;
+        margin: 0 0 8px 0;
+        letter-spacing: -1px;
     }
+
     .avatar-memoji-container {
-        width: 170px;
-        height: 170px;
+        width: 110px;
+        height: 110px;
+        margin-bottom: 8px;
+        border-width: 3px;
     }
+
+    .ai-search-box {
+        margin-bottom: 6px;
+        padding: 4px 6px 4px 14px;
+    }
+
+    .ai-search-box input {
+        font-size: 0.88rem;
+    }
+
+    .ai-search-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+    }
+
+    .ai-suggestion-chips {
+        margin-bottom: 8px;
+        gap: 4px;
+    }
+
+    .chip-btn {
+        padding: 3px 8px;
+        font-size: 0.7rem;
+    }
+
     .bottom-dock-nav {
-        gap: 6px;
-        padding: 8px 10px;
-        flex-wrap: wrap;
+        gap: 4px;
+        padding: 6px 8px;
+        border-radius: 18px;
     }
+
     .dock-item {
-        padding: 8px 12px;
+        padding: 6px 8px;
         min-width: auto;
-        font-size: 0.78rem;
+        font-size: 0.72rem;
+        border-radius: 10px;
+        gap: 2px;
+    }
+
+    .dock-item i {
+        font-size: 1.1rem;
     }
 }
 
@@ -1732,7 +1895,7 @@ section {
 .app-view-container {
     width: 100%;
     min-height: 100vh;
-    background: var(--bg-main);
+    background: transparent;
     color: var(--text-primary);
     position: relative;
     z-index: 10;
