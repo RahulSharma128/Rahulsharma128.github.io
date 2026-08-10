@@ -851,7 +851,7 @@ function navigateToView(viewId, event) {
     if (!viewId || viewId === 'home') {
         // Show Clean Hero Home
         document.body.classList.add('home-view-active');
-        if (aiWidget) aiWidget.style.display = 'none';
+        if (aiWidget) aiWidget.style.setProperty('display', 'none', 'important');
         if (appViewContainer) {
             appViewContainer.classList.remove('active-view');
             setTimeout(() => {
@@ -871,7 +871,7 @@ function navigateToView(viewId, event) {
 
     // Hide Hero, Show Section View Container & Floating AI Twin Widget
     document.body.classList.remove('home-view-active');
-    if (aiWidget) aiWidget.style.display = 'flex';
+    if (aiWidget) aiWidget.style.setProperty('display', 'flex', 'important');
     if (heroSection) {
         heroSection.style.opacity = '0';
         setTimeout(() => {
@@ -1094,10 +1094,12 @@ window.addEventListener('touchend', () => {
 // Initial Hash and Popstate Routing Listeners
 window.addEventListener('load', () => {
     const hash = window.location.hash.replace('#', '');
+    const aiWidget = document.getElementById('aiTwinFloatingWidget');
     if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
         navigateToView(hash);
     } else {
         document.body.classList.add('home-view-active');
+        if (aiWidget) aiWidget.style.setProperty('display', 'none', 'important');
     }
 });
 
