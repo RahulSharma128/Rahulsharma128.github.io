@@ -935,8 +935,8 @@ function handleAISearch(e) {
     } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
         reply = "Featured projects: Drone Fleet GCS, PathSynq PWA Pothole Detector, Admin & Partner Dashboards.";
         targetView = 'projects';
-    } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('hire') || q.includes('reach')) {
-        reply = "Get in touch with Rahul: shrahul520@gmail.com | +91-8955102520.";
+    } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
+        reply = "Get in touch with Rahul via email at shrahul520@gmail.com or connect on LinkedIn!";
         targetView = 'contact';
     } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
         reply = "Rahul has worked at JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions as a Full-Stack Engineer.";
