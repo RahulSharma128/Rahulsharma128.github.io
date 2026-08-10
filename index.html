@@ -50,48 +50,7 @@
     <!-- Global Full-Page Particles Canvas -->
     <div id="particles-js"></div>
 
-    <!-- Floating Pill Navigation Bar -->
-    <header class="navbar-wrapper">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <h2>Rahul Sharma</h2>
-                </div>
-                <ul class="nav-menu">
-                    <li class="nav-item">
-                        <a href="#home" class="nav-link active">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#about" class="nav-link">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#skills" class="nav-link">Skills</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#experience" class="nav-link">Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#projects" class="nav-link">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="#contact" class="nav-link">Contact</a>
-                    </li>
-                </ul>
-                <div class="nav-controls">
-                    <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <div class="hamburger">
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                        <span class="bar"></span>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Hero Section (Stitch Screen 2: Minimalist Interactive Hero) -->
+    <!-- MAIN CLEAN HERO HOME SCREEN (Stitch Screen 2) -->
     <section id="home" class="hero-stitch-screen2">
         <!-- Giant Watermark Typography -->
         <div class="bg-watermark">RAHUL</div>
@@ -100,9 +59,16 @@
         <div class="ambient-blur blur-1"></div>
         <div class="ambient-blur blur-2"></div>
 
+        <!-- Hero Top Theme Controls -->
+        <div class="hero-top-controls">
+            <button id="theme-toggle" class="theme-toggle-btn hero-theme-toggle" aria-label="Toggle Light/Dark Mode" title="Toggle Light/Dark Mode">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
+
         <div class="screen2-hero-container">
             <!-- Brand Logo Badge -->
-            <div class="brand-logo-badge">R</div>
+            <div class="brand-logo-badge" title="Home" onclick="navigateToView('home')">R</div>
 
             <!-- Greeting Tag & Title -->
             <div class="greeting-tag">Hey, I'm Rahul 👋</div>
@@ -123,23 +89,23 @@
 
             <!-- Bottom Floating Navigation Dock -->
             <nav class="bottom-dock-nav">
-                <a href="#about" class="dock-item">
+                <a href="#about" class="dock-item" onclick="navigateToView('about', event)">
                     <i class="fas fa-user-circle"></i>
                     <span>About</span>
                 </a>
-                <a href="#projects" class="dock-item">
+                <a href="#projects" class="dock-item" onclick="navigateToView('projects', event)">
                     <i class="fas fa-layer-group"></i>
                     <span>Projects</span>
                 </a>
-                <a href="#skills" class="dock-item">
+                <a href="#skills" class="dock-item" onclick="navigateToView('skills', event)">
                     <i class="fas fa-code"></i>
                     <span>Skills</span>
                 </a>
-                <a href="#experience" class="dock-item">
+                <a href="#experience" class="dock-item" onclick="navigateToView('experience', event)">
                     <i class="fas fa-briefcase"></i>
                     <span>Experience</span>
                 </a>
-                <a href="#contact" class="dock-item">
+                <a href="#contact" class="dock-item" onclick="navigateToView('contact', event)">
                     <i class="fas fa-paper-plane"></i>
                     <span>Contact</span>
                 </a>
@@ -150,384 +116,328 @@
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Overview & Education</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                        I'm a passionate Full Stack Developer with <span id="years-of-experience-text">2+</span> years of experience in building scalable web applications and microservices. With experience across multiple tech companies including JPloft, Emvirt Solutions, and Smartgenx/Volyo Solutions, I've developed a strong foundation in modern web technologies.
-                    </p>
-                    <p>
-                        I specialize in the MERN stack (MongoDB, Express.js, React.js, Node.js) and have extensive experience with cloud platforms like AWS and Azure. I'm passionate about creating efficient, user-friendly applications that solve real-world problems.
-                    </p>
-                    <div class="about-stats">
-                        <div class="stat">
-                            <h3 id="years-of-experience-stat">2+</h3>
-                            <p>Years Experience</p>
-                        </div>
-                        <div class="stat">
-                            <h3>8+</h3>
-                            <p>Projects Completed</p>
-                        </div>
-                        <div class="stat">
-                            <h3>15+</h3>
-                            <p>Technologies Mastered</p>
-                        </div>
+    <!-- SINGLE PAGE SECTION VIEW CONTAINER (Active when viewing About / Projects / Skills / Experience / Contact) -->
+    <div id="app-view-container" class="app-view-container" style="display: none;">
+        <!-- Glassmorphic Breadcrumb Header Bar -->
+        <header class="breadcrumb-header-wrapper">
+            <div class="breadcrumb-header">
+                <div class="breadcrumb-left">
+                    <button class="breadcrumb-back-btn" onclick="navigateToView('home')">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </button>
+                    <div class="breadcrumb-path">
+                        <span class="path-root" onclick="navigateToView('home')">Home</span>
+                        <i class="fas fa-chevron-right path-sep"></i>
+                        <span id="breadcrumbCurrentLabel" class="path-current">About</span>
                     </div>
                 </div>
-                <div class="about-image">
-                    <div class="about-card">
-                        <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
-                        <h4>Education</h4>
-                        <p class="education-degree"><strong>B.Tech. Computer Science Engineering</strong></p>
-                        <p class="education-college">JECRC College, Jaipur</p>
-                        <p class="stat-highlight">CGPA: 7.94 (2019 – 2023)</p>
-                    </div>
+                <div class="breadcrumb-right">
+                    <nav class="breadcrumb-nav-tabs">
+                        <button class="view-tab-btn" data-target="about" onclick="navigateToView('about')">About</button>
+                        <button class="view-tab-btn" data-target="skills" onclick="navigateToView('skills')">Skills</button>
+                        <button class="view-tab-btn" data-target="experience" onclick="navigateToView('experience')">Experience</button>
+                        <button class="view-tab-btn" data-target="projects" onclick="navigateToView('projects')">Projects</button>
+                        <button class="view-tab-btn" data-target="contact" onclick="navigateToView('contact')">Contact</button>
+                    </nav>
                 </div>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- Skills Section -->
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2 class="section-title">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3><i class="fas fa-terminal"></i> Languages</h3>
-                    <div class="skill-items">
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Python</span>
+        <!-- View Content Body -->
+        <div class="view-content-body">
+            <!-- About Section View -->
+            <section id="about" class="about view-section-page">
+                <div class="container">
+                    <h2 class="section-title">Overview & Education</h2>
+                    <div class="about-content">
+                        <div class="about-text">
+                            <p>
+                                I'm a passionate Full Stack Developer with <span id="years-of-experience-text">2+</span> years of experience in building scalable web applications and microservices. With experience across multiple tech companies including JPloft, Emvirt Solutions, and Smartgenx/Volyo Solutions, I've developed a strong foundation in modern web technologies.
+                            </p>
+                            <p>
+                                I specialize in the MERN stack (MongoDB, Express.js, React.js, Node.js) and have extensive experience with cloud platforms like AWS and Azure. I'm passionate about creating efficient, user-friendly applications that solve real-world problems.
+                            </p>
+                            <div class="about-stats">
+                                <div class="stat">
+                                    <h3 id="years-of-experience-stat">2+</h3>
+                                    <p>Years Experience</p>
+                                </div>
+                                <div class="stat">
+                                    <h3>8+</h3>
+                                    <p>Projects Completed</p>
+                                </div>
+                                <div class="stat">
+                                    <h3>15+</h3>
+                                    <p>Technologies Mastered</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-image">
+                            <div class="about-card">
+                                <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                                <h4>Education</h4>
+                                <p class="education-degree"><strong>B.Tech. Computer Science Engineering</strong></p>
+                                <p class="education-college">JECRC College, Jaipur</p>
+                                <p class="stat-highlight">CGPA: 7.94 (2019 – 2023)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-laptop-code"></i> Frontend</h3>
-                    <div class="skill-items">
-                        <span class="skill-tag">React.js</span>
-                        <span class="skill-tag">Next.js</span>
-                        <span class="skill-tag">Vue.js</span>
-                        <span class="skill-tag">Material-UI</span>
-                        <span class="skill-tag">Chart.js</span>
-                        <span class="skill-tag">ApexCharts</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-server"></i> Backend</h3>
-                    <div class="skill-items">
-                        <span class="skill-tag">Express.js</span>
-                        <span class="skill-tag">REST APIs</span>
-                        <span class="skill-tag">JWT Authentication</span>
-                        <span class="skill-tag">Microservices</span>
-                        <span class="skill-tag">Sequelize</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-database"></i> Databases</h3>
-                    <div class="skill-items">
-                        <span class="skill-tag">MongoDB</span>
-                        <span class="skill-tag">MySQL</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-cloud"></i> Cloud & DevOps</h3>
-                    <div class="skill-items">
-                        <span class="skill-tag">AWS</span>
-                        <span class="skill-tag">Azure</span>
-                        <span class="skill-tag">Docker</span>
-                        <span class="skill-tag">Docker Compose</span>
-                        <span class="skill-tag">CI/CD</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h3><i class="fas fa-tools"></i> Tools & Platforms</h3>
-                    <div class="skill-items">
-                        <span class="skill-tag">GitHub</span>
-                        <span class="skill-tag">Docker Hub</span>
-                        <span class="skill-tag">Firebase</span>
-                        <span class="skill-tag">Stripe</span>
-                        <span class="skill-tag">WebSocket</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Experience Section (Stitch Interactive Timeline Layout) -->
-    <section id="experience" class="experience">
-        <div class="container">
-            <h2 class="section-title">My Professional Journey</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Full Stack Developer</h3>
-                        <h4>JPloft</h4>
-                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> June 2025 – Current</span>
-                        <ul>
-                            <li>Architected and containerized microservices using Docker and Docker Compose, streamlining the development and deployment lifecycle through CI/CD pipelines</li>
-                            <li>Engineered end-to-end payment solutions by integrating Stripe, building robust subscription models, and managing payment gateway logic</li>
-                            <li>Developed high-performance, scalable RESTful APIs as a core MERN Stack Developer, supporting critical application features</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Stripe</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">Microservices</span>
-                            <span class="tech-tag">CI/CD</span>
+            <!-- Skills Section View -->
+            <section id="skills" class="skills view-section-page">
+                <div class="container">
+                    <h2 class="section-title">Skills & Technologies</h2>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3><i class="fas fa-terminal"></i> Languages</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">Node.js</span>
+                                <span class="skill-tag">Python</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3><i class="fas fa-laptop-code"></i> Frontend</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">React.js</span>
+                                <span class="skill-tag">Next.js</span>
+                                <span class="skill-tag">Vue.js</span>
+                                <span class="skill-tag">Material-UI</span>
+                                <span class="skill-tag">Chart.js</span>
+                                <span class="skill-tag">ApexCharts</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3><i class="fas fa-server"></i> Backend</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">Express.js</span>
+                                <span class="skill-tag">REST APIs</span>
+                                <span class="skill-tag">JWT Authentication</span>
+                                <span class="skill-tag">Microservices</span>
+                                <span class="skill-tag">Sequelize</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3><i class="fas fa-database"></i> Databases</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">MongoDB</span>
+                                <span class="skill-tag">MySQL</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3><i class="fas fa-cloud"></i> Cloud & DevOps</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">AWS</span>
+                                <span class="skill-tag">Azure</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">Docker Compose</span>
+                                <span class="skill-tag">CI/CD</span>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h3><i class="fas fa-tools"></i> Tools & Platforms</h3>
+                            <div class="skill-items">
+                                <span class="skill-tag">GitHub</span>
+                                <span class="skill-tag">Docker Hub</span>
+                                <span class="skill-tag">Firebase</span>
+                                <span class="skill-tag">Stripe</span>
+                                <span class="skill-tag">EmailJS</span>
+                                <span class="skill-tag">reCAPTCHA</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Full Stack Developer</h3>
-                        <h4>Emvirt Solutions</h4>
-                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> May 2024 – May 2025</span>
-                        <ul>
-                            <li>Developed a real-time drone fleet monitoring system (GCS) using WebSocket, significantly improving operational efficiency and real-time decision-making capabilities</li>
-                            <li>Implemented 3D Azure Maps visualization and Google Maps-based geolocation tracking, providing enhanced spatial intelligence</li>
-                            <li>Built an interactive analytics dashboard with drone detection via Canvas, increasing visibility into drone activity</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span class="tech-tag">WebSocket</span>
-                            <span class="tech-tag">Azure Maps</span>
-                            <span class="tech-tag">Google Maps</span>
-                            <span class="tech-tag">Canvas</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Full Stack Developer</h3>
-                        <h4>Smartgenx / Volyo Solutions</h4>
-                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> Sept 2023 – May 2024</span>
-                        <ul>
-                            <li>Developed scalable partner and admin dashboards using Next.js, unifying mobile user data to improve operational oversight</li>
-                            <li>Delivered a high-performance Progressive Web App (PWA) leveraging Firebase and Service Workers with real-time web push notifications</li>
-                            <li>Created responsive dashboards using Chart.js, ApexCharts, and Material-UI for data-driven decisions</li>
-                            <li>Integrated Stripe payment gateway for secure transaction processing and subscription handling</li>
-                            <li>Maintained a secure microservices-based backend using REST APIs and JWT authentication</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">PWA</span>
-                            <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">Chart.js</span>
-                            <span class="tech-tag">Stripe</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-marker"></div>
-                    <div class="timeline-content">
-                        <h3>Freelance Developer</h3>
-                        <h4>Uniorbit</h4>
-                        <span class="timeline-date"><i class="far fa-calendar-alt"></i> July 2023 – Sept 2023</span>
-                        <ul>
-                            <li>Collaborated with the client team to design and develop a modern, responsive website, enhancing online presence and user engagement</li>
-                            <li>Delivered a clean and professional UI aligned with the agency's brand and service-oriented goals</li>
-                            <li>Optimized site performance and mobile responsiveness, improving accessibility and user experience</li>
-                        </ul>
-                        <div class="timeline-tags">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">UI/UX</span>
-                            <span class="tech-tag">Web Design</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Projects Section (Stitch Grid Layout) -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <div class="section-header-center">
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">A collection of recent full-stack work, from concept to deployment. Explore the details.</p>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Spendwise</h3>
-                        <p class="project-company">Personal Project</p>
-                        <p>A modern, offline-first expense tracking and bill-splitting PWA with real-time sync, smart splitting, group management, and multi-currency support.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">TypeScript</span>
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">Prisma</span>
-                            <span class="tech-tag">Tailwind</span>
-                            <span class="tech-tag">SSE</span>
+            <!-- Experience Section View -->
+            <section id="experience" class="experience view-section-page">
+                <div class="container">
+                    <h2 class="section-title">Work Experience</h2>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Full Stack Engineer</h3>
+                                <p class="company">Smartgenx / Volyo Solutions — Jaipur, India</p>
+                                <p class="date"><i class="far fa-calendar-alt"></i> Sept 2024 – Present</p>
+                                <ul>
+                                    <li>Architected and built scalable Partner & Admin Dashboards using Next.js with Chart.js and ApexCharts for real-time visualization.</li>
+                                    <li>Developed high-performance PWAs using Firebase Service Workers and Web Push Notifications.</li>
+                                    <li>Engineered custom server-side validation and responsive mobile interface components.</li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="project-links">
-                            <a href="https://spendwise.rahulsh.me" target="_blank" class="project-link">
-                                Live Demo <i class="fas fa-external-link-alt"></i>
-                            </a>
-                            <a href="https://github.com/RahulSharma128/Spendwise" target="_blank" class="project-link">
-                                Repository <i class="fab fa-github"></i>
-                            </a>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Software Engineer</h3>
+                                <p class="company">Emvirt Solutions — Jaipur, India</p>
+                                <p class="date"><i class="far fa-calendar-alt"></i> May 2024 – Aug 2024</p>
+                                <ul>
+                                    <li>Developed real-time Drone Fleet Monitoring (GCS) using WebSocket streaming, Azure 3D Maps, and Google Maps geolocation API.</li>
+                                    <li>Engineered backend API integrations for telemetry streaming and automated path optimization.</li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Scribble Army</h3>
-                        <p class="project-company">Personal Project</p>
-                        <p>A Mini Militia-inspired flat cartoon 2D multiplayer action game featuring real-time multiplayer, 5 weapon types, and mobile touch controls.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Phaser 3</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">Socket.IO</span>
-                            <span class="tech-tag">Vite</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://scribble-army.vercel.app/" target="_blank" class="project-link">
-                                Live Demo <i class="fas fa-external-link-alt"></i>
-                            </a>
-                            <a href="https://github.com/RahulSharma128/scribble-army" target="_blank" class="project-link">
-                                Repository <i class="fab fa-github"></i>
-                            </a>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <h3>Node.js Developer Intern</h3>
+                                <p class="company">JPloft — Jaipur, India</p>
+                                <p class="date"><i class="far fa-calendar-alt"></i> Jan 2024 – Apr 2024</p>
+                                <ul>
+                                    <li>Built RESTful microservice APIs using Express.js, Node.js, and Sequelize ORM with MySQL/MongoDB.</li>
+                                    <li>Implemented JWT token authentication, input sanitization, and automated test cases.</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-map-marked-alt"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Pathsynq - Road Mapping</h3>
-                        <p class="project-company">Personal Project</p>
-                        <p>A mobile-first web app that detects potholes and road jerks using smartphone sensors (accelerometer, gyroscope), capturing real-time intensity data.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">JavaScript</span>
-                            <span class="tech-tag">Mapbox</span>
-                            <span class="tech-tag">Mobile Sensors</span>
-                            <span class="tech-tag">PWA</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="http://pathsynq.rahulsh.me/" target="_blank" class="project-link">
-                                Live Demo <i class="fas fa-external-link-alt"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-fighter-jet"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Drone Fleet Monitoring (GCS)</h3>
-                        <p class="project-company">Emvirt Solutions</p>
-                        <p>Real-time drone fleet monitoring system using WebSocket with 3D Azure Maps visualization and Google Maps geolocation tracking.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">WebSocket</span>
-                            <span class="tech-tag">Azure Maps</span>
-                            <span class="tech-tag">Google Maps</span>
-                            <span class="tech-tag">Canvas</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Partner & Admin Dashboards</h3>
-                        <p class="project-company">Smartgenx / Volyo Solutions</p>
-                        <p>Scalable partner and admin dashboards using Next.js with real-time data visualization and mobile user data unification.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">Chart.js</span>
-                            <span class="tech-tag">ApexCharts</span>
-                            <span class="tech-tag">Material-UI</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card">
-                    <div class="project-image">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="project-content">
-                        <h3>Progressive Web App (PWA)</h3>
-                        <p class="project-company">Smartgenx / Volyo Solutions</p>
-                        <p>High-performance PWA leveraging Firebase and Service Workers with real-time web push notifications for enhanced user retention.</p>
-                        <div class="project-tech">
-                            <span class="tech-tag">PWA</span>
-                            <span class="tech-tag">Firebase</span>
-                            <span class="tech-tag">Service Workers</span>
-                            <span class="tech-tag">Push Notifications</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Let's work together!</h3>
-                    <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <span>shrahul520@gmail.com</span>
+            <!-- Projects Section View -->
+            <section id="projects" class="projects view-section-page">
+                <div class="container">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-road"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>PathSynq — Pothole & Road Jerk Detector PWA</h3>
+                                <p class="project-company">Personal Project</p>
+                                <p>A mobile-first web app that detects potholes and road jerks using smartphone sensors (accelerometer, gyroscope), capturing real-time intensity data.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">Mapbox</span>
+                                    <span class="tech-tag">Mobile Sensors</span>
+                                    <span class="tech-tag">PWA</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="http://pathsynq.rahulsh.me/" target="_blank" class="project-link">
+                                        Live Demo <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <span>+91-8955102520</span>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-fighter-jet"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Drone Fleet Monitoring (GCS)</h3>
+                                <p class="project-company">Emvirt Solutions</p>
+                                <p>Real-time drone fleet monitoring system using WebSocket with 3D Azure Maps visualization and Google Maps geolocation tracking.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">WebSocket</span>
+                                    <span class="tech-tag">Azure Maps</span>
+                                    <span class="tech-tag">Google Maps</span>
+                                    <span class="tech-tag">Canvas</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Jaipur, Rajasthan, India</span>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Partner & Admin Dashboards</h3>
+                                <p class="project-company">Smartgenx / Volyo Solutions</p>
+                                <p>Scalable partner and admin dashboards using Next.js with real-time data visualization and mobile user data unification.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Next.js</span>
+                                    <span class="tech-tag">Chart.js</span>
+                                    <span class="tech-tag">ApexCharts</span>
+                                    <span class="tech-tag">Material-UI</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card">
+                            <div class="project-image">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Progressive Web App (PWA)</h3>
+                                <p class="project-company">Smartgenx / Volyo Solutions</p>
+                                <p>High-performance PWA leveraging Firebase and Service Workers with real-time web push notifications for enhanced user retention.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">PWA</span>
+                                    <span class="tech-tag">Firebase</span>
+                                    <span class="tech-tag">Service Workers</span>
+                                    <span class="tech-tag">Push Notifications</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="contact-social">
-                        <a href="https://github.com/RahulSharma128" target="_blank" class="social-link" title="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/rahul-sharma-b02486224/" target="_blank" class="social-link" title="LinkedIn">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="mailto:shrahul520@gmail.com" class="social-link" title="Email">
-                            <i class="fas fa-envelope"></i>
-                        </a>
+                </div>
+            </section>
+
+            <!-- Contact Section View -->
+            <section id="contact" class="contact view-section-page">
+                <div class="container">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <div class="contact-content">
+                        <div class="contact-info">
+                            <h3>Let's work together!</h3>
+                            <p>I'm always interested in new opportunities and exciting projects. Feel free to reach out!</p>
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>shrahul520@gmail.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+91-8955102520</span>
+                                </div>
+                                <div class="contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Jaipur, Rajasthan, India</span>
+                                </div>
+                            </div>
+                            <div class="contact-social">
+                                <a href="https://github.com/RahulSharma128" target="_blank" class="social-link" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/rahul-sharma-b02486224/" target="_blank" class="social-link" title="LinkedIn">
+                                    <i class="fab fa-linkedin"></i>
+                                </a>
+                                <a href="mailto:shrahul520@gmail.com" class="social-link" title="Email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="contact-form">
+                            <form id="contactForm">
+                                <div class="form-group">
+                                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Your Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="email" placeholder="Your Email" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
-                    </form>
-                </div>
-            </div>
+            </section>
         </div>
-    </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2026 Rahul Sharma. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
 
     <!-- Security Verification (reCAPTCHA) Modal -->
     <div id="captchaModal" class="captcha-modal" aria-hidden="true" role="dialog" aria-labelledby="captchaModalTitle">
@@ -553,13 +463,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 Rahul Sharma. All rights reserved.</p>
-        </div>
-    </footer>
 
     <script src="script.js"></script>
 </body>

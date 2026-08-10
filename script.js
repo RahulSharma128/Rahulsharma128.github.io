@@ -837,6 +837,85 @@ window.addEventListener('scroll', updateActiveNavLink);
     });
 })();
 
+// SPA Single Page View Router Handler
+function navigateToView(viewId, event) {
+    if (event) event.preventDefault();
+
+    const heroSection = document.getElementById('home');
+    const appViewContainer = document.getElementById('app-view-container');
+    const breadcrumbLabel = document.getElementById('breadcrumbCurrentLabel');
+    const viewTabs = document.querySelectorAll('.view-tab-btn');
+    const sections = document.querySelectorAll('.view-section-page');
+
+    if (!viewId || viewId === 'home') {
+        // Show Clean Hero Home
+        if (appViewContainer) {
+            appViewContainer.classList.remove('active-view');
+            setTimeout(() => {
+                appViewContainer.style.display = 'none';
+            }, 300);
+        }
+        if (heroSection) {
+            heroSection.style.display = 'flex';
+            setTimeout(() => {
+                heroSection.style.opacity = '1';
+            }, 50);
+        }
+        history.pushState(null, '', window.location.pathname);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+    }
+
+    // Hide Hero, Show Section View Container
+    if (heroSection) {
+        heroSection.style.opacity = '0';
+        setTimeout(() => {
+            heroSection.style.display = 'none';
+        }, 300);
+    }
+
+    if (appViewContainer) {
+        appViewContainer.style.display = 'block';
+        setTimeout(() => {
+            appViewContainer.classList.add('active-view');
+        }, 50);
+    }
+
+    // Show specified section, hide others
+    sections.forEach(sec => {
+        if (sec.id === viewId) {
+            sec.classList.add('active-section');
+        } else {
+            sec.classList.remove('active-section');
+        }
+    });
+
+    // Update Breadcrumb Label
+    if (breadcrumbLabel) {
+        const labels = {
+            'about': 'Overview & Education',
+            'skills': 'Skills & Technologies',
+            'experience': 'Work Experience',
+            'projects': 'Featured Projects',
+            'contact': 'Get In Touch'
+        };
+        breadcrumbLabel.innerText = labels[viewId] || (viewId.charAt(0).toUpperCase() + viewId.slice(1));
+    }
+
+    // Update Active Tab Highlight
+    viewTabs.forEach(tab => {
+        if (tab.getAttribute('data-target') === viewId) {
+            tab.classList.add('active');
+        } else {
+            tab.classList.remove('active');
+        }
+    });
+
+    // Update URL hash smoothly
+    history.pushState(null, '', `#${viewId}`);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 // Global AI Search Bar Handler (Stitch Screen 2)
 function handleAISearch(e) {
     if (e) e.preventDefault();
@@ -848,37 +927,54 @@ function handleAISearch(e) {
     if (!q) return;
 
     let reply = "Rahul is a Full-Stack Engineer skilled in React, Node.js, MERN, microservices, and cloud solutions!";
-    let targetSection = null;
+    let targetView = null;
 
     if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
         reply = "Rahul's stack: MERN (MongoDB, Express, React, Node), TypeScript, Next.js, AWS, Docker, Microservices.";
-        targetSection = '#skills';
+        targetView = 'skills';
     } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
         reply = "Featured projects: Drone Fleet GCS, PathSynq PWA Pothole Detector, Admin & Partner Dashboards.";
-        targetSection = '#projects';
+        targetView = 'projects';
     } else if (q.includes('contact') || q.includes('email') || q.includes('phone') || q.includes('hire') || q.includes('reach')) {
         reply = "Get in touch with Rahul: shrahul520@gmail.com | +91-8955102520.";
-        targetSection = '#contact';
+        targetView = 'contact';
     } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
         reply = "Rahul has worked at JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions as a Full-Stack Engineer.";
-        targetSection = '#experience';
+        targetView = 'experience';
     } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
         reply = "Rahul Sharma — CS Engineering graduate (JECRC College, CGPA 7.94) with 2+ years full-stack experience.";
-        targetSection = '#about';
+        targetView = 'about';
     }
 
     toast.innerText = reply;
     toast.style.display = 'block';
 
-    if (targetSection) {
-        const sec = document.querySelector(targetSection);
-        if (sec) {
-            sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
+    if (targetView) {
+        setTimeout(() => {
+            navigateToView(targetView);
+        }, 1200);
     }
 
     setTimeout(() => {
         toast.style.display = 'none';
     }, 6000);
 }
+
+// Initial Hash and Popstate Routing Listeners
+window.addEventListener('load', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
+        navigateToView(hash);
+    }
+});
+
+window.addEventListener('popstate', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
+        navigateToView(hash);
+    } else {
+        navigateToView('home');
+    }
+});
+
 
