@@ -1116,9 +1116,10 @@ window.addEventListener('popstate', () => {
    VIRTUAL SELF RAG CHAT WIDGET INTERACTION LOGIC
    ========================================================================== */
 
-// Cloudflare Worker API URL (Set your deployed worker URL here when ready)
+// Cloudflare Worker API URL (Live deployed edge worker)
 window.CONFIG = window.CONFIG || {};
-window.CONFIG.CF_WORKER_URL = window.CONFIG.CF_WORKER_URL || '';
+window.CONFIG.CF_WORKER_URL = 'https://rahul-virtual-self-api.shrahul9056.workers.dev';
+
 
 function toggleRagChatModal() {
     const modal = document.getElementById('ragChatModal');

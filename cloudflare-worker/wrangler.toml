@@ -1,0 +1,13 @@
+name = "rahul-virtual-self-api"
+main = "src/index.js"
+compatibility_date = "2024-03-01"
+
+[ai]
+binding = "AI"
+
+[[vectorize]]
+binding = "VECTORIZE_INDEX"
+index_name = "rahul-portfolio-index"
+
+# Environment variables can be configured using:
+# wrangler secret put GEMINI_API_KEY

@@ -1,0 +1,13 @@
+{
+  "name": "rahul-virtual-self-api",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker RAG API for Rahul Sharma's Virtual Self",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
