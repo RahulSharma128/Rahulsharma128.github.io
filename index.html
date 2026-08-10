@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="Rahul Sharma — Full Stack Developer specializing in MERN stack, microservices, and modern web technologies. View my portfolio and projects.">
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rahulsharma128.github.io/">
+    <meta property="og:title" content="Rahul Sharma — Full Stack Developer">
+    <meta property="og:description" content="Full Stack Developer specializing in MERN stack, Next.js, microservices, and cloud platforms. 3+ years building scalable web apps.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rahul Sharma — Full Stack Developer">
+    <meta name="twitter:description" content="Full Stack Developer specializing in MERN stack, Next.js, microservices, and cloud platforms.">
+    <link rel="canonical" href="https://rahulsharma128.github.io/">
     <title>Rahul Sharma — Full Stack Developer</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -428,16 +437,20 @@
                         <div class="contact-form">
                             <form id="contactForm">
                                 <div class="form-group">
-                                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                                    <label for="name" class="visually-hidden">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" id="email" name="email" placeholder="Your Email" required>
+                                    <label for="email" class="visually-hidden">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="Your Email" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                                    <label for="subject" class="visually-hidden">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Subject" required>
                                 </div>
                                 <div class="form-group">
-                                    <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
+                                    <label for="message" class="visually-hidden">Your Message</label>
+                    <textarea id="message" name="message" placeholder="Your Message" rows="4" required></textarea>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
                             </form>
@@ -520,7 +533,7 @@
                     <img src="assets/memoji_avatar.jpg" alt="AI">
                 </div>
                 <div class="rag-msg-bubble">
-                    Hey there! 👋 I'm **Rahul's Virtual Self AI**. Ask me anything about my work experience, B.Tech CSE degree, projects like *PathSynq*, technical skills, or how we can collaborate!
+                    Hey there! 👋 I'm <strong>Rahul's Virtual Self AI</strong>. Ask me anything about my work experience, B.Tech CSE degree, projects like <em>PathSynq</em>, technical skills, or how we can collaborate!
                     <div class="rag-quick-prompts">
                         <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('Tell me about your projects')">🚀 Featured Projects</button>
                         <button type="button" class="rag-chip" onclick="sendRagQuickPrompt('What tech stack do you specialize in?')">💻 Technical Stack</button>
@@ -532,7 +545,8 @@
         </div>
 
         <form class="rag-chat-input-wrapper" id="ragChatForm" onsubmit="handleRagSubmit(event)">
-            <input type="text" id="ragChatInput" placeholder="Ask Rahul's AI Twin..." autocomplete="off" required>
+            <input type="text" id="ragChatInput" placeholder="Ask Rahul's AI Twin..." autocomplete="off" required maxlength="500">
+            <span class="rag-char-counter" id="ragCharCounter"></span>
             <button type="submit" id="ragSendBtn" class="rag-send-btn" title="Send Message">
                 <i class="fas fa-paper-plane"></i>
             </button>

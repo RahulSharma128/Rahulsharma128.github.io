@@ -69,27 +69,7 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Active navigation link highlighting
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.nav-link');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= (sectionTop - 200)) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-});
+// Active navigation link highlighting is handled by updateActiveNavLink() below
 
 // Intersection Observer for fade-in animations
 const observerOptions = {
@@ -172,6 +152,17 @@ function updateDynamicExperience() {
 // Setup event listeners for captcha modal and experience calculation
 document.addEventListener('DOMContentLoaded', () => {
     updateDynamicExperience();
+
+    // Character counter for chatbot input
+    const ragInput = document.getElementById('ragChatInput');
+    const ragCounter = document.getElementById('ragCharCounter');
+    if (ragInput && ragCounter) {
+        ragInput.addEventListener('input', () => {
+            const len = ragInput.value.length;
+            ragCounter.textContent = len > 0 ? `${len}/500` : '';
+            ragCounter.style.color = len > 450 ? 'var(--accent-primary)' : '';
+        });
+    }
 
     const closeBtn = document.getElementById('closeCaptchaModal');
     const overlay = document.getElementById('captchaModalOverlay');
@@ -365,7 +356,7 @@ if (typeof particlesJS !== 'undefined') {
     const isDark = currentTheme === 'dark';
     particlesJS('particles-js', {
         particles: {
-            number: { value: 95, density: { enable: true, value_area: 850 } },
+            number: { value: window.innerWidth < 768 ? 40 : 95, density: { enable: true, value_area: 850 } },
             color: { value: isDark ? ['#00f2fe', '#7f5af0', '#4facfe'] : ['#1d4ed8', '#3b82f6', '#0284c7'] },
             shape: { type: 'circle' },
             opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.2, sync: false } },
@@ -526,6 +517,9 @@ class ParallaxController {
                 // Apply transform with hardware acceleration
                 element.style.transform = transform;
                 element.style.willChange = 'transform';
+            } else {
+                // Free compositor layer when element is off-screen
+                element.style.willChange = 'auto';
             }
         });
     }
@@ -658,49 +652,55 @@ window.addEventListener('load', () => {
     document.body.classList.add('loaded');
 });
 
-// Preloader
-const preloader = document.createElement('div');
-preloader.innerHTML = `
-    <div style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #060611;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10000;
-        transition: opacity 0.5s ease;
-    ">
+// Preloader — theme-aware so light-mode users don't see a dark flash
+(function () {
+    const _savedTheme = localStorage.getItem('theme');
+    const _prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const _isDark = _savedTheme === 'dark' || (!_savedTheme && _prefersDark);
+    const _bg = _isDark ? '#060611' : '#f1f5f9';
+    const _spinRing = _isDark ? 'rgba(0, 242, 254, 0.2)' : 'rgba(29, 78, 216, 0.15)';
+    const _spinTop = _isDark ? '#00f2fe' : '#1d4ed8';
+
+    const preloader = document.createElement('div');
+    preloader.innerHTML = `
         <div style="
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(0, 242, 254, 0.2);
-            border-top: 3px solid #00f2fe;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        "></div>
-    </div>
-    <style>
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
-`;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: ${_bg};
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        ">
+            <div style="
+                width: 50px;
+                height: 50px;
+                border: 3px solid ${_spinRing};
+                border-top: 3px solid ${_spinTop};
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            "></div>
+        </div>
+        <style>
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    `;
 
-document.body.appendChild(preloader);
+    document.body.appendChild(preloader);
 
-window.addEventListener('load', () => {
-    setTimeout(() => {
+    window.addEventListener('load', () => {
         preloader.style.opacity = '0';
-        setTimeout(() => {
-            preloader.remove();
-        }, 500);
-    }, 1000);
-});
+        setTimeout(() => preloader.remove(), 500);
+    });
+})();
+
 
 // Add active class to current section in navigation
 function updateActiveNavLink() {
@@ -1090,6 +1090,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 function clearRagChat() {
+    ragChatHistory = []; // Reset conversation memory on clear
     const container = document.getElementById('ragChatMessages');
     if (!container) return;
     container.innerHTML = `
@@ -1123,6 +1124,7 @@ function sendRagQuickPrompt(promptText) {
 }
 
 let isRagSubmitting = false;
+let ragChatHistory = []; // Multi-turn conversation memory (last N exchanges)
 
 async function handleRagSubmit(event) {
     if (event && event.preventDefault) event.preventDefault();
@@ -1155,13 +1157,16 @@ async function handleRagSubmit(event) {
     try {
         let answer = '';
         if (window.CONFIG.CF_WORKER_URL) {
+            // Include recent history for multi-turn context
+            ragChatHistory.push({ role: 'user', content: question });
             const res = await fetch(window.CONFIG.CF_WORKER_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question })
+                body: JSON.stringify({ question, history: ragChatHistory.slice(-8) })
             });
             const data = await res.json();
             answer = data.answer || data.message || "I'm sorry, I couldn't process that. Feel free to send Rahul an email at shrahul520@gmail.com!";
+            if (answer) ragChatHistory.push({ role: 'assistant', content: answer });
         } else {
             // Local Knowledge Base Fallback Response Engine
             await new Promise(resolve => setTimeout(resolve, 800)); // Simulate edge latency
