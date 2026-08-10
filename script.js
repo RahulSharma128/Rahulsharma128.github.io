@@ -846,10 +846,12 @@ function navigateToView(viewId, event) {
     const breadcrumbLabel = document.getElementById('breadcrumbCurrentLabel');
     const viewTabs = document.querySelectorAll('.view-tab-btn');
     const sections = document.querySelectorAll('.view-section-page');
+    const aiWidget = document.getElementById('aiTwinFloatingWidget');
 
     if (!viewId || viewId === 'home') {
         // Show Clean Hero Home
         document.body.classList.add('home-view-active');
+        if (aiWidget) aiWidget.style.display = 'none';
         if (appViewContainer) {
             appViewContainer.classList.remove('active-view');
             setTimeout(() => {
@@ -867,8 +869,9 @@ function navigateToView(viewId, event) {
         return;
     }
 
-    // Hide Hero, Show Section View Container
+    // Hide Hero, Show Section View Container & Floating AI Twin Widget
     document.body.classList.remove('home-view-active');
+    if (aiWidget) aiWidget.style.display = 'flex';
     if (heroSection) {
         heroSection.style.opacity = '0';
         setTimeout(() => {
@@ -918,96 +921,100 @@ function navigateToView(viewId, event) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Global AI Chatbot Handler (Converts Hero View into Chat View)
+// Global AI Search Handler on Home (Routes to Relevant View Section)
 function handleAISearch(e) {
     if (e) e.preventDefault();
     const input = document.getElementById('aiInput');
-    const chatThread = document.getElementById('aiChatThread');
-    const chatMessages = document.getElementById('chatMessages');
-    const heroTop = document.getElementById('heroTopGroup');
-    const heroCenter = document.getElementById('heroCenterGroup');
-
     if (!input) return;
-    const query = input.value.trim();
+    const query = input.value.trim().toLowerCase();
     if (!query) return;
 
-    // Reset input field
     input.value = '';
 
-    // Show Chatbot View & Transition Hero Elements
-    if (chatThread && chatMessages) {
-        chatThread.style.display = 'flex';
-        if (heroTop) heroTop.style.display = 'none';
-        if (heroCenter) heroCenter.style.display = 'none';
+    let targetView = 'about';
+    if (query.includes('skill') || query.includes('tech') || query.includes('stack')) {
+        targetView = 'skills';
+    } else if (query.includes('project') || query.includes('work') || query.includes('portfolio') || query.includes('app')) {
+        targetView = 'projects';
+    } else if (query.includes('contact') || query.includes('email') || query.includes('hire') || query.includes('reach')) {
+        targetView = 'contact';
+    } else if (query.includes('experience') || query.includes('job') || query.includes('company') || query.includes('role')) {
+        targetView = 'experience';
+    } else if (query.includes('about') || query.includes('who') || query.includes('education') || query.includes('college')) {
+        targetView = 'about';
+    }
 
-        // Append User Message Bubble
-        const userMsgDiv = document.createElement('div');
-        userMsgDiv.className = 'chat-bubble user-bubble';
-        userMsgDiv.innerText = query;
-        chatMessages.appendChild(userMsgDiv);
+    navigateToView(targetView);
+}
 
-        // Append Typing Indicator Bubble
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'chat-bubble ai-bubble typing-bubble';
-        typingDiv.id = 'activeTypingBubble';
-        typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-        chatMessages.appendChild(typingDiv);
-
-        // Scroll to latest message
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-
-        // Process AI Answer Response
-        const q = query.toLowerCase();
-        let reply = "I'm Rahul's AI Assistant! Ask me about his Skills, Projects, Experience, Education, or Contact info.";
-        let navActionHtml = "";
-
-        if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
-            reply = "Rahul is proficient in MERN (MongoDB, Express.js, React.js, Node.js), TypeScript, Next.js, Docker, microservices, and AWS cloud architecture.";
-            navActionHtml = `<br><br><a href="#skills" onclick="navigateToView('skills', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">🚀 Explore Full Skills Section →</a>`;
-        } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
-            reply = "Key projects include PathSynq (Pothole & Jerk Detector PWA using smartphone sensors), Drone Fleet GCS Monitoring, and Next.js Admin & Partner Dashboards.";
-            navActionHtml = `<br><br><a href="#projects" onclick="navigateToView('projects', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">⚡ View Featured Projects →</a>`;
-        } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
-            reply = "You can reach Rahul directly via email at shrahul520@gmail.com, or connect on LinkedIn!";
-            navActionHtml = `<br><br><a href="#contact" onclick="navigateToView('contact', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">📩 Open Contact Form →</a>`;
-        } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
-            reply = "Rahul has 2+ years of full-stack engineering experience across JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions building scalable PWAs and web apps.";
-            navActionHtml = `<br><br><a href="#experience" onclick="navigateToView('experience', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">💼 Read Career Timeline →</a>`;
-        } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
-            reply = "Rahul Sharma is a CS Engineering graduate from JECRC College (CGPA 7.94) based in Jaipur, Rajasthan, India.";
-            navActionHtml = `<br><br><a href="#about" onclick="navigateToView('about', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">👤 Learn More About Rahul →</a>`;
-        } else if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
-            reply = "Hello! 👋 Welcome to Rahul's portfolio! Feel free to ask me anything about his work, skills, or projects.";
+// Toggle AI Twin Chat Drawer on Nested Pages
+function toggleAITwinChat() {
+    const drawer = document.getElementById('aiTwinChatDrawer');
+    if (drawer) {
+        if (drawer.style.display === 'none' || !drawer.style.display) {
+            drawer.style.display = 'flex';
+        } else {
+            drawer.style.display = 'none';
         }
-
-        setTimeout(() => {
-            // Remove typing bubble
-            const activeTyping = document.getElementById('activeTypingBubble');
-            if (activeTyping) activeTyping.remove();
-
-            // Append AI Response Bubble
-            const aiMsgDiv = document.createElement('div');
-            aiMsgDiv.className = 'chat-bubble ai-bubble';
-            aiMsgDiv.innerHTML = reply + navActionHtml;
-            chatMessages.appendChild(aiMsgDiv);
-
-            // Auto-scroll chat thread
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 550);
     }
 }
 
-// Close AI Chatbot & Restore Hero Landing View
-function closeAIChat() {
-    const chatThread = document.getElementById('aiChatThread');
+// Handle Submitting Questions inside Floating AI Twin Chat Drawer
+function handleAIDrawerSubmit(e) {
+    if (e) e.preventDefault();
+    const input = document.getElementById('aiDrawerInput');
     const chatMessages = document.getElementById('chatMessages');
-    const heroTop = document.getElementById('heroTopGroup');
-    const heroCenter = document.getElementById('heroCenterGroup');
+    if (!input || !chatMessages) return;
 
-    if (chatThread) chatThread.style.display = 'none';
-    if (chatMessages) chatMessages.innerHTML = '';
-    if (heroTop) heroTop.style.display = 'flex';
-    if (heroCenter) heroCenter.style.display = 'flex';
+    const query = input.value.trim();
+    if (!query) return;
+
+    input.value = '';
+
+    // Append User Bubble
+    const userMsgDiv = document.createElement('div');
+    userMsgDiv.className = 'chat-bubble user-bubble';
+    userMsgDiv.innerText = query;
+    chatMessages.appendChild(userMsgDiv);
+
+    // Append Typing Bubble
+    const typingDiv = document.createElement('div');
+    typingDiv.className = 'chat-bubble ai-bubble typing-bubble';
+    typingDiv.id = 'activeDrawerTyping';
+    typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+    chatMessages.appendChild(typingDiv);
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Process Response
+    const q = query.toLowerCase();
+    let reply = "I'm Rahul's AI Twin! Ask me about his Skills, Projects, Career Experience, or Contact info.";
+
+    if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
+        reply = "Rahul's core stack: MERN (MongoDB, Express, React, Node), TypeScript, Next.js, Docker, microservices, and AWS Cloud!";
+    } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
+        reply = "Featured projects: PathSynq (Pothole & Jerk Detector PWA using smartphone sensors), Drone Fleet GCS Monitoring, and Admin & Partner Dashboards.";
+    } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
+        reply = "Reach Rahul via email at shrahul520@gmail.com or connect on LinkedIn!";
+    } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
+        reply = "Rahul has 2+ years full-stack experience across JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions.";
+    } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
+        reply = "Rahul Sharma — CS Engineering graduate from JECRC College (CGPA 7.94) based in Jaipur, Rajasthan.";
+    } else if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
+        reply = "Hello! 👋 Great to meet you! What would you like to know about Rahul's work?";
+    }
+
+    setTimeout(() => {
+        const activeTyping = document.getElementById('activeDrawerTyping');
+        if (activeTyping) activeTyping.remove();
+
+        const aiMsgDiv = document.createElement('div');
+        aiMsgDiv.className = 'chat-bubble ai-bubble';
+        aiMsgDiv.innerHTML = reply;
+        chatMessages.appendChild(aiMsgDiv);
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, 550);
 }
 
 // Quick AI Query Chip Submitter
