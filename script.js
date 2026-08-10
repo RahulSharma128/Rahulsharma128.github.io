@@ -836,15 +836,13 @@ function navigateToView(viewId, event) {
     const breadcrumbLabel = document.getElementById('breadcrumbCurrentLabel');
     const viewTabs = document.querySelectorAll('.view-tab-btn');
     const sections = document.querySelectorAll('.view-section-page');
-    const aiWidget = document.getElementById('aiTwinFloatingWidget');
     const ragFab = document.getElementById('ragChatFab');
 
     if (!viewId || viewId === 'home') {
         // Show Clean Hero Home
         document.body.classList.add('home-view-active');
-        // Hide RAG Chat FAB and AI widget on Home screen
+        // Hide RAG Chat FAB on Home screen
         if (ragFab) ragFab.style.setProperty('display', 'none', 'important');
-        if (aiWidget) aiWidget.style.setProperty('display', 'none', 'important');
 
         if (appViewContainer) {
             appViewContainer.classList.remove('active-view');
@@ -870,7 +868,6 @@ function navigateToView(viewId, event) {
 
     // Display RAG Chat FAB ONLY inside inner/nested section pages
     if (ragFab) ragFab.style.setProperty('display', 'flex', 'important');
-    if (aiWidget) aiWidget.style.setProperty('display', 'flex', 'important');
 
     if (heroSection) {
         heroSection.style.opacity = '0';
@@ -963,75 +960,7 @@ function handleAISearch(e) {
     }
 }
 
-// Toggle AI Twin Chat Drawer on Nested Pages
-function toggleAITwinChat() {
-    const drawer = document.getElementById('aiTwinChatDrawer');
-    if (drawer) {
-        if (drawer.style.display === 'none' || !drawer.style.display) {
-            drawer.style.display = 'flex';
-        } else {
-            drawer.style.display = 'none';
-        }
-    }
-}
 
-// Handle Submitting Questions inside Floating AI Twin Chat Drawer
-function handleAIDrawerSubmit(e) {
-    if (e) e.preventDefault();
-    const input = document.getElementById('aiDrawerInput');
-    const chatMessages = document.getElementById('chatMessages');
-    if (!input || !chatMessages) return;
-
-    const query = input.value.trim();
-    if (!query) return;
-
-    input.value = '';
-
-    // Append User Bubble
-    const userMsgDiv = document.createElement('div');
-    userMsgDiv.className = 'chat-bubble user-bubble';
-    userMsgDiv.innerText = query;
-    chatMessages.appendChild(userMsgDiv);
-
-    // Append Typing Bubble
-    const typingDiv = document.createElement('div');
-    typingDiv.className = 'chat-bubble ai-bubble typing-bubble';
-    typingDiv.id = 'activeDrawerTyping';
-    typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
-    chatMessages.appendChild(typingDiv);
-
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    // Process Response
-    const q = query.toLowerCase();
-    let reply = "I'm Rahul's AI Twin! Ask me about his Skills, Projects, Career Experience, or Contact info.";
-
-    if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
-        reply = "Rahul's core stack: MERN (MongoDB, Express, React, Node), TypeScript, Next.js, Docker, microservices, and AWS Cloud!";
-    } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
-        reply = "Featured projects: PathSynq (Pothole & Jerk Detector PWA using smartphone sensors), Drone Fleet GCS Monitoring, and Admin & Partner Dashboards.";
-    } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
-        reply = "Reach Rahul via email at shrahul520@gmail.com or connect on LinkedIn!";
-    } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
-        reply = "Rahul has 2+ years full-stack experience across JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions.";
-    } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
-        reply = "Rahul Sharma — CS Engineering graduate from JECRC College (CGPA 7.94) based in Jaipur, Rajasthan.";
-    } else if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
-        reply = "Hello! 👋 Great to meet you! What would you like to know about Rahul's work?";
-    }
-
-    setTimeout(() => {
-        const activeTyping = document.getElementById('activeDrawerTyping');
-        if (activeTyping) activeTyping.remove();
-
-        const aiMsgDiv = document.createElement('div');
-        aiMsgDiv.className = 'chat-bubble ai-bubble';
-        aiMsgDiv.innerHTML = reply;
-        chatMessages.appendChild(aiMsgDiv);
-
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }, 550);
-}
 
 // Quick AI Query Chip Submitter
 function submitAIQuery(queryKeyword) {
@@ -1110,8 +1039,6 @@ window.addEventListener('touchend', () => {
 // Initial Hash, HashChange, and PopState SPA Routing Listeners
 function handleRoute() {
     const hash = window.location.hash.replace('#', '').trim().toLowerCase();
-    const ragFab = document.getElementById('ragChatFab');
-    const aiWidget = document.getElementById('aiTwinFloatingWidget');
 
     if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
         navigateToView(hash);

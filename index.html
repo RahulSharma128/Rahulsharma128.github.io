@@ -123,43 +123,7 @@
         </div>
     </section>
 
-    <!-- FLOATING AI TWIN CHAT WIDGET (Active on Nested Section Pages) -->
-    <div id="aiTwinFloatingWidget" class="ai-twin-floating-widget" style="display: none !important;">
-        <div id="aiTwinChatDrawer" class="ai-twin-chat-drawer" style="display: none;">
-            <div class="ai-chat-header">
-                <div class="ai-chat-header-info">
-                    <div class="ai-chat-avatar">
-                        <img src="assets/memoji_avatar.jpg" alt="Rahul AI Twin">
-                    </div>
-                    <div class="ai-chat-title">
-                        <h4>Rahul's AI Twin</h4>
-                        <span class="status"><span class="status-dot"></span> Online</span>
-                    </div>
-                </div>
-                <button type="button" class="close-chat-btn" onclick="toggleAITwinChat()" title="Close Chat Drawer">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="ai-chat-messages" id="chatMessages">
-                <div class="chat-bubble ai-bubble">
-                    Hello! 👋 I'm Rahul's AI Twin. Ask me anything about his skills, projects, work experience, or contact info!
-                </div>
-            </div>
-            <form class="ai-drawer-search-box" id="aiDrawerForm" onsubmit="handleAIDrawerSubmit(event)">
-                <input type="text" id="aiDrawerInput" placeholder="Ask AI Twin..." autocomplete="off">
-                <button type="submit" class="ai-search-btn" title="Send Question">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </form>
-        </div>
 
-        <button id="aiTwinToggleBtn" class="ai-twin-toggle-btn" onclick="toggleAITwinChat()" title="Chat with Rahul's AI Twin">
-            <span class="ai-twin-avatar-mini">
-                <img src="assets/memoji_avatar.jpg" alt="AI Twin">
-            </span>
-            <span class="ai-twin-label">Chat with AI Twin 💬</span>
-        </button>
-    </div>
 
     <!-- SINGLE PAGE SECTION VIEW CONTAINER (Active when viewing About / Projects / Skills / Experience / Contact) -->
     <div id="app-view-container" class="app-view-container" style="display: none;">
