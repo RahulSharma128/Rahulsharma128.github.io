@@ -1682,8 +1682,14 @@ body.home-view-active {
     border-radius: 24px;
     padding: 10px 20px;
     display: flex;
+    flex-wrap: nowrap !important;
     gap: 14px;
     justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+    max-width: 540px;
+    box-sizing: border-box;
 }
 
 .dock-item {
@@ -1693,13 +1699,14 @@ body.home-view-active {
     justify-content: center;
     text-decoration: none;
     color: var(--text-secondary);
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: 16px;
     transition: all 0.25s ease;
     font-size: 0.85rem;
     font-weight: 600;
     gap: 6px;
-    min-width: 70px;
+    min-width: 0;
+    flex: 1;
 }
 
 .dock-item i {
@@ -1886,23 +1893,32 @@ body.home-view-active {
     }
 
     .bottom-dock-nav {
-        gap: 6px;
-        padding: 8px 12px;
+        gap: 2px;
+        padding: 6px 8px;
         border-radius: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
+        flex-wrap: nowrap !important;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .dock-item {
-        padding: 8px 12px;
-        min-width: auto;
-        font-size: 0.78rem;
+        padding: 6px 4px;
+        min-width: 0;
+        flex: 1;
+        font-size: 0.7rem;
         border-radius: 12px;
-        gap: 3px;
+        gap: 2px;
     }
 
     .dock-item i {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
+    }
+
+    .dock-item span {
+        font-size: 0.68rem;
+        letter-spacing: -0.2px;
     }
 }
 
