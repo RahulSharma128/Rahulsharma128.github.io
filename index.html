@@ -68,15 +68,36 @@
 
         <div class="screen2-hero-layout">
             <!-- TOP GROUP: Greeting & Headline -->
-            <div class="hero-top-group">
+            <div class="hero-top-group" id="heroTopGroup">
                 <div class="greeting-tag">Hey, I'm Rahul 👋</div>
                 <h1 class="screen2-headline">Full-Stack Developer</h1>
             </div>
 
             <!-- CENTER GROUP: 3D Avatar Memoji -->
-            <div class="hero-center-group">
+            <div class="hero-center-group" id="heroCenterGroup">
                 <div class="avatar-memoji-container">
                     <img src="assets/memoji_avatar.jpg" alt="Rahul Sharma 3D Memoji Avatar">
+                </div>
+            </div>
+
+            <!-- INTERACTIVE AI CHAT THREAD CONTAINER (Active when user chats) -->
+            <div class="ai-chat-thread-container" id="aiChatThread" style="display: none;">
+                <div class="ai-chat-header">
+                    <div class="ai-chat-header-info">
+                        <div class="ai-chat-avatar">
+                            <img src="assets/memoji_avatar.jpg" alt="Rahul AI Assistant">
+                        </div>
+                        <div class="ai-chat-title">
+                            <h4>Rahul's AI Assistant</h4>
+                            <span class="status"><span class="status-dot"></span> Online</span>
+                        </div>
+                    </div>
+                    <button type="button" class="close-chat-btn" onclick="closeAIChat()" title="Close Chat & Reset View">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="ai-chat-messages" id="chatMessages">
+                    <!-- Dynamic Chat Bubbles -->
                 </div>
             </div>
 
@@ -119,8 +140,6 @@
                         <span>Contact</span>
                     </a>
                 </nav>
-
-                <div class="ai-response-toast" id="aiToast"></div>
             </div>
         </div>
     </section>

@@ -918,48 +918,96 @@ function navigateToView(viewId, event) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Global AI Search Bar Handler (Stitch Screen 2)
+// Global AI Chatbot Handler (Converts Hero View into Chat View)
 function handleAISearch(e) {
     if (e) e.preventDefault();
     const input = document.getElementById('aiInput');
-    const toast = document.getElementById('aiToast');
-    if (!input || !toast) return;
+    const chatThread = document.getElementById('aiChatThread');
+    const chatMessages = document.getElementById('chatMessages');
+    const heroTop = document.getElementById('heroTopGroup');
+    const heroCenter = document.getElementById('heroCenterGroup');
 
-    const q = input.value.trim().toLowerCase();
-    if (!q) return;
+    if (!input) return;
+    const query = input.value.trim();
+    if (!query) return;
 
-    let reply = "Rahul is a Full-Stack Engineer skilled in React, Node.js, MERN, microservices, and cloud solutions!";
-    let targetView = null;
+    // Reset input field
+    input.value = '';
 
-    if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
-        reply = "Rahul's stack: MERN (MongoDB, Express, React, Node), TypeScript, Next.js, AWS, Docker, Microservices.";
-        targetView = 'skills';
-    } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
-        reply = "Featured projects: Drone Fleet GCS, PathSynq PWA Pothole Detector, Admin & Partner Dashboards.";
-        targetView = 'projects';
-    } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
-        reply = "Get in touch with Rahul via email at shrahul520@gmail.com or connect on LinkedIn!";
-        targetView = 'contact';
-    } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
-        reply = "Rahul has worked at JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions as a Full-Stack Engineer.";
-        targetView = 'experience';
-    } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
-        reply = "Rahul Sharma — CS Engineering graduate (JECRC College, CGPA 7.94) with 2+ years full-stack experience.";
-        targetView = 'about';
-    }
+    // Show Chatbot View & Transition Hero Elements
+    if (chatThread && chatMessages) {
+        chatThread.style.display = 'flex';
+        if (heroTop) heroTop.style.display = 'none';
+        if (heroCenter) heroCenter.style.display = 'none';
 
-    toast.innerText = reply;
-    toast.style.display = 'block';
+        // Append User Message Bubble
+        const userMsgDiv = document.createElement('div');
+        userMsgDiv.className = 'chat-bubble user-bubble';
+        userMsgDiv.innerText = query;
+        chatMessages.appendChild(userMsgDiv);
 
-    if (targetView) {
+        // Append Typing Indicator Bubble
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'chat-bubble ai-bubble typing-bubble';
+        typingDiv.id = 'activeTypingBubble';
+        typingDiv.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+        chatMessages.appendChild(typingDiv);
+
+        // Scroll to latest message
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Process AI Answer Response
+        const q = query.toLowerCase();
+        let reply = "I'm Rahul's AI Assistant! Ask me about his Skills, Projects, Experience, Education, or Contact info.";
+        let navActionHtml = "";
+
+        if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
+            reply = "Rahul is proficient in MERN (MongoDB, Express.js, React.js, Node.js), TypeScript, Next.js, Docker, microservices, and AWS cloud architecture.";
+            navActionHtml = `<br><br><a href="#skills" onclick="navigateToView('skills', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">🚀 Explore Full Skills Section →</a>`;
+        } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
+            reply = "Key projects include PathSynq (Pothole & Jerk Detector PWA using smartphone sensors), Drone Fleet GCS Monitoring, and Next.js Admin & Partner Dashboards.";
+            navActionHtml = `<br><br><a href="#projects" onclick="navigateToView('projects', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">⚡ View Featured Projects →</a>`;
+        } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
+            reply = "You can reach Rahul directly via email at shrahul520@gmail.com, or connect on LinkedIn!";
+            navActionHtml = `<br><br><a href="#contact" onclick="navigateToView('contact', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">📩 Open Contact Form →</a>`;
+        } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
+            reply = "Rahul has 2+ years of full-stack engineering experience across JPloft, Emvirt Solutions, and Smartgenx / Volyo Solutions building scalable PWAs and web apps.";
+            navActionHtml = `<br><br><a href="#experience" onclick="navigateToView('experience', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">💼 Read Career Timeline →</a>`;
+        } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college')) {
+            reply = "Rahul Sharma is a CS Engineering graduate from JECRC College (CGPA 7.94) based in Jaipur, Rajasthan, India.";
+            navActionHtml = `<br><br><a href="#about" onclick="navigateToView('about', event)" style="color:var(--accent-primary); font-weight:700; text-decoration:none;">👤 Learn More About Rahul →</a>`;
+        } else if (q.includes('hi') || q.includes('hello') || q.includes('hey')) {
+            reply = "Hello! 👋 Welcome to Rahul's portfolio! Feel free to ask me anything about his work, skills, or projects.";
+        }
+
         setTimeout(() => {
-            navigateToView(targetView);
-        }, 1200);
-    }
+            // Remove typing bubble
+            const activeTyping = document.getElementById('activeTypingBubble');
+            if (activeTyping) activeTyping.remove();
 
-    setTimeout(() => {
-        toast.style.display = 'none';
-    }, 6000);
+            // Append AI Response Bubble
+            const aiMsgDiv = document.createElement('div');
+            aiMsgDiv.className = 'chat-bubble ai-bubble';
+            aiMsgDiv.innerHTML = reply + navActionHtml;
+            chatMessages.appendChild(aiMsgDiv);
+
+            // Auto-scroll chat thread
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 550);
+    }
+}
+
+// Close AI Chatbot & Restore Hero Landing View
+function closeAIChat() {
+    const chatThread = document.getElementById('aiChatThread');
+    const chatMessages = document.getElementById('chatMessages');
+    const heroTop = document.getElementById('heroTopGroup');
+    const heroCenter = document.getElementById('heroCenterGroup');
+
+    if (chatThread) chatThread.style.display = 'none';
+    if (chatMessages) chatMessages.innerHTML = '';
+    if (heroTop) heroTop.style.display = 'flex';
+    if (heroCenter) heroCenter.style.display = 'flex';
 }
 
 // Quick AI Query Chip Submitter
