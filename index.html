@@ -66,62 +66,63 @@
             </button>
         </div>
 
-        <div class="screen2-hero-container">
-            <!-- Brand Logo Badge -->
-            <div class="brand-logo-badge" title="Home" onclick="navigateToView('home')">R</div>
-
-            <!-- Greeting Tag & Title -->
-            <div class="greeting-tag">Hey, I'm Rahul 👋</div>
-            <h1 class="screen2-headline">Full-Stack Developer</h1>
-
-            <!-- Central 3D Avatar Memoji -->
-            <div class="avatar-memoji-container">
-                <img src="assets/memoji_avatar.jpg" alt="Rahul Sharma 3D Memoji Avatar">
+        <div class="screen2-hero-layout">
+            <!-- TOP GROUP: Logo, Greeting & Headline -->
+            <div class="hero-top-group">
+                <div class="brand-logo-badge" title="Home" onclick="navigateToView('home')">R</div>
+                <div class="greeting-tag">Hey, I'm Rahul 👋</div>
+                <h1 class="screen2-headline">Full-Stack Developer</h1>
             </div>
 
-            <!-- AI Search Bar -->
-            <form class="ai-search-box" id="aiSearchForm" onsubmit="handleAISearch(event)">
-                <input type="text" id="aiInput" placeholder="Ask me anything..." autocomplete="off">
-                <button type="submit" class="ai-search-btn" title="Submit Question">
-                    <i class="fas fa-arrow-right"></i>
-                </button>
-            </form>
-
-            <!-- AI Suggestion Micro-Prompt Row -->
-            <div class="ai-suggestions-prompt">
-                <span class="prompt-label">Try asking:</span>
-                <button type="button" class="prompt-pill" onclick="submitAIQuery('skills')">Skills</button>
-                <button type="button" class="prompt-pill" onclick="submitAIQuery('projects')">Projects</button>
-                <button type="button" class="prompt-pill" onclick="submitAIQuery('experience')">Experience</button>
-                <button type="button" class="prompt-pill" onclick="submitAIQuery('contact')">Contact</button>
+            <!-- CENTER GROUP: 3D Avatar Memoji -->
+            <div class="hero-center-group">
+                <div class="avatar-memoji-container">
+                    <img src="assets/memoji_avatar.jpg" alt="Rahul Sharma 3D Memoji Avatar">
+                </div>
             </div>
 
-            <!-- Bottom Floating Navigation Dock -->
-            <nav class="bottom-dock-nav">
-                <a href="#about" class="dock-item" onclick="navigateToView('about', event)">
-                    <i class="fas fa-user-circle"></i>
-                    <span>About</span>
-                </a>
-                <a href="#projects" class="dock-item" onclick="navigateToView('projects', event)">
-                    <i class="fas fa-layer-group"></i>
-                    <span>Projects</span>
-                </a>
-                <a href="#skills" class="dock-item" onclick="navigateToView('skills', event)">
-                    <i class="fas fa-code"></i>
-                    <span>Skills</span>
-                </a>
-                <a href="#experience" class="dock-item" onclick="navigateToView('experience', event)">
-                    <i class="fas fa-briefcase"></i>
-                    <span>Experience</span>
-                </a>
-                <a href="#contact" class="dock-item" onclick="navigateToView('contact', event)">
-                    <i class="fas fa-paper-plane"></i>
-                    <span>Contact</span>
-                </a>
-            </nav>
+            <!-- BOTTOM GROUP: Search Bar & Floating Navigation Dock -->
+            <div class="hero-bottom-group">
+                <form class="ai-search-box" id="aiSearchForm" onsubmit="handleAISearch(event)">
+                    <input type="text" id="aiInput" placeholder="Ask me anything..." autocomplete="off">
+                    <button type="submit" class="ai-search-btn" title="Submit Question">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
 
-            <!-- AI Toast Notification -->
-            <div class="ai-response-toast" id="aiToast"></div>
+                <div class="ai-suggestions-prompt">
+                    <span class="prompt-label">Try asking:</span>
+                    <button type="button" class="prompt-pill" onclick="submitAIQuery('skills')">Skills</button>
+                    <button type="button" class="prompt-pill" onclick="submitAIQuery('projects')">Projects</button>
+                    <button type="button" class="prompt-pill" onclick="submitAIQuery('experience')">Experience</button>
+                    <button type="button" class="prompt-pill" onclick="submitAIQuery('contact')">Contact</button>
+                </div>
+
+                <nav class="bottom-dock-nav">
+                    <a href="#about" class="dock-item" onclick="navigateToView('about', event)">
+                        <i class="fas fa-user-circle"></i>
+                        <span>About</span>
+                    </a>
+                    <a href="#projects" class="dock-item" onclick="navigateToView('projects', event)">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Projects</span>
+                    </a>
+                    <a href="#skills" class="dock-item" onclick="navigateToView('skills', event)">
+                        <i class="fas fa-code"></i>
+                        <span>Skills</span>
+                    </a>
+                    <a href="#experience" class="dock-item" onclick="navigateToView('experience', event)">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Experience</span>
+                    </a>
+                    <a href="#contact" class="dock-item" onclick="navigateToView('contact', event)">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Contact</span>
+                    </a>
+                </nav>
+
+                <div class="ai-response-toast" id="aiToast"></div>
+            </div>
         </div>
     </section>
 
