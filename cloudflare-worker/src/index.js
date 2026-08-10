@@ -115,28 +115,50 @@ ${contextText}`;
 
       let aiResponseText = "";
 
+      // 4A. Call Gemini API if GEMINI_API_KEY secret is set
       if (env.GEMINI_API_KEY) {
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
-        const geminiRes = await fetch(geminiUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [
-              { role: "user", parts: [{ text: systemPrompt }] },
-              { role: "user", parts: [{ text: question }] }
-            ]
-          })
-        });
+        try {
+          const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+          const geminiRes = await fetch(geminiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [
+                { role: "user", parts: [{ text: `${systemPrompt}\n\nUSER QUESTION: ${question}` }] }
+              ]
+            })
+          });
 
-        const geminiData = await geminiRes.json();
-        if (geminiData.candidates && geminiData.candidates[0].content) {
-          aiResponseText = geminiData.candidates[0].content.parts[0].text;
+          const geminiData = await geminiRes.json();
+          if (geminiData.candidates && geminiData.candidates[0].content) {
+            aiResponseText = geminiData.candidates[0].content.parts[0].text;
+          }
+        } catch (gErr) {
+          console.warn("Gemini API error, falling back to Workers AI:", gErr);
         }
       }
 
-      // Fallback if GEMINI_API_KEY not configured yet
+      // 4B. Use Cloudflare Workers AI as native free LLM engine
+      if (!aiResponseText && env.AI) {
+        try {
+          const aiRes = await env.AI.run('@cf/meta/llama-3.1-8b-instruct-fast', {
+            messages: [
+              { role: "system", content: systemPrompt },
+              { role: "user", content: question }
+            ]
+          });
+          if (aiRes && aiRes.response) {
+            aiResponseText = aiRes.response;
+          }
+        } catch (cfAiErr) {
+          console.error("Workers AI LLM Error:", cfAiErr);
+          aiResponseText = `Workers AI Error: ${cfAiErr.message || cfAiErr.toString()}`;
+        }
+      }
+
+      // 5. Ultimate fallback if LLM models fail
       if (!aiResponseText) {
-        aiResponseText = `Hey! I'm Rahul's Virtual Self AI. I'm currently running on Cloudflare Edge! Feel free to ask me about my work experience (3+ years), B.Tech CSE degree (7.94 CGPA), projects like PathSynq, or reach out to me directly at shrahul520@gmail.com!`;
+        aiResponseText = `I'm Rahul's Virtual AI Twin! I specialize in full-stack web development (MERN, Next.js, PWAs, Microservices). Ask me about my projects like PathSynq, my B.Tech degree (7.94 CGPA), or reach me at shrahul520@gmail.com!`;
       }
 
       return new Response(JSON.stringify({ answer: aiResponseText }), {
