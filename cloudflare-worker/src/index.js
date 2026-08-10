@@ -24,7 +24,32 @@ export default {
     }
 
     try {
-      const { question } = await request.json();
+      const body = await request.json();
+      
+      // Handle Knowledge Ingestion Request into Cloudflare Vectorize DB
+      if (body.chunks && Array.isArray(body.chunks)) {
+        if (!env.AI || !env.VECTORIZE_INDEX) {
+          return new Response(JSON.stringify({ error: "Vectorize DB binding missing" }), { status: 500, headers: corsHeaders });
+        }
+        
+        const vectors = [];
+        for (let i = 0; i < body.chunks.length; i++) {
+          const chunk = body.chunks[i];
+          const embedRes = await env.AI.run('@cf/baai/bge-small-en-v1.5', { text: [chunk.text] });
+          vectors.push({
+            id: chunk.id || `chunk-${i}`,
+            values: embedRes.data[0],
+            metadata: { text: chunk.text, title: chunk.title || "Portfolio Data" }
+          });
+        }
+        
+        await env.VECTORIZE_INDEX.upsert(vectors);
+        return new Response(JSON.stringify({ success: true, count: vectors.length }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+
+      const question = body.question;
 
       if (!question || typeof question !== "string") {
         return new Response(JSON.stringify({ error: "Missing or invalid question parameter" }), {
@@ -66,7 +91,7 @@ EMAIL: shrahul520@gmail.com
 LINKEDIN: https://www.linkedin.com/in/rahul-sharma-b02486224/
 GITHUB: https://github.com/RahulSharma128
 EDUCATION: B.Tech Computer Science Engineering, JECRC College, Jaipur (2019-2023), CGPA: 7.94
-EXPERIENCE: 2+ Years total experience
+EXPERIENCE: 3+ Years total experience
   - Full Stack Engineer at Smartgenx/Volyo Solutions (Sept 2024 - Present): Next.js dashboards, PWAs, Firebase.
   - Software Engineer at Emvirt Solutions (May 2024 - Aug 2024): Drone Fleet Monitoring GCS, WebSockets, Azure 3D Maps.
   - Node.js Developer Intern at JPloft (Jan 2024 - Apr 2024): Express microservices, REST APIs, Sequelize, MySQL/MongoDB.
@@ -111,7 +136,7 @@ ${contextText}`;
 
       // Fallback if GEMINI_API_KEY not configured yet
       if (!aiResponseText) {
-        aiResponseText = `Hey! I'm Rahul's Virtual Self AI. I'm currently running on Cloudflare Edge! Feel free to ask me about my work experience (2+ years), B.Tech CSE degree (7.94 CGPA), projects like PathSynq, or reach out to me directly at shrahul520@gmail.com!`;
+        aiResponseText = `Hey! I'm Rahul's Virtual Self AI. I'm currently running on Cloudflare Edge! Feel free to ask me about my work experience (3+ years), B.Tech CSE degree (7.94 CGPA), projects like PathSynq, or reach out to me directly at shrahul520@gmail.com!`;
       }
 
       return new Response(JSON.stringify({ answer: aiResponseText }), {

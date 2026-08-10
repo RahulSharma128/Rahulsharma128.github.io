@@ -2,7 +2,8 @@
 
 ## 👤 Personal Overview
 - **Name**: Rahul Sharma
-- **Role**: Full Stack Developer / Software Engineer
+- **Role**: Full Stack Developer / Software Engineer (3+ Years Experience)
+- **Total Experience**: 3+ Years
 - **Location**: Jaipur, Rajasthan, India
 - **Email**: shrahul520@gmail.com
 - **LinkedIn**: [linkedin.com/in/rahul-sharma-b02486224](https://www.linkedin.com/in/rahul-sharma-b02486224/)

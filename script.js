@@ -153,19 +153,9 @@ function closeCaptchaModal() {
     }
 }
 
-// Dynamic Years of Experience Calculation (Starting May 2024)
+// Dynamic Years of Experience Calculation
 function updateDynamicExperience() {
-    const startDate = new Date(2024, 4, 1); // May 2024
-    const currentDate = new Date();
-    
-    // Total months difference
-    const totalMonths = (currentDate.getFullYear() - startDate.getFullYear()) * 12 + (currentDate.getMonth() - startDate.getMonth());
-    
-    // Convert to years (minimum 1)
-    let years = Math.floor(totalMonths / 12);
-    if (years < 1) years = 1;
-    
-    const formattedYears = `${years}+`;
+    const formattedYears = '3+';
     
     const expText = document.getElementById('years-of-experience-text');
     if (expText) {
@@ -174,7 +164,7 @@ function updateDynamicExperience() {
     
     const expStat = document.getElementById('years-of-experience-stat');
     if (expStat) {
-        expStat.setAttribute('data-target', years);
+        expStat.setAttribute('data-target', 3);
         expStat.textContent = formattedYears;
     }
 }
@@ -945,30 +935,32 @@ function navigateToView(viewId, event) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Global AI Search Handler on Home (Routes to Relevant View Section)
+// Global AI Search Handler on Home (Routes to Relevant View Section or Queries AI Twin)
 function handleAISearch(e) {
     if (e) e.preventDefault();
     const input = document.getElementById('aiInput');
     if (!input) return;
-    const query = input.value.trim().toLowerCase();
+    const query = input.value.trim();
     if (!query) return;
 
     input.value = '';
 
-    let targetView = 'about';
-    if (query.includes('skill') || query.includes('tech') || query.includes('stack')) {
-        targetView = 'skills';
-    } else if (query.includes('project') || query.includes('work') || query.includes('portfolio') || query.includes('app')) {
-        targetView = 'projects';
-    } else if (query.includes('contact') || query.includes('email') || query.includes('hire') || query.includes('reach')) {
-        targetView = 'contact';
-    } else if (query.includes('experience') || query.includes('job') || query.includes('company') || query.includes('role')) {
-        targetView = 'experience';
-    } else if (query.includes('about') || query.includes('who') || query.includes('education') || query.includes('college')) {
-        targetView = 'about';
-    }
+    const q = query.toLowerCase();
 
-    navigateToView(targetView);
+    if (q.includes('skill') || q.includes('tech') || q.includes('stack')) {
+        navigateToView('skills');
+    } else if (q.includes('project') || q.includes('work') || q.includes('portfolio') || q.includes('app')) {
+        navigateToView('projects');
+    } else if (q.includes('contact') || q.includes('email') || q.includes('hire') || q.includes('reach')) {
+        navigateToView('contact');
+    } else if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('role')) {
+        navigateToView('experience');
+    } else if (q.includes('about') || q.includes('who') || q.includes('education') || q.includes('college') || q.includes('bio')) {
+        navigateToView('about');
+    } else {
+        // Open RAG AI Chat Modal & submit query to Rahul's AI Twin
+        sendRagQuickPrompt(query);
+    }
 }
 
 // Toggle AI Twin Chat Drawer on Nested Pages
@@ -1179,6 +1171,10 @@ function clearRagChat() {
 }
 
 function sendRagQuickPrompt(promptText) {
+    const modal = document.getElementById('ragChatModal');
+    if (modal && !modal.classList.contains('active')) {
+        toggleRagChatModal();
+    }
     const input = document.getElementById('ragChatInput');
     if (input) {
         input.value = promptText;
@@ -1311,7 +1307,7 @@ function generateLocalRagResponse(query) {
     }
 
     if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('work') || q.includes('volyo') || q.includes('smartgenx') || q.includes('emvirt') || q.includes('jploft')) {
-        return "I have **2+ years** of professional experience across top engineering teams:\n\n" +
+        return "I have **3+ years** of professional experience across top engineering teams:\n\n" +
             "• **Smartgenx / Volyo Solutions** (Sept 2024 – Present): Full Stack Engineer building Next.js dashboards & PWAs.\n" +
             "• **Emvirt Solutions** (May 2024 – Aug 2024): Software Engineer developing Drone Fleet Monitoring with WebSockets & Azure 3D Maps.\n" +
             "• **JPloft** (Jan 2024 – Apr 2024): Node.js Developer Intern building RESTful microservices with Express & Sequelize.";
