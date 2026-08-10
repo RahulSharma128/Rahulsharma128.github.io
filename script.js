@@ -849,13 +849,13 @@ function navigateToView(viewId, event) {
     const aiWidget = document.getElementById('aiTwinFloatingWidget');
     const ragFab = document.getElementById('ragChatFab');
 
-    // Ensure RAG Chat FAB is always visible across home & view pages
-    if (ragFab) ragFab.style.setProperty('display', 'flex', 'important');
-
     if (!viewId || viewId === 'home') {
         // Show Clean Hero Home
         document.body.classList.add('home-view-active');
+        // Hide RAG Chat FAB and AI widget on Home screen
+        if (ragFab) ragFab.style.setProperty('display', 'none', 'important');
         if (aiWidget) aiWidget.style.setProperty('display', 'none', 'important');
+
         if (appViewContainer) {
             appViewContainer.classList.remove('active-view');
             setTimeout(() => {
@@ -868,14 +868,20 @@ function navigateToView(viewId, event) {
                 heroSection.style.opacity = '1';
             }, 50);
         }
-        history.pushState(null, '', window.location.pathname);
+        if (window.location.hash) {
+            history.pushState('', document.title, window.location.pathname + window.location.search);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
         return;
     }
 
-    // Hide Hero, Show Section View Container & Floating AI Twin Widget
+    // Hide Hero, Show Section View Container & Inner Page FAB Widgets
     document.body.classList.remove('home-view-active');
+
+    // Display RAG Chat FAB ONLY inside inner/nested section pages
+    if (ragFab) ragFab.style.setProperty('display', 'flex', 'important');
     if (aiWidget) aiWidget.style.setProperty('display', 'flex', 'important');
+
     if (heroSection) {
         heroSection.style.opacity = '0';
         setTimeout(() => {
@@ -932,8 +938,10 @@ function navigateToView(viewId, event) {
         }
     });
 
-    // Update URL hash smoothly
-    history.pushState(null, '', `#${viewId}`);
+    // Update URL hash cleanly so browser location shows #about, #skills, #projects, etc.
+    if (window.location.hash !== `#${viewId}`) {
+        history.pushState(null, '', `#${viewId}`);
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1107,26 +1115,22 @@ window.addEventListener('touchend', () => {
     }
 }, { passive: true });
 
-// Initial Hash and Popstate Routing Listeners
-window.addEventListener('load', () => {
-    const hash = window.location.hash.replace('#', '');
+// Initial Hash, HashChange, and PopState SPA Routing Listeners
+function handleRoute() {
+    const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+    const ragFab = document.getElementById('ragChatFab');
     const aiWidget = document.getElementById('aiTwinFloatingWidget');
-    if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
-        navigateToView(hash);
-    } else {
-        document.body.classList.add('home-view-active');
-        if (aiWidget) aiWidget.style.setProperty('display', 'none', 'important');
-    }
-});
 
-window.addEventListener('popstate', () => {
-    const hash = window.location.hash.replace('#', '');
     if (hash && ['about', 'skills', 'experience', 'projects', 'contact'].includes(hash)) {
         navigateToView(hash);
     } else {
         navigateToView('home');
     }
-});
+}
+
+window.addEventListener('load', handleRoute);
+window.addEventListener('hashchange', handleRoute);
+window.addEventListener('popstate', handleRoute);
 
 /* ==========================================================================
    VIRTUAL SELF RAG CHAT WIDGET INTERACTION LOGIC
