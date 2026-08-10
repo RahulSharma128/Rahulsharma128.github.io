@@ -847,6 +847,10 @@ function navigateToView(viewId, event) {
     const viewTabs = document.querySelectorAll('.view-tab-btn');
     const sections = document.querySelectorAll('.view-section-page');
     const aiWidget = document.getElementById('aiTwinFloatingWidget');
+    const ragFab = document.getElementById('ragChatFab');
+
+    // Ensure RAG Chat FAB is always visible across home & view pages
+    if (ragFab) ragFab.style.setProperty('display', 'flex', 'important');
 
     if (!viewId || viewId === 'home') {
         // Show Clean Hero Home
@@ -895,22 +899,34 @@ function navigateToView(viewId, event) {
         }
     });
 
-    // Update Breadcrumb Label
+    // Update Breadcrumb Label (Short & clean on mobile screens)
     if (breadcrumbLabel) {
-        const labels = {
+        const isMobile = window.innerWidth <= 768;
+        const desktopLabels = {
             'about': 'Overview & Education',
             'skills': 'Skills & Technologies',
             'experience': 'Work Experience',
             'projects': 'Featured Projects',
             'contact': 'Get In Touch'
         };
+        const mobileLabels = {
+            'about': 'About',
+            'skills': 'Skills',
+            'experience': 'Experience',
+            'projects': 'Projects',
+            'contact': 'Contact'
+        };
+        const labels = isMobile ? mobileLabels : desktopLabels;
         breadcrumbLabel.innerText = labels[viewId] || (viewId.charAt(0).toUpperCase() + viewId.slice(1));
     }
 
-    // Update Active Tab Highlight
+    // Update Active Tab Highlight & scroll into view on mobile
     viewTabs.forEach(tab => {
         if (tab.getAttribute('data-target') === viewId) {
             tab.classList.add('active');
+            if (window.innerWidth <= 768) {
+                tab.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
         } else {
             tab.classList.remove('active');
         }
