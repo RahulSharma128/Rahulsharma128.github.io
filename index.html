@@ -321,11 +321,39 @@
                     <h2 class="section-title">Featured Projects</h2>
                     <div class="project-filters">
                         <button class="filter-btn active" onclick="filterProjects('all', this)">All Projects</button>
+                        <button class="filter-btn" onclick="filterProjects('ai', this)">AI / Full-Stack</button>
                         <button class="filter-btn" onclick="filterProjects('pwa', this)">PWA</button>
                         <button class="filter-btn" onclick="filterProjects('realtime', this)">Real-Time</button>
                         <button class="filter-btn" onclick="filterProjects('dashboards', this)">Dashboards</button>
                     </div>
                     <div class="projects-grid">
+                        <!-- Drobe — AI Fashion Try-On Platform -->
+                        <div class="project-card project-card--featured" data-category="ai">
+                            <div class="project-image project-image--drobe">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div class="project-content">
+                                <h3>Drobe — AI Fashion Try-On Platform</h3>
+                                <p class="project-company">Founder &amp; Sole Engineer · drobe.live</p>
+                                <p>Architected and built an AI-powered virtual try-on platform end-to-end — Flutter mobile app, Go backend (chi, PostgreSQL, Redis), and two Next.js apps (admin portal + consumer PWA). Designed zone-aware try-on across 12 garment categories using Gemini/Vertex AI with coin-wallet monetisation via Razorpay, production-grade TOTP 2FA, and 18/18 passing backend integration tests on a self-hosted PM2 deployment.</p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Flutter</span>
+                                    <span class="tech-tag">Go (chi)</span>
+                                    <span class="tech-tag">Next.js</span>
+                                    <span class="tech-tag">PostgreSQL</span>
+                                    <span class="tech-tag">Redis</span>
+                                    <span class="tech-tag">Gemini / Vertex AI</span>
+                                    <span class="tech-tag">Razorpay</span>
+                                    <span class="tech-tag">TOTP 2FA</span>
+                                    <span class="tech-tag">PM2</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://drobe.live" target="_blank" class="project-link">
+                                        Live Site <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="project-card" data-category="pwa">
                             <div class="project-image">
                                 <i class="fas fa-road"></i>

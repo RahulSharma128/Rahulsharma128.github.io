@@ -934,6 +934,37 @@ section {
     box-shadow: 0 25px 60px rgba(29, 78, 216, 0.18);
 }
 
+/* Featured project card — Drobe */
+.project-card--featured {
+    border-top: 2px solid var(--accent-primary);
+    position: relative;
+}
+
+.project-card--featured::before {
+    content: '★ Flagship';
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(135deg, #6d28d9, #ec4899);
+    padding: 3px 10px;
+    border-radius: 20px;
+    z-index: 2;
+}
+
+.project-card--featured:hover {
+    box-shadow: 0 25px 60px rgba(109, 40, 217, 0.22);
+}
+
+.project-image--drobe {
+    background: linear-gradient(135deg, rgba(109, 40, 217, 0.18) 0%, rgba(236, 72, 153, 0.22) 100%) !important;
+    color: #c084fc !important;
+}
+
 .project-image {
     height: 160px;
     background: linear-gradient(135deg, rgba(29, 78, 216, 0.1) 0%, rgba(96, 165, 250, 0.2) 100%);
