@@ -170,7 +170,7 @@
                     <div class="about-content">
                         <div class="about-text">
                             <p>
-                                I'm a passionate Full Stack Developer with <span id="years-of-experience-text">3+</span> years of experience in building scalable web applications and microservices. With experience across multiple tech companies including JPloft, Emvirt Solutions, and Smartgenx/Volyo Solutions, I've developed a strong foundation in modern web technologies.
+                                I'm a passionate Full Stack Developer with <span id="years-of-experience-text">3+</span> years of experience in building scalable web applications and microservices. With experience across multiple tech companies including JPloft, Emvirt Solutions, and Volyo Solutions, I've developed a strong foundation in modern web technologies.
                             </p>
                             <p>
                                 I specialize in the MERN stack (MongoDB, Express.js, React.js, Node.js) and have extensive experience with cloud platforms like AWS and Azure. I'm passionate about creating efficient, user-friendly applications that solve real-world problems.
@@ -277,37 +277,38 @@
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
-                                <h3>Full Stack Engineer</h3>
-                                <p class="company">Smartgenx / Volyo Solutions — Jaipur, India</p>
-                                <p class="date"><i class="far fa-calendar-alt"></i> Sept 2024 – Present</p>
+                                <h3>Full Stack Developer</h3>
+                                <p class="company">JPloft — Onsite</p>
+                                <p class="date"><i class="far fa-calendar-alt"></i> June 2025 – Current</p>
                                 <ul>
-                                    <li>Architected and built scalable Partner & Admin Dashboards using Next.js with Chart.js and ApexCharts for real-time visualization.</li>
-                                    <li>Developed high-performance PWAs using Firebase Service Workers and Web Push Notifications.</li>
-                                    <li>Engineered custom server-side validation and responsive mobile interface components.</li>
+                                    <li>Built LLM-powered chatbot features using the Gemini API with retrieval-augmented generation, enabling context-aware responses within production SaaS applications.</li>
+                                    <li>Optimised RESTful APIs, reducing average response time from 1,200ms to 350ms (71% improvement).</li>
+                                    <li>Containerized microservices with Docker Compose and built CI/CD pipelines via GitHub Actions for streamlined releases; added E2E test coverage using Playwright and Jest.</li>
+                                    <li>Integrated Stripe for end-to-end payment processing, including real-time webhook handling for transaction events.</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
-                                <h3>Software Engineer</h3>
-                                <p class="company">Emvirt Solutions — Jaipur, India</p>
-                                <p class="date"><i class="far fa-calendar-alt"></i> May 2024 – Aug 2024</p>
+                                <h3>Full Stack Developer</h3>
+                                <p class="company">Emvirt Solutions — Onsite</p>
+                                <p class="date"><i class="far fa-calendar-alt"></i> May 2024 – May 2025</p>
                                 <ul>
-                                    <li>Developed real-time Drone Fleet Monitoring (GCS) using WebSocket streaming, Azure 3D Maps, and Google Maps geolocation API.</li>
-                                    <li>Engineered backend API integrations for telemetry streaming and automated path optimization.</li>
+                                    <li>Built a backend pipeline integrating YOLOv5 object detection with a live video streaming service (MediaMTX) that transcoded RTSP drone feeds to WebRTC, powering real-time inference analytics.</li>
+                                    <li>Built the frontend visualization layer using Deck.gl and Azure Maps for real-time 3D multi-drone flight-path tracking and geospatial zone-based alerts across a 5-drone fleet.</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-dot"></div>
                             <div class="timeline-content">
-                                <h3>Node.js Developer Intern</h3>
-                                <p class="company">JPloft — Jaipur, India</p>
-                                <p class="date"><i class="far fa-calendar-alt"></i> Jan 2024 – Apr 2024</p>
+                                <h3>Full Stack Developer</h3>
+                                <p class="company">Volyo Solutions — Onsite</p>
+                                <p class="date"><i class="far fa-calendar-alt"></i> Sept 2023 – May 2024</p>
                                 <ul>
-                                    <li>Built RESTful microservice APIs using Express.js, Node.js, and Sequelize ORM with MySQL/MongoDB.</li>
-                                    <li>Implemented JWT token authentication, input sanitization, and automated test cases.</li>
+                                    <li>Developed unified partner dashboards (Next.js, TypeScript) aggregating data from multiple sources for mobile users.</li>
+                                    <li>Delivered an Offline-First PWA (Firebase) using service-worker based caching for instant load times and seamless background sync.</li>
                                 </ul>
                             </div>
                         </div>
@@ -335,14 +336,21 @@
                             <div class="project-content">
                                 <h3>Drobe — AI Fashion Try-On Platform</h3>
                                 <p class="project-company">Founder &amp; Sole Engineer · drobe.live</p>
-                                <p>Architected and built an AI-powered virtual try-on platform end-to-end — Flutter mobile app, Go backend (chi, PostgreSQL, Redis), and two Next.js apps (admin portal + consumer PWA). Designed zone-aware try-on across 12 garment categories using Gemini/Vertex AI with coin-wallet monetisation via Razorpay, production-grade TOTP 2FA, and 18/18 passing backend integration tests on a self-hosted PM2 deployment.</p>
+                                <ul style="padding-left: 1.2rem; margin-bottom: 1.2rem; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.6; font-weight: 500;">
+                                    <li style="margin-bottom: 0.4rem;">Architected and built an AI-powered virtual try-on platform end-to-end as sole founding engineer — Flutter app (Riverpod), Go backend (chi, PostgreSQL, Redis), and two Next.js apps (admin portal, consumer PWA); deployed via a self-hosted PM2 setup with 18/18 passing backend integration tests.</li>
+                                    <li style="margin-bottom: 0.4rem;">Designed a zone-aware virtual try-on system across 12 garment categories, evaluating open-source models (CatVTON, Qwen) alongside Google Gemini/Vertex AI, and engineering both a single-call multi-garment endpoint and a sequential outfit-layering flow to balance quality against API cost.</li>
+                                    <li style="margin-bottom: 0.4rem;">Implemented production-grade admin security — mandatory TOTP 2FA, role-scoped route authorization, and full audit logging; independently audited the portal and resolved 13 issues including a stored XSS vulnerability.</li>
+                                    <li>Built a coin-wallet monetization system with Razorpay integration, including HMAC-verified webhook handling and idempotent order processing.</li>
+                                </ul>
                                 <div class="project-tech">
                                     <span class="tech-tag">Flutter</span>
                                     <span class="tech-tag">Go (chi)</span>
                                     <span class="tech-tag">Next.js</span>
                                     <span class="tech-tag">PostgreSQL</span>
                                     <span class="tech-tag">Redis</span>
-                                    <span class="tech-tag">Gemini / Vertex AI</span>
+                                    <span class="tech-tag">Gemini/Vertex AI</span>
+                                    <span class="tech-tag">CatVTON</span>
+                                    <span class="tech-tag">Qwen</span>
                                     <span class="tech-tag">Razorpay</span>
                                     <span class="tech-tag">TOTP 2FA</span>
                                     <span class="tech-tag">PM2</span>
@@ -397,7 +405,7 @@
                             </div>
                             <div class="project-content">
                                 <h3>Partner & Admin Dashboards</h3>
-                                <p class="project-company">Smartgenx / Volyo Solutions</p>
+                                <p class="project-company">Volyo Solutions</p>
                                 <p>Scalable partner and admin dashboards using Next.js with real-time data visualization and mobile user data unification.</p>
                                 <div class="project-tech">
                                     <span class="tech-tag">Next.js</span>
@@ -413,7 +421,7 @@
                             </div>
                             <div class="project-content">
                                 <h3>Progressive Web App (PWA)</h3>
-                                <p class="project-company">Smartgenx / Volyo Solutions</p>
+                                <p class="project-company">Volyo Solutions</p>
                                 <p>High-performance PWA leveraging Firebase and Service Workers with real-time web push notifications for enhanced user retention.</p>
                                 <div class="project-tech">
                                     <span class="tech-tag">PWA</span>

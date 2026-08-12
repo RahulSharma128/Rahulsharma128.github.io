@@ -22,24 +22,25 @@
 
 ## 💼 Professional Experience
 
-### 1. Full Stack Engineer — Smartgenx / Volyo Solutions
-- **Location**: Jaipur, India
-- **Duration**: September 2024 – Present
+### 1. Full Stack Developer — JPloft
+- **Location**: Onsite
+- **Duration**: June 2025 – Current
 - **Key Responsibilities & Achievements**:
-  - Architected and built scalable Partner & Admin Dashboards using **Next.js**, **Chart.js**, and **ApexCharts** for real-time analytics visualization.
-  - Developed high-performance Progressive Web Applications (PWAs) utilizing **Firebase Service Workers** and **Web Push Notifications** for enhanced user retention.
-  - Engineered custom server-side data validation pipelines and responsive, mobile-first interface components with **Material-UI**.
+  - Built LLM-powered chatbot features using the Gemini API with retrieval-augmented generation, enabling context-aware responses within production SaaS applications.
+  - Optimised RESTful APIs, reducing average response time from 1,200ms to 350ms (71% improvement).
+  - Containerized microservices with Docker Compose and built CI/CD pipelines via GitHub Actions for streamlined releases; added E2E test coverage using Playwright and Jest.
+  - Integrated Stripe for end-to-end payment processing, including real-time webhook handling for transaction events.
 
-### 2. Software Engineer — Emvirt Solutions
-- **Location**: Jaipur, India
-- **Duration**: May 2024 – August 2024
+### 2. Full Stack Developer — Emvirt Solutions
+- **Location**: Onsite
+- **Duration**: May 2024 – May 2025
 - **Key Responsibilities & Achievements**:
-  - Developed a real-time **Drone Fleet Monitoring Ground Control Station (GCS)** leveraging **WebSocket** streaming, **Azure 3D Maps**, and **Google Maps Geolocation API**.
-  - Engineered backend REST API integrations for real-time telemetry streaming and automated flight path optimization algorithms.
+  - Built a backend pipeline integrating YOLOv5 object detection with a live video streaming service (MediaMTX) that transcoded RTSP drone feeds to WebRTC, powering real-time inference analytics.
+  - Built the frontend visualization layer using Deck.gl and Azure Maps for real-time 3D multi-drone flight-path tracking and geospatial zone-based alerts across a 5-drone fleet.
 
-### 3. Node.js Developer Intern — JPloft
-- **Location**: Jaipur, India
-- **Duration**: January 2024 – April 2024
+### 3. Full Stack Developer — Volyo Solutions
+- **Location**: Onsite
+- **Duration**: September 2023 – May 2024
 - **Key Responsibilities & Achievements**:
-  - Built RESTful microservice APIs using **Express.js**, **Node.js**, and **Sequelize ORM** backed by **MySQL** and **MongoDB**.
-  - Implemented **JWT (JSON Web Token)** authentication, input sanitization, security middleware, and automated unit testing suites.
+  - Developed unified partner dashboards (Next.js, TypeScript) aggregating data from multiple sources for mobile users.
+  - Delivered an Offline-First PWA (Firebase) using service-worker based caching for instant load times and seamless background sync.

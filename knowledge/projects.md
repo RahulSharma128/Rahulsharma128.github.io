@@ -6,16 +6,12 @@
 - **Category**: AI / Full-Stack / Mobile / SaaS
 - **Type**: Founder & Sole Engineer
 - **Live**: [https://drobe.live](https://drobe.live)
-- **Tech Stack**: Flutter (Riverpod), Go (chi router), Next.js (×2 — admin portal + consumer PWA), PostgreSQL, Redis, Google Gemini / Vertex AI, Razorpay, TOTP 2FA, PM2, git submodules
+- **Tech Stack**: Flutter, Go (chi), Next.js, PostgreSQL, Redis, Gemini/Vertex AI, CatVTON, Qwen, Razorpay, TOTP 2FA, PM2
 - **Overview**:
-  - Architected and built an AI-powered virtual try-on platform end-to-end as sole founding engineer, targeting Gen-Z and young professionals in India.
-  - Designed a zone-aware virtual try-on system across 12 garment categories — engineering two distinct generation paths: a single-call multi-garment endpoint and a sequential outfit-layering flow to balance output quality vs. per-call API cost.
-  - Built a coin-wallet monetisation system with Razorpay integration: HMAC-verified webhook handling and idempotent order processing as the primary revenue mechanism ahead of affiliate commissions.
-  - Implemented production-grade admin security: mandatory TOTP 2FA, role-scoped route authorisation enforced at both middleware and startup-time route audit, and an audit log for all mutating admin actions. Independently audited the portal and resolved 13 issues including a stored XSS vulnerability and multiple broken auth-header integrations.
-  - Migrated a monorepo to a multi-repo architecture (4 independent services) using git filter-repo with zero history loss, managed via git submodules.
-  - Maintained 18/18 passing backend integration tests across auth, payments, and AI generation flows on a self-hosted PM2 deployment (no PaaS).
-  - Ran a compliance audit on AI-generated content and third-party image sourcing; redesigned the product image pipeline to eliminate legal exposure before launch.
-  - Conducted a full database audit identifying data-integrity, indexing, and soft-delete cleanup issues across an 18-table PostgreSQL schema, and shipped constraint/trigger fixes.
+  - Architected and built an AI-powered virtual try-on platform end-to-end as sole founding engineer — Flutter app (Riverpod), Go backend (chi, PostgreSQL, Redis), and two Next.js apps (admin portal, consumer PWA); deployed via a self-hosted PM2 setup with 18/18 passing backend integration tests.
+  - Designed a zone-aware virtual try-on system across 12 garment categories, evaluating open-source models (CatVTON, Qwen) alongside Google Gemini/Vertex AI, and engineering both a single-call multi-garment endpoint and a sequential outfit-layering flow to balance quality against API cost.
+  - Implemented production-grade admin security — mandatory TOTP 2FA, role-scoped route authorization, and full audit logging; independently audited the portal and resolved 13 issues including a stored XSS vulnerability.
+  - Built a coin-wallet monetization system with Razorpay integration, including HMAC-verified webhook handling and idempotent order processing.
 
 ---
 
@@ -45,7 +41,7 @@
 
 ### 4. Partner & Admin Analytics Dashboards
 - **Category**: Web Application / Admin Analytics / Data Visualization
-- **Company**: Smartgenx / Volyo Solutions
+- **Company**: Volyo Solutions
 - **Tech Stack**: Next.js (React), Material-UI (MUI), Chart.js, ApexCharts, REST APIs
 - **Overview**:
   - Architected high-throughput partner and administrator dashboards for monitoring multi-tenant platform metrics.
@@ -56,7 +52,7 @@
 
 ### 5. Enterprise Progressive Web App (PWA) Platform
 - **Category**: Mobile Web Application / Push Notifications
-- **Company**: Smartgenx / Volyo Solutions
+- **Company**: Volyo Solutions
 - **Tech Stack**: Progressive Web Apps (PWA), Firebase Cloud Messaging (FCM), Service Workers, Web App Manifest
 - **Overview**:
   - Transformed web platforms into installable PWAs with offline caching capabilities.

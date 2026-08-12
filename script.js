@@ -1243,7 +1243,7 @@ function generateLocalRagResponse(query) {
         return "I've worked on some exciting projects! Key ones include:\n\n" +
             "• **PathSynq**: A mobile PWA that detects potholes and road jerks using smartphone accelerometer/gyroscope sensors and Mapbox GL ([Live Demo](http://pathsynq.rahulsh.me/)).\n" +
             "• **Drone Fleet Monitoring (GCS)**: Real-time telemetry dashboard using WebSockets, Azure 3D Maps, and Google Maps at Emvirt Solutions.\n" +
-            "• **Partner & Admin Dashboards**: Scalable analytics dashboards using Next.js, Chart.js, and ApexCharts at Smartgenx / Volyo Solutions.\n" +
+            "• **Partner & Admin Dashboards**: Scalable analytics dashboards using Next.js, Chart.js, and ApexCharts at Volyo Solutions.\n" +
             "• **PWA Platform**: Push notifications platform using Firebase Service Workers.";
     }
 
@@ -1268,11 +1268,11 @@ function generateLocalRagResponse(query) {
             "Or fill out the contact form right here on the website!";
     }
 
-    if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('work') || q.includes('volyo') || q.includes('smartgenx') || q.includes('emvirt') || q.includes('jploft')) {
+    if (q.includes('experience') || q.includes('job') || q.includes('company') || q.includes('work') || q.includes('volyo') || q.includes('emvirt') || q.includes('jploft')) {
         return "I have **3+ years** of professional experience across top engineering teams:\n\n" +
-            "• **Smartgenx / Volyo Solutions** (Sept 2024 – Present): Full Stack Engineer building Next.js dashboards & PWAs.\n" +
-            "• **Emvirt Solutions** (May 2024 – Aug 2024): Software Engineer developing Drone Fleet Monitoring with WebSockets & Azure 3D Maps.\n" +
-            "• **JPloft** (Jan 2024 – Apr 2024): Node.js Developer Intern building RESTful microservices with Express & Sequelize.";
+            "• **JPloft** (June 2025 – Present): Full Stack Developer building LLM-powered chatbots and optimizing APIs.\n" +
+            "• **Emvirt Solutions** (May 2024 – May 2025): Full Stack Developer building YOLOv5 object detection pipelines and 3D drone tracking.\n" +
+            "• **Volyo Solutions** (Sept 2023 – May 2024): Full Stack Developer building Next.js dashboards & PWAs.";
     }
 
     return "I am Rahul's Virtual Self AI! I specialize in full-stack development (MERN, Next.js, Cloud, microservices). Feel free to ask about my **projects**, **skills**, **work experience**, **education (7.94 CGPA)**, or how to **contact me**!";

@@ -172,9 +172,9 @@ LINKEDIN: https://www.linkedin.com/in/rahul-sharma-b02486224/
 GITHUB: https://github.com/RahulSharma128
 EDUCATION: B.Tech Computer Science Engineering, JECRC College, Jaipur (2019-2023), CGPA: 7.94
 EXPERIENCE: 3+ Years total experience
-  - Full Stack Engineer at Smartgenx/Volyo Solutions (Sept 2024 - Present): Next.js dashboards, PWAs, Firebase.
-  - Software Engineer at Emvirt Solutions (May 2024 - Aug 2024): Drone Fleet Monitoring GCS, WebSockets, Azure 3D Maps.
-  - Node.js Developer Intern at JPloft (Jan 2024 - Apr 2024): Express microservices, REST APIs, Sequelize, MySQL/MongoDB.
+  - Full Stack Developer at JPloft (June 2025 - Present): Gemini API LLM chatbots, REST API optimization, Docker Compose, CI/CD, Stripe payments.
+  - Full Stack Developer at Emvirt Solutions (May 2024 - May 2025): YOLOv5 object detection pipeline, MediaMTX WebRTC streaming, Deck.gl & Azure Maps 3D drone tracking.
+  - Full Stack Developer at Volyo Solutions (Sept 2023 - May 2024): Next.js unified partner dashboards, Offline-First PWAs using Firebase.
 FEATURED PROJECTS:
   - PathSynq: Pothole & Road Jerk Detector PWA using mobile sensors & Mapbox GL (Demo: http://pathsynq.rahulsh.me/)
   - Drone Fleet Monitoring GCS: Real-time telemetry streaming with Azure 3D Maps.

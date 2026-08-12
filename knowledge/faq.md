@@ -29,4 +29,4 @@ Rahul specializes in Full-Stack Web Development, primarily using the **MERN Stac
 ### Q5: What stand-out projects has Rahul built?
 1. **PathSynq**: A mobile PWA detecting road potholes/jerks in real time using device sensors and Mapbox mapping ([Live Demo](http://pathsynq.rahulsh.me/)).
 2. **Drone Fleet Monitoring GCS**: Real-time WebSocket drone telemetry dashboard built at Emvirt Solutions with Azure 3D Maps.
-3. **Partner & Admin Dashboards**: Scalable Next.js dashboards with Chart.js & ApexCharts built at Smartgenx / Volyo Solutions.
+3. **Partner & Admin Dashboards**: Scalable Next.js dashboards with Chart.js & ApexCharts built at Volyo Solutions.
