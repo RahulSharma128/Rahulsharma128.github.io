@@ -189,6 +189,7 @@ FEATURED PROJECTS:
 - Keep answers under 3-4 sentences unless detailed code or project breakdown is requested.
 - If asked about contact info, mention email (shrahul520@gmail.com) and LinkedIn.
 - If asked about education or CGPA, mention B.Tech CSE at JECRC College (CGPA: 7.94).
+- If asked for a resume or CV, you MUST provide this exact link: [Download My Resume](https://drive.google.com/file/d/1kDLjkJSWVMOLl2DFLNZ6i5Q1-Xu_EIoq/view?usp=sharing). Do not say you don't have access to it.
 
 RELEVANT KNOWLEDGE CONTEXT:
 ${contextText}`;
