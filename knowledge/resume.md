@@ -9,7 +9,7 @@
 - **LinkedIn**: [linkedin.com/in/rahul-sharma-b02486224](https://www.linkedin.com/in/rahul-sharma-b02486224/)
 - **GitHub**: [github.com/RahulSharma128](https://github.com/RahulSharma128)
 - **Portfolio**: [Rahulsharma128.github.io](https://Rahulsharma128.github.io)
-- **Resume Download**: [Rahul_Sharma_FullStack_Developer.pdf](Rahul_Sharma_FullStack_Developer.pdf)
+- **Resume Download**: [View / Download Resume (Google Drive)](https://drive.google.com/file/d/1kDLjkJSWVMOLl2DFLNZ6i5Q1-Xu_EIoq/view?usp=sharing)
 
 ---
 
